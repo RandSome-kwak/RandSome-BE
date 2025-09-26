@@ -64,11 +64,6 @@ public class SwaggerConfig {
     @Bean
     public OperationCustomizer operationCustomizer() {
         return (Operation operation, HandlerMethod handlerMethod) -> {
-            // 공통 에러 응답(401/403/500) 기본 추가
-            ApiResponses responses = operation.getResponses();
-            responses.addApiResponse("401", errorRef(ErrorStatus.UNAUTHORIZED_ERROR.getMessage()));
-            responses.addApiResponse("403", errorRef(ErrorStatus.FORBIDDEN_ERROR.getMessage()));
-            responses.addApiResponse("500", errorRef(ErrorStatus.INTERNAL_SERVER_ERROR.getMessage()));
             // 커스텀 예외 예시 주입
             ApiExceptions apiExceptions = handlerMethod.getMethodAnnotation(ApiExceptions.class);
             if (apiExceptions != null) {
@@ -151,15 +146,6 @@ public class SwaggerConfig {
                 .addProperty("statusCode", new IntegerSchema())
                 .addProperty("message", new StringSchema());
     } // 공통 ErrorResponse 스키마(간단 예)
-
-    private ApiResponse errorRef(String description) {
-        return new ApiResponse()
-                .description(description)
-                .content(new Content().addMediaType(
-                        MEDIA_JSON,
-                        new MediaType().schema(new Schema<>().$ref("#/components/schemas/ErrorResponse"))
-                ));
-    } // 스키마 $ref를 사용하는 공통 오류 응답 팩토리
 
     private Server server(String description, String url) {
         return new Server().description(description).url(url);
