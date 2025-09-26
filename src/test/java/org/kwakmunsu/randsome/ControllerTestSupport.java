@@ -1,0 +1,40 @@
+package org.kwakmunsu.randsome;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.kwakmunsu.randsome.domain.admin.controller.AdminController;
+import org.kwakmunsu.randsome.domain.auth.controller.AuthController;
+import org.kwakmunsu.randsome.domain.candidate.controller.CandidateController;
+import org.kwakmunsu.randsome.domain.inquiry.controller.InquiryController;
+import org.kwakmunsu.randsome.domain.matching.controller.MatchingController;
+import org.kwakmunsu.randsome.domain.member.controller.MemberController;
+import org.kwakmunsu.randsome.domain.member.serivce.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.assertj.MockMvcTester;
+
+@AutoConfigureMockMvc(addFilters = false)
+@WebMvcTest(
+        controllers = {
+                AdminController.class,
+                MemberController.class,
+                AuthController.class,
+                CandidateController.class,
+                InquiryController.class,
+                MatchingController.class
+
+        })
+public abstract class ControllerTestSupport {
+
+    @Autowired
+    protected MockMvcTester mvcTester;
+
+    @Autowired
+    protected ObjectMapper objectMapper;
+
+    @MockitoBean
+    protected MemberService memberService;
+
+
+}
