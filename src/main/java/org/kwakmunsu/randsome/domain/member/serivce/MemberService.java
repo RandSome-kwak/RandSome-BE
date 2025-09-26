@@ -3,6 +3,7 @@ package org.kwakmunsu.randsome.domain.member.serivce;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
+import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
 import org.kwakmunsu.randsome.global.exception.DuplicationException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
@@ -25,6 +26,19 @@ public class MemberService {
         Member member = request.toEntity(encodedPassword);
 
         return memberRepository.save(member).getId();
+    }
+
+    // ------------------- 중복 체크용 -------------------
+    public CheckResponse isLoginIdAvailable(String loginId) {
+        boolean available = !memberRepository.existsByLoginId(loginId);
+
+        return new CheckResponse(available);
+    }
+
+    public CheckResponse isNicknameAvailable(String nickname) {
+        boolean available = !memberRepository.existsByNickname(nickname);
+
+        return new CheckResponse(available);
     }
 
     private void checkedAlreadyLoginId(String loginId) {

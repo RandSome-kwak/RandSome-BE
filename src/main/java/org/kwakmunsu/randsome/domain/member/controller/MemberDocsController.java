@@ -5,13 +5,17 @@ import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.INTERNAL_S
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.NOT_FOUND;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
+import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +26,18 @@ public abstract class MemberDocsController {
     @Operation(
             summary = "회원 가입",
             description = """
-            ### 신규 회원을 등록한다.
-            - 201 Created 상태 코드를 반환한다.
-            - 요청 본문은 검증 규칙에 따라 유효성 검사를 수행한다.
-            """,
-            security = { @SecurityRequirement(name = "") }
+                    ### 신규 회원을 등록한다.
+                    - 201 Created 상태 코드를 반환한다.
+                    - 요청 본문은 검증 규칙에 따라 유효성 검사를 수행한다.
+                    """,
+            security = {@SecurityRequirement(name = "")}
     )
     @RequestBody(
             description = """
-                   회원 가입 요청 본문
-                   - 모든 필드는 필수입니다.
-                   
-                   """,
+                    회원 가입 요청 본문
+                    - 모든 필드는 필수입니다.
+                    
+                    """,
             required = true,
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -54,5 +58,59 @@ public abstract class MemberDocsController {
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<Long> register(MemberRegisterRequest request);
+
+    @Operation(
+            summary = "로그인 아이디 중복 체크",
+            description = "회원 가입 시 입력한 로그인 아이디가 이미 존재하는지 확인합니다.",
+            security = {@SecurityRequirement(name = "")}
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "로그인 아이디 사용 가능 여부",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = CheckResponse.class)
+            )
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<CheckResponse> checkLoginId(
+            @Parameter(
+                    name = "loginId",
+                    description = "중복 확인할 로그인 아이디",
+                    in = ParameterIn.QUERY,
+                    required = true
+            )
+            String loginId
+    );
+
+    @Operation(
+            summary = "닉네임 중복 체크",
+            description = "회원 가입 시 입력한 닉네임이 이미 존재하는지 확인합니다.",
+            security = {@SecurityRequirement(name = "")}
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "닉네임 사용 가능 여부",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = CheckResponse.class)
+            )
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<CheckResponse> checkNickname(
+            @Parameter(
+                    name = "nickname",
+                    description = "중복 확인할 닉네임",
+                    in = ParameterIn.QUERY,
+                    required = true
+            )
+            String nickname
+    );
 
 }

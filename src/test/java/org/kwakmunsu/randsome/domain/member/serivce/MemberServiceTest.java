@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
+import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
 import org.kwakmunsu.randsome.global.exception.DuplicationException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -71,6 +72,32 @@ class MemberServiceTest {
         // when & then
         assertThatThrownBy(() -> memberService.register(request.toServiceRequest()))
                 .isInstanceOf(DuplicationException.class);
+    }
+
+    @DisplayName("로그인 아이디 중복 체크를 한다")
+    @Test
+    void checkLogin() {
+        // given
+        given(memberRepository.existsByLoginId(any(String.class))).willReturn(true);
+
+        // when
+        CheckResponse response = memberService.isLoginIdAvailable("test");
+
+        // then
+        assertThat(response.available()).isTrue();
+    }
+
+    @DisplayName("닉네임 중복 체크를 한다")
+    @Test
+    void checkNickname() {
+        // given
+        given(memberRepository.existsByNickname(any(String.class))).willReturn(true);
+
+        // when
+        CheckResponse response = memberService.isNicknameAvailable("test");
+
+        // then
+        assertThat(response.available()).isTrue();
     }
 
 }
