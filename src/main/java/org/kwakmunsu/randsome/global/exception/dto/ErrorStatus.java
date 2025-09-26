@@ -18,8 +18,8 @@ public enum ErrorStatus {
     BAD_REQUEST_MEMBER (400, "ERROR - 잘못된 회원 요청"),
     FORBIDDEN_PASSWORD (403, "ERROR - 비밀번호가 일치하지 않습니다."),
     NOT_FOUND_MEMBER   (404, "ERROR - 회원을 찾을 수 없습니다."),
-    DUPLICATE_NICKNAME (409, "ERROR - 중복되는 닉네임입니다."),
-    DUPLICATE_EMAIL    (409, "ERROR - 중복되는 이메일입니다."),
+    DUPLICATE_NICKNAME (409, "ERROR - 이미 존재하는 닉네임입니다."),
+    DUPLICATE_LOGIN_ID (409, "ERROR - 이미 존재하는 로그인 ID 입니다."),
     DUPLICATE_CUSTOMER (409, "ERROR - 이미 존재하는 고객 계정입니다."),
     DUPLICATE_MERCHANT (409, "ERROR - 이미 존재하는 상인 계정입니다."),
 
