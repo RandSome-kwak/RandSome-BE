@@ -1,7 +1,6 @@
 package org.kwakmunsu.randsome.domain.member.controller;
 
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberService;

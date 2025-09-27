@@ -7,5 +7,6 @@ public interface MemberRepository {
     Member save(Member member);
     boolean existsByLoginId(String loginId);
     boolean existsByNickname(String nickname);
+    Member findByLoginId(String loginId);
 
 }

@@ -6,6 +6,7 @@ import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
 import org.kwakmunsu.randsome.global.exception.DuplicationException;
+import org.kwakmunsu.randsome.global.exception.UnAuthenticationException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,14 @@ public class MemberService {
         Member member = request.toEntity(encodedPassword);
 
         return memberRepository.save(member).getId();
+    }
+
+    public Member getMember(String loginId, String password) {
+        Member member = memberRepository.findByLoginId(loginId);
+        if (passwordEncoder.matches(password, member.getPassword())) {
+            return member;
+        }
+        throw new UnAuthenticationException(ErrorStatus.INVALID_PASSWORD);
     }
 
     // ------------------- 중복 체크용 -------------------
@@ -52,5 +61,4 @@ public class MemberService {
             throw new DuplicationException(ErrorStatus.DUPLICATE_NICKNAME);
         }
     }
-
 }
