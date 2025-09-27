@@ -1,6 +1,9 @@
 package org.kwakmunsu.randsome.domain.member.controller;
 
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.BAD_REQUEST;
+import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.DUPLICATE;
+import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.DUPLICATE_LOGIN_ID;
+import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.DUPLICATE_NICKNAME;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.INTERNAL_SERVER_ERROR;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.NOT_FOUND;
 
@@ -11,7 +14,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
@@ -24,7 +26,7 @@ import org.springframework.http.ResponseEntity;
 public abstract class MemberDocsController {
 
     @Operation(
-            summary = "회원 가입",
+            summary = "회원 가입 - [JWT X] ",
             description = """
                     ### 신규 회원을 등록한다.
                     - 201 Created 상태 코드를 반환한다.
@@ -55,12 +57,13 @@ public abstract class MemberDocsController {
     @ApiExceptions(values = {
             BAD_REQUEST,
             NOT_FOUND,
+            DUPLICATE,
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<Long> register(MemberRegisterRequest request);
 
     @Operation(
-            summary = "로그인 아이디 중복 체크",
+            summary = "로그인 아이디 중복 체크 - [JWT X]",
             description = "회원 가입 시 입력한 로그인 아이디가 이미 존재하는지 확인합니다.",
             security = {@SecurityRequirement(name = "")}
     )
@@ -74,6 +77,7 @@ public abstract class MemberDocsController {
     )
     @ApiExceptions(values = {
             BAD_REQUEST,
+            DUPLICATE_LOGIN_ID,
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<CheckResponse> checkLoginId(
@@ -87,7 +91,7 @@ public abstract class MemberDocsController {
     );
 
     @Operation(
-            summary = "닉네임 중복 체크",
+            summary = "닉네임 중복 체크 - [JWT X]",
             description = "회원 가입 시 입력한 닉네임이 이미 존재하는지 확인합니다.",
             security = {@SecurityRequirement(name = "")}
     )
@@ -101,6 +105,7 @@ public abstract class MemberDocsController {
     )
     @ApiExceptions(values = {
             BAD_REQUEST,
+            DUPLICATE_NICKNAME,
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<CheckResponse> checkNickname(
