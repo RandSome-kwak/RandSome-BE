@@ -78,7 +78,7 @@ class MemberServiceTest {
     @Test
     void checkLogin() {
         // given
-        given(memberRepository.existsByLoginId(any(String.class))).willReturn(true);
+        given(memberRepository.existsByLoginId(any(String.class))).willReturn(false);
 
         // when
         CheckResponse response = memberService.isLoginIdAvailable("test");
@@ -91,7 +91,7 @@ class MemberServiceTest {
     @Test
     void checkNickname() {
         // given
-        given(memberRepository.existsByNickname(any(String.class))).willReturn(true);
+        given(memberRepository.existsByNickname(any(String.class))).willReturn(false);
 
         // when
         CheckResponse response = memberService.isNicknameAvailable("test");
