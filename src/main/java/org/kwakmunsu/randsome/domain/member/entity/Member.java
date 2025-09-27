@@ -52,6 +52,9 @@ public class Member extends BaseEntity {
     @Column(length = 1000, nullable = false)
     private String idealDescription;
 
+    @Column(unique = true)
+    private String refreshToken;
+
     public static Member createMember(
             String loginId,
             String password,
@@ -73,6 +76,7 @@ public class Member extends BaseEntity {
         member.instagramId = instagramId;
         member.introduction = introduction;
         member.idealDescription = idealDescription;
+        member.refreshToken = null;
 
         return member;
     }
@@ -88,6 +92,7 @@ public class Member extends BaseEntity {
         admin.instagramId = "admin";
         admin.introduction = "관리자입니다.";
         admin.idealDescription = "관리자입니다.";
+        admin.refreshToken = null;
 
         return admin;
     }
@@ -112,6 +117,10 @@ public class Member extends BaseEntity {
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
 }

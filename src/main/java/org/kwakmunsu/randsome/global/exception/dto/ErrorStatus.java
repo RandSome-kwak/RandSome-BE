@@ -16,8 +16,9 @@ public enum ErrorStatus {
 
     // MEMBER
     BAD_REQUEST_MEMBER (400, "ERROR - 잘못된 회원 요청"),
-    FORBIDDEN_PASSWORD (403, "ERROR - 비밀번호가 일치하지 않습니다."),
+    INVALID_PASSWORD   (401, "ERROR - 비밀번호가 일치하지 않습니다."),
     NOT_FOUND_MEMBER   (404, "ERROR - 회원을 찾을 수 없습니다."),
+    NOT_FOUND_LOGIN_ID (404, "ERROR - 존재하지 않는 아이디입니다."),
     DUPLICATE_NICKNAME (409, "ERROR - 이미 존재하는 닉네임입니다."),
     DUPLICATE_LOGIN_ID (409, "ERROR - 이미 존재하는 로그인 ID 입니다."),
     DUPLICATE_CUSTOMER (409, "ERROR - 이미 존재하는 고객 계정입니다."),
