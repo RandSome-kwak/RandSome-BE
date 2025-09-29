@@ -19,7 +19,7 @@ import org.kwakmunsu.randsome.domain.member.enums.Mbti;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
-import org.kwakmunsu.randsome.global.TestMember;
+import org.kwakmunsu.randsome.global.security.annotation.TestMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 

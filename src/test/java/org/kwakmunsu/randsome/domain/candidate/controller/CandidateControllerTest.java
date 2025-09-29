@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
-import org.kwakmunsu.randsome.global.TestMember;
+import org.kwakmunsu.randsome.global.security.annotation.TestMember;
 import org.springframework.http.MediaType;
 
 class CandidateControllerTest extends ControllerTestSupport {
