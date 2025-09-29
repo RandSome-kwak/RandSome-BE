@@ -16,6 +16,7 @@ class MemberTest {
         // given
         var loginId = "testLoginId";
         var password = "testPassword";
+        var legalName = "TestLegalName";
         var nickname = "testNickname";
         var gender = Gender.M;
         var mbti = Mbti.ENFP;
@@ -24,7 +25,7 @@ class MemberTest {
         var idealDescription = "Looking for someone special.";
 
         // when
-        var member = Member.createMember(loginId, password, nickname, gender, mbti, instagramId, introduction, idealDescription);
+        var member = Member.createMember(loginId, password, legalName, nickname, gender, mbti, instagramId, introduction, idealDescription);
 
         // then
         assertThat(member)
@@ -93,6 +94,7 @@ class MemberTest {
         // given
         var loginId = "testLoginId";
         var password = "testPassword";
+        var legalName = "TestLegalName";
         var nickname = "testNickname";
         var gender = Gender.M;
         var mbti = Mbti.ENFP;
@@ -100,7 +102,7 @@ class MemberTest {
         var introduction = "Hello, I'm a test member.";
         var idealDescription = "Looking for someone special.";
 
-        var member = Member.createMember(loginId, password, nickname, gender, mbti, instagramId, introduction, idealDescription);
+        var member = Member.createMember(loginId, password, legalName, nickname, gender, mbti, instagramId, introduction, idealDescription);
 
         var newNickname = "updatedNickname";
         var newMbti = Mbti.INTJ;
@@ -136,6 +138,7 @@ class MemberTest {
         // given
         var loginId = "testLoginId";
         var password = "testPassword";
+        var legalName = "TestLegalName";
         var nickname = "testNickname";
         var gender = Gender.M;
         var mbti = Mbti.ENFP;
@@ -143,7 +146,7 @@ class MemberTest {
         var introduction = "Hello, I'm a test member.";
         var idealDescription = "Looking for someone special.";
 
-        var member = Member.createMember(loginId, password, nickname, gender, mbti, instagramId, introduction, idealDescription);
+        var member = Member.createMember(loginId, password, legalName, nickname, gender, mbti, instagramId, introduction, idealDescription);
 
         // when
         member.updateRoleToCandidate();
@@ -156,9 +159,9 @@ class MemberTest {
     @Test
     void changePassword() {
         // given
-        // given
         var loginId = "testLoginId";
         var password = "testPassword";
+        var legalName = "TestLegalName";
         var nickname = "testNickname";
         var gender = Gender.M;
         var mbti = Mbti.ENFP;
@@ -166,7 +169,7 @@ class MemberTest {
         var introduction = "Hello, I'm a test member.";
         var idealDescription = "Looking for someone special.";
 
-        var member = Member.createMember(loginId, password, nickname, gender, mbti, instagramId, introduction, idealDescription);
+        var member = Member.createMember(loginId, password, legalName, nickname, gender, mbti, instagramId, introduction, idealDescription);
 
         var newPassword = "newTestPassword";
 

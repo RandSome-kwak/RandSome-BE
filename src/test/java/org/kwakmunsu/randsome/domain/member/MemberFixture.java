@@ -15,6 +15,7 @@ public class MemberFixture {
         return new MemberRegisterRequest(
                 loginId,
                 "password",
+                "legalName",
                 nickname,
                 Gender.M,
                 Mbti.ENFJ,
