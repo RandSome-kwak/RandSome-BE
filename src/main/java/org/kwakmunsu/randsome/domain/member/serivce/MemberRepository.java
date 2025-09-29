@@ -9,4 +9,6 @@ public interface MemberRepository {
     boolean existsByNickname(String nickname);
     Member findByLoginId(String loginId);
     Member findByRefreshToken(String refreshToken);
+    Member findById(Long id);
+
 }
