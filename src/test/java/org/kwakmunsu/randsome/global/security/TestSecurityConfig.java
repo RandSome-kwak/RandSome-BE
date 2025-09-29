@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.global;
+package org.kwakmunsu.randsome.global.security;
 
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.member.enums.Role;
@@ -26,7 +26,8 @@ public class TestSecurityConfig {
                                 "/api/v1/members/check-login-id",
                                 "/api/v1/members/check-nickname"
                                 ).permitAll()   // 로그인, 회원가입, 토큰 재발급 등은 인증 불필요
-                        .anyRequest().hasAnyAuthority(Role.ROLE_MEMBER.name(), Role.ROLE_CANDIDATE.name())
+                        .requestMatchers("/api/v1/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
+                        .anyRequest().authenticated()
                 );
 
         return http.build();
