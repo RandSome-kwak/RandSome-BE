@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.enums.Role;
+import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberService;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
@@ -23,10 +24,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class AuthServiceTest {
 
     @Mock
-    private JwtProvider jwtProvider;
+    private MemberService memberService;
 
     @Mock
-    private MemberService memberService;
+    private MemberRepository memberRepository;
+
+    @Mock
+    private JwtProvider jwtProvider;
 
     @InjectMocks
     private AuthService authService;
@@ -60,6 +64,36 @@ class AuthServiceTest {
 
         // when & then
         assertThatThrownBy(() -> authService.login("login", "password"))
+            .isInstanceOf(NotFoundException.class);
+    }
+
+    @DisplayName("리프레시 토큰으로 토큰을 재발급한다.")
+    @Test
+    void reissue() {
+        // given
+        var member = MemberFixture.createMember(1L);
+        var tokenResponse = new TokenResponse("new-accessToken", "new-refreshToken");
+        given(memberRepository.findByRefreshToken(any(String.class))).willReturn(member);
+        given(jwtProvider.createTokens(any(Long.class), any(Role.class))).willReturn(tokenResponse);
+        // when
+        TokenResponse response = authService.reissue("refreshToken");
+
+        // then
+        assertThat(response)
+                .extracting(TokenResponse::accessToken, TokenResponse::refreshToken)
+                .containsExactly(tokenResponse.accessToken(), tokenResponse.refreshToken());
+        assertThat(member.getRefreshToken()).isEqualTo(tokenResponse.refreshToken());
+    }
+
+    @DisplayName("존재하지 않는 리프레시 토큰으로 토큰 재발급을 시도할 경우 예외가 발생한다.")
+    @Test
+    void failReissue() {
+        // given
+        given(memberRepository.findByRefreshToken(any(String.class)))
+                .willThrow(new NotFoundException(ErrorStatus.NOT_FOUND_MEMBER));
+
+        // when & then
+        assertThatThrownBy(() -> authService.reissue("invalid-refreshToken"))
             .isInstanceOf(NotFoundException.class);
     }
 

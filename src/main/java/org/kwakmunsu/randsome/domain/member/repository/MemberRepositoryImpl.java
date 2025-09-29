@@ -34,4 +34,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberJpaRepository.existsByNickname(nickname);
     }
 
+    @Override
+    public Member findByRefreshToken(String refreshToken) {
+        return memberJpaRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_TOKEN));
+    }
+
 }

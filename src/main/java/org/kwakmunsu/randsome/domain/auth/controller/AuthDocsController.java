@@ -3,6 +3,7 @@ package org.kwakmunsu.randsome.domain.auth.controller;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.BAD_REQUEST;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.INTERNAL_SERVER_ERROR;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.NOT_FOUND;
+import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.NOT_FOUND_TOKEN;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.UNAUTHORIZED_ERROR;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.randsome.domain.auth.controller.dto.LoginRequest;
+import org.kwakmunsu.randsome.domain.auth.controller.dto.ReissueRequest;
 import org.kwakmunsu.randsome.global.jwt.dto.TokenResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
@@ -57,4 +59,39 @@ public abstract class AuthDocsController {
     })
     public abstract ResponseEntity<TokenResponse> login(LoginRequest request);
 
+    @Operation(
+            summary = "토큰 재발급 요청 API - [JWT O]",
+            description = """
+                    ### 토큰 재발급
+                    - 유효한 리프레시 토큰을 받아 새로운 액세스 토큰과 리프레시 토큰을 발급합니다.
+                    - 요청 본문은 유효성 검사를 수행합니다.
+                    """,
+            security = {@SecurityRequirement(name = "Bearer")}
+    )
+    @RequestBody(
+            description = """
+                    토큰 재발급 요청 본문
+                    - 모든 필드는 필수입니다.
+                    """,
+            required = true,
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ReissueRequest.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "토큰 재발급 성공",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = TokenResponse.class)
+            )
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            UNAUTHORIZED_ERROR,
+            NOT_FOUND_TOKEN,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<TokenResponse> reissue(ReissueRequest request);
 }

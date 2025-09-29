@@ -8,5 +8,5 @@ public interface MemberRepository {
     boolean existsByLoginId(String loginId);
     boolean existsByNickname(String nickname);
     Member findByLoginId(String loginId);
-
+    Member findByRefreshToken(String refreshToken);
 }
