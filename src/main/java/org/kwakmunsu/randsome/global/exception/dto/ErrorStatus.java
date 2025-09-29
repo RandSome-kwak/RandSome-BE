@@ -21,8 +21,12 @@ public enum ErrorStatus {
     NOT_FOUND_LOGIN_ID (404, "ERROR - 존재하지 않는 아이디입니다."),
     DUPLICATE_NICKNAME (409, "ERROR - 이미 존재하는 닉네임입니다."),
     DUPLICATE_LOGIN_ID (409, "ERROR - 이미 존재하는 로그인 ID 입니다."),
-    DUPLICATE_CUSTOMER (409, "ERROR - 이미 존재하는 고객 계정입니다."),
-    DUPLICATE_MERCHANT (409, "ERROR - 이미 존재하는 상인 계정입니다."),
+
+    // CANDIDATE
+    NOT_FOUND_CANDIDATE (404, "ERROR - 후보자를 찾을 수 없습니다."),
+    PENDING_MEMBER      (409, "ERROR - 승인 대기중인 회원입니다."),
+    ALREADY_APPROVED    (409, "ERROR - 이미 승인된 회원입니다."),
+    ALREADY_REJECTED    (409, "ERROR - 이미 거절된 회원입니다."),
 
     // JWT
     INVALID_TOKEN   (401, "ERROR - 유효하지 않은 토큰입니다."),
