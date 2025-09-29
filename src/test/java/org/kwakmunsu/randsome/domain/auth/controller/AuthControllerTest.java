@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
 import org.kwakmunsu.randsome.domain.auth.controller.dto.LoginRequest;
+import org.kwakmunsu.randsome.domain.auth.controller.dto.ReissueRequest;
 import org.kwakmunsu.randsome.global.jwt.dto.TokenResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +29,27 @@ class AuthControllerTest extends ControllerTestSupport {
 
         // when & then
         assertThat(mvcTester.post().uri("/api/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .apply(print())
+                .hasStatus(HttpStatus.OK)
+                .bodyJson()
+                .hasPathSatisfying("$.accessToken", v -> v.assertThat().isEqualTo(tokenResponse.accessToken()))
+                .hasPathSatisfying("$.refreshToken", v -> v.assertThat().isEqualTo(tokenResponse.refreshToken()));
+    }
+
+    @DisplayName("AT와 RT 토큰을 재발급한다.")
+    @Test
+    void reissue() throws JsonProcessingException {
+        // given
+        var request = new ReissueRequest("refreshToken");
+        var requestJson = objectMapper.writeValueAsString(request);
+        var tokenResponse = new TokenResponse("new-accessToken", "new-refreshToken");
+
+        given(authService.reissue(any(String.class))).willReturn(tokenResponse);
+
+        // when & then
+        assertThat(mvcTester.post().uri("/api/v1/auth/reissue")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .apply(print())
