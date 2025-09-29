@@ -28,6 +28,9 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String legalName;
+
     @Column(length = 100, nullable = false, unique = true)
     private String nickname;
 
@@ -58,6 +61,7 @@ public class Member extends BaseEntity {
     public static Member createMember(
             String loginId,
             String password,
+            String legalName,
             String nickname,
             Gender gender,
             Mbti mbti,
@@ -69,6 +73,7 @@ public class Member extends BaseEntity {
 
         member.loginId = loginId;
         member.password = password;
+        member.legalName = legalName;
         member.nickname = nickname;
         member.gender = gender;
         member.role = ROLE_MEMBER;
@@ -85,6 +90,7 @@ public class Member extends BaseEntity {
         Member admin = new Member();
         admin.loginId = loginId;
         admin.password = password;
+        admin.legalName = "관리자";
         admin.nickname = nickname;
         admin.gender = Gender.ADMIN;
         admin.role = ROLE_ADMIN;

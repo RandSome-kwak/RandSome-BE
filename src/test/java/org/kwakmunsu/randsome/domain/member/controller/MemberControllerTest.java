@@ -43,19 +43,21 @@ class MemberControllerTest extends ControllerTestSupport {
     @DisplayName("회원 등록 API 요청 할 때 잘못된 요청값이 존재할 경우 400 에러가 발생한다")
     @ParameterizedTest
     @CsvSource({
-            "'', 'password123!', 'nickname', 'M', 'INTJ', 'instaId', 'intro', 'ideal'",        // loginId empty
-            "'login123', '', 'nickname', 'M', 'INTJ', 'instaId', 'intro', 'ideal'",            // password empty
-            "'login123', 'short', 'nickname', 'M', 'INTJ', 'instaId', 'intro', 'ideal'",       // password too short
-            "'login123', 'password123!', '', 'M', 'INTJ', 'instaId', 'intro', 'ideal'",        // nickname empty
-            "'login123', 'password123!', 'nickname', '', 'INTJ', 'instaId', 'intro', 'ideal'", // gender null
-            "'login123', 'password123!', 'nickname', 'M', '', 'instaId', 'intro', 'ideal'",    // mbti null
-            "'login123', 'password123!', 'nickname', 'M', 'INTJ', '', 'intro', 'ideal'",       // instagramId empty
-            "'login123', 'password123!', 'nickname', 'M', 'INTJ', 'instaId', '', 'ideal'",     // introduction empty
-            "'login123', 'password123!', 'nickname', 'M', 'INTJ', 'instaId', 'intro', ''"      // idealDescription empty
+            "'', 'password123!', 'legalName', 'nickname', 'M', 'INTJ', 'instaId', 'intro', 'ideal'",        // loginId empty
+            "'login123', '', legalName', 'nickname', 'M', 'INTJ', 'instaId', 'intro', 'ideal'",            // password empty
+            "'login123', 'short', legalName','nickname', 'M', 'INTJ', 'instaId', 'intro', 'ideal'",       // password too short
+            "'login123', 'password123!', '', 'nickname', 'M', 'INTJ', 'instaId', 'intro', 'ideal'",        // legalName empty
+            "'login123', 'password123!', legalName', '', 'M', 'INTJ', 'instaId', 'intro', 'ideal'",        // nickname empty
+            "'login123', 'password123!', legalName', 'nickname', '', 'INTJ', 'instaId', 'intro', 'ideal'", // gender null
+            "'login123', 'password123!', legalName', 'nickname', 'M', '', 'instaId', 'intro', 'ideal'",    // mbti null
+            "'login123', 'password123!', legalName', 'nickname', 'M', 'INTJ', '', 'intro', 'ideal'",       // instagramId empty
+            "'login123', 'password123!', legalName', 'nickname', 'M', 'INTJ', 'instaId', '', 'ideal'",     // introduction empty
+            "'login123', 'password123!', legalName', 'nickname', 'M', 'INTJ', 'instaId', 'intro', ''"      // idealDescription empty
     })
     void registerMemberWithInvalidRequest(
             String loginId,
             String password,
+            String legalName,
             String nickname,
             String gender,
             String mbti,
@@ -72,6 +74,7 @@ class MemberControllerTest extends ControllerTestSupport {
         var request = new MemberRegisterRequest(
                 loginId,
                 password,
+                legalName,
                 nickname,
                 genderEnum,
                 mbtiEnum,

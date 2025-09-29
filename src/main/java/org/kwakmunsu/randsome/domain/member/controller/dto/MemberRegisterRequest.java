@@ -19,6 +19,11 @@ public record MemberRegisterRequest(
         @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
         String password,
 
+        @Schema(description = "법적 이름", example = "김랜덤썸")
+        @Size(min = 1, max = 100)
+        @NotBlank(message = "법적 이름은 필수 입력 값입니다.")
+        String legalName,
+
         @Schema(description = "닉네임", example = "randsome")
         @Size(min = 1, max = 100)
         @NotBlank(message = "닉네임은 필수 입력 값입니다.")
@@ -52,6 +57,7 @@ public record MemberRegisterRequest(
         return MemberRegisterServiceRequest.builder()
                 .loginId(loginId)
                 .password(password)
+                .legalName(legalName)
                 .nickname(nickname)
                 .gender(gender)
                 .mbti(mbti)

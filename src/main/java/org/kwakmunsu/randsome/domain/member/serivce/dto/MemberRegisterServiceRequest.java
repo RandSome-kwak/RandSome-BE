@@ -9,6 +9,7 @@ import org.kwakmunsu.randsome.domain.member.enums.Mbti;
 public record MemberRegisterServiceRequest(
         String loginId,
         String password,
+        String legalName,
         String nickname,
         Gender gender,
         Mbti mbti,
@@ -21,6 +22,7 @@ public record MemberRegisterServiceRequest(
         return Member.createMember(
                 loginId,
                 encodedPassword,
+                legalName,
                 nickname,
                 gender,
                 mbti,
