@@ -13,13 +13,14 @@ import org.kwakmunsu.randsome.domain.matching.controller.MatchingController;
 import org.kwakmunsu.randsome.domain.matching.serivce.MatchingService;
 import org.kwakmunsu.randsome.domain.member.controller.MemberController;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberService;
+import org.kwakmunsu.randsome.global.TestSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
-@AutoConfigureMockMvc(addFilters = false)
+@Import(TestSecurityConfig.class)
 @WebMvcTest(
         controllers = {
                 AdminController.class,
