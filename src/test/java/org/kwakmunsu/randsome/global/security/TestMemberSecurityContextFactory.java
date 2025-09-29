@@ -1,7 +1,8 @@
-package org.kwakmunsu.randsome.global;
+package org.kwakmunsu.randsome.global.security;
 
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
+import org.kwakmunsu.randsome.global.security.annotation.TestMember;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
 @Slf4j
-public class TestSecurityContext implements WithSecurityContextFactory<TestMember> {
+public class TestMemberSecurityContextFactory implements WithSecurityContextFactory<TestMember> {
 
     @Override
     public SecurityContext createSecurityContext(TestMember annotation) {
