@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberService;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
+import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
+import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,13 @@ public class MemberController extends MemberDocsController {
         Long memberId = memberService.register(request.toServiceRequest());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(memberId);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<MemberProfileResponse> getProfile(@AuthMember Long memberId) {
+        MemberProfileResponse response = memberService.getProfile(memberId);
+
+        return ResponseEntity.ok(response);
     }
 
     @Override

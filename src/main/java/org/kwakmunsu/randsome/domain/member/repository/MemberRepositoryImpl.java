@@ -40,4 +40,10 @@ public class MemberRepositoryImpl implements MemberRepository {
                 .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_TOKEN));
     }
 
+    @Override
+    public Member findById(Long id) {
+        return memberJpaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_MEMBER));
+    }
+
 }

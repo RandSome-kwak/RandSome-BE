@@ -13,10 +13,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.kwakmunsu.randsome.ControllerTestSupport;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
+import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
+import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
+import org.kwakmunsu.randsome.global.TestMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -28,6 +31,7 @@ class MemberControllerTest extends ControllerTestSupport {
         // given
         var request = MemberFixture.createMemberRegisterRequest();
         String requestJson = objectMapper.writeValueAsString(request);
+
         given(memberService.register(any(MemberRegisterServiceRequest.class))).willReturn(1L);
 
         // when & then
@@ -65,8 +69,6 @@ class MemberControllerTest extends ControllerTestSupport {
             String introduction,
             String idealDescription
     ) throws Exception {
-
-        // enum 변환: 빈 문자열이면 null로
         Gender genderEnum = (gender == null || gender.isBlank()) ? null : Gender.valueOf(gender);
         Mbti mbtiEnum = (mbti == null || mbti.isBlank()) ? null : Mbti.valueOf(mbti);
 
@@ -97,6 +99,7 @@ class MemberControllerTest extends ControllerTestSupport {
     void checkLoginId() {
         // given
         var loginId = "testLoginId";
+
         given(memberService.isLoginIdAvailable(loginId)).willReturn(new CheckResponse(true));
 
         // when & then
@@ -113,6 +116,7 @@ class MemberControllerTest extends ControllerTestSupport {
     void checkNickname() {
         // given
         var nickname = "testNickname";
+
         given(memberService.isNicknameAvailable(nickname)).willReturn(new CheckResponse(true));
 
         // when & then
@@ -122,6 +126,31 @@ class MemberControllerTest extends ControllerTestSupport {
                 .hasStatusOk()
                 .bodyJson()
                 .extractingPath("$.available").isEqualTo(true);
+    }
+
+    @TestMember
+    @DisplayName("내 프로필을 조회한다")
+    @Test
+    void getProfile() {
+        // given
+        Member member = MemberFixture.createMember();
+        var response = MemberProfileResponse.from(member);
+
+        given(memberService.getProfile(any(Long.class))).willReturn(response);
+        // when & then
+        assertThat(mvcTester.get().uri("/api/v1/members/profile")
+                .contentType(MediaType.APPLICATION_JSON))
+                .apply(print())
+                .hasStatusOk()
+                .bodyJson()
+                .hasPathSatisfying("$.legalName", v -> v.assertThat().isEqualTo(response.legalName()))
+                .hasPathSatisfying("$.nickname", v -> v.assertThat().isEqualTo(response.nickname()))
+                .hasPathSatisfying("$.gender", v -> v.assertThat().isEqualTo(response.gender()))
+                .hasPathSatisfying("$.role", v -> v.assertThat().isEqualTo(response.role()))
+                .hasPathSatisfying("$.mbti", v -> v.assertThat().isEqualTo(response.mbti().name()))
+                .hasPathSatisfying("$.introduction", v -> v.assertThat().isEqualTo(response.introduction()))
+                .hasPathSatisfying("$.idealDescription", v -> v.assertThat().isEqualTo(response.idealDescription()))
+                .hasPathSatisfying("$.instagramId", v -> v.assertThat().isEqualTo(response.instagramId()));
     }
 
 }

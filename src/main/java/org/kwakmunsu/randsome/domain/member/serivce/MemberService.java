@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
+import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
 import org.kwakmunsu.randsome.global.exception.DuplicationException;
 import org.kwakmunsu.randsome.global.exception.UnAuthenticationException;
@@ -35,6 +36,12 @@ public class MemberService {
             return member;
         }
         throw new UnAuthenticationException(ErrorStatus.INVALID_PASSWORD);
+    }
+
+    public MemberProfileResponse getProfile(Long memberId) {
+        Member member = memberRepository.findById(memberId);
+
+        return MemberProfileResponse.from(member);
     }
 
     // ------------------- 중복 체크용 -------------------

@@ -11,7 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
+import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
 import org.kwakmunsu.randsome.global.exception.DuplicationException;
+import org.kwakmunsu.randsome.global.exception.NotFoundException;
+import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -98,6 +101,51 @@ class MemberServiceTest {
 
         // then
         assertThat(response.available()).isTrue();
+    }
+
+    @DisplayName("본인 프로필을 조회한다.")
+    @Test
+    void getProfile() {
+        // given
+        var member = MemberFixture.createMember();
+        given(memberRepository.findById(any(Long.class))).willReturn(member);
+
+        // when
+        MemberProfileResponse response = memberService.getProfile(1L);
+
+        // then
+        assertThat(response).extracting(
+                        MemberProfileResponse::legalName,
+                        MemberProfileResponse::nickname,
+                        MemberProfileResponse::gender,
+                        MemberProfileResponse::role,
+                        MemberProfileResponse::mbti,
+                        MemberProfileResponse::introduction,
+                        MemberProfileResponse::idealDescription,
+                        MemberProfileResponse::instagramId
+                )
+                .containsExactly(
+                        member.getLegalName(),
+                        member.getNickname(),
+                        member.getGender().getValue(),
+                        member.getRole().getValue(),
+                        member.getMbti(),
+                        member.getIntroduction(),
+                        member.getIdealDescription(),
+                        member.getInstagramId()
+                );
+    }
+
+    @DisplayName("존재하지 않는 회원의 프로필 조회를 시도하면 예외가 발생한다.")
+    @Test
+    void failGetProfile() {
+        // given
+        given(memberRepository.findById(any(Long.class))).willThrow(new NotFoundException(ErrorStatus.NOT_FOUND));
+
+        // when & then
+        assertThatThrownBy(() -> memberService.getProfile(1L))
+                .isInstanceOf(NotFoundException.class);
+
     }
 
 }
