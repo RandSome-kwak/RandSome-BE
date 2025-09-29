@@ -28,6 +28,11 @@ public enum ErrorStatus {
     ALREADY_APPROVED    (409, "ERROR - 이미 승인된 회원입니다."),
     ALREADY_REJECTED    (409, "ERROR - 이미 거절된 회원입니다."),
 
+    // PAYMENT
+    INVALID_PAYMENT   (400, "ERROR - 유효하지 않은 결제 정보입니다."),
+    PAYMENT_FAILED    (400, "ERROR - 결제에 실패하였습니다."),
+    NOT_FOUND_PAYMENT (404, "ERROR - 결제 정보를 찾을 수 없습니다."),
+
     // JWT
     INVALID_TOKEN   (401, "ERROR - 유효하지 않은 토큰입니다."),
     NOT_FOUND_TOKEN (404, "ERROR - 토큰을 찾을 수 없습니다."),
