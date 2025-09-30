@@ -31,6 +31,7 @@ public class MemberController extends MemberDocsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(memberId);
     }
 
+    @Override
     @GetMapping("/profile")
     public ResponseEntity<MemberProfileResponse> getProfile(@AuthMember Long memberId) {
         MemberProfileResponse response = memberService.getProfile(memberId);
