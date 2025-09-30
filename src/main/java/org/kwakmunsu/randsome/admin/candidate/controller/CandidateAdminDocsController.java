@@ -22,7 +22,7 @@ import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "Candidate API", description = "관리자 매칭 지원자 관리 API 문서입니다.")
+@Tag(name = "Candidate Admin API", description = "관리자 매칭 지원자 관리 API 문서입니다.")
 public abstract class CandidateAdminDocsController {
 
     @Operation(

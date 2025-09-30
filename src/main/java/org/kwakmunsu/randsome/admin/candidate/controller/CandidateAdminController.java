@@ -24,6 +24,7 @@ public class CandidateAdminController extends CandidateAdminDocsController {
 
     private final CandidateAdminService candidateAdminService;
 
+    @Override
     @PutMapping("/matching/candidates/{candidateId}/status")
     public ResponseEntity<Void> approve(
             @PathVariable Long candidateId,
@@ -34,6 +35,7 @@ public class CandidateAdminController extends CandidateAdminDocsController {
         return ResponseEntity.ok().build();
     }
 
+    @Override
     @GetMapping("/matching/candidates")
     public ResponseEntity<CandidateListResponse> getCandidateApplications(
             @RequestParam CandidateStatus status,
