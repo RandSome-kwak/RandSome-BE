@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/matching/candidates")
 @RequiredArgsConstructor
 @RestController
-public class CandidateController {
+public class CandidateController extends CandidateDocsController{
 
     private final CandidateService candidateService;
 
+    @Override
     @PostMapping
     public ResponseEntity<Void> register(@AuthMember Long memberId) {
         candidateService.register(memberId);
