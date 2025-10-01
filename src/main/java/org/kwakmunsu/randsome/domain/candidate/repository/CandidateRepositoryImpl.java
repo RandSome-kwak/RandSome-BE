@@ -29,6 +29,12 @@ public class CandidateRepositoryImpl implements CandidateRepository {
     }
 
     @Override
+    public Candidate findByIdWithMember(Long id) {
+        return candidateJpaRepository.findByIdWithMember(id)
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_CANDIDATE));
+    }
+
+    @Override
     public Optional<Candidate> findByMemberId(Long memberId) {
         return candidateJpaRepository.findByMemberId(memberId);
     }

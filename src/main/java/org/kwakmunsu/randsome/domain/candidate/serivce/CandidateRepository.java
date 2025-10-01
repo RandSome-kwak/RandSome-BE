@@ -9,6 +9,7 @@ public interface CandidateRepository {
 
     void save(Candidate candidate);
     Candidate findById(Long id);
+    Candidate findByIdWithMember(Long id);
     Optional<Candidate> findByMemberId(Long memberId);
 
     // Admin 전용 메서드
