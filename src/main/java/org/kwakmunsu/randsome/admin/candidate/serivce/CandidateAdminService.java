@@ -10,6 +10,7 @@ import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidateListResponse;
 import org.kwakmunsu.randsome.domain.candidate.serivce.CandidateRepository;
+import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +24,10 @@ public class CandidateAdminService {
     // 관리자용 후보자 승인/거절 기능
     @Transactional
     public void updateCandidateStatus(Long candidateId, CandidateStatus status) {
-        Candidate candidate = candidateRepository.findById(candidateId);
+        Candidate candidate = candidateRepository.findByIdWithMember(candidateId);
 
         if (status == APPROVED) {
-            candidate.approve();
+            approveCandidate(candidate);
         } else if (status == REJECTED) {
             candidate.reject();
         }
@@ -37,6 +38,12 @@ public class CandidateAdminService {
     @Transactional(readOnly = true)
     public CandidateListResponse getCandidates(CandidateListReadServiceRequest request) {
         return candidateRepository.findAllByStatus(request.status(), request.page());
+    }
+
+    private void approveCandidate(Candidate candidate) {
+        candidate.approve();
+        Member candidateMember = candidate.getMember();
+        candidateMember.updateRoleToCandidate();
     }
 
 }

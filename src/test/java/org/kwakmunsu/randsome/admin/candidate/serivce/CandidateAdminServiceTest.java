@@ -12,6 +12,7 @@ import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.candidate.serivce.CandidateRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
+import org.kwakmunsu.randsome.domain.member.enums.Role;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.mockito.InjectMocks;
@@ -35,7 +36,7 @@ class CandidateAdminServiceTest {
         var member = MemberFixture.createMember();
         var candidate = Candidate.create(member);
 
-        given(candidateRepository.findById(any(Long.class))).willReturn(candidate);
+        given(candidateRepository.findByIdWithMember(any(Long.class))).willReturn(candidate);
 
         assertThat(candidate.getStatus()).isEqualTo(CandidateStatus.PENDING);
 
@@ -44,6 +45,7 @@ class CandidateAdminServiceTest {
 
         // then
         assertThat(candidate.getStatus()).isEqualTo(CandidateStatus.APPROVED);
+        assertThat(candidate.getMember().getRole()).isEqualTo(Role.ROLE_CANDIDATE);
     }
 
     @DisplayName("관리자가 후보자 요청을 거절한다.")
@@ -53,7 +55,7 @@ class CandidateAdminServiceTest {
         var member = MemberFixture.createMember();
         var candidate = Candidate.create(member);
 
-        given(candidateRepository.findById(any(Long.class))).willReturn(candidate);
+        given(candidateRepository.findByIdWithMember(any(Long.class))).willReturn(candidate);
 
         assertThat(candidate.getStatus()).isEqualTo(CandidateStatus.PENDING);
 
@@ -62,13 +64,15 @@ class CandidateAdminServiceTest {
 
         // then
         assertThat(candidate.getStatus()).isEqualTo(CandidateStatus.REJECTED);
+        assertThat(candidate.getMember().getRole()).isEqualTo(Role.ROLE_MEMBER);
     }
 
     @DisplayName("후보자 요청이 존재하지 않을 경우 예외를 반환한다.")
     @Test
     void failUpdateStatus() {
         // given
-        given(candidateRepository.findById(any(Long.class))).willThrow(new NotFoundException(ErrorStatus.NOT_FOUND_CANDIDATE));
+        given(candidateRepository.findByIdWithMember(any(Long.class))).willThrow(
+                new NotFoundException(ErrorStatus.NOT_FOUND_CANDIDATE));
 
         // when & then
         assertThatThrownBy(() -> candidateAdminService.updateCandidateStatus(1L, CandidateStatus.APPROVED))
