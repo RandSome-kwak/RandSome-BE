@@ -3,6 +3,8 @@ package org.kwakmunsu.randsome;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.kwakmunsu.randsome.admin.candidate.controller.CandidateAdminController;
 import org.kwakmunsu.randsome.admin.candidate.serivce.CandidateAdminService;
+import org.kwakmunsu.randsome.admin.member.MemberAdminService;
+import org.kwakmunsu.randsome.admin.member.controller.MemberAdminController;
 import org.kwakmunsu.randsome.domain.auth.controller.AuthController;
 import org.kwakmunsu.randsome.domain.auth.serivce.AuthService;
 import org.kwakmunsu.randsome.domain.candidate.controller.CandidateController;
@@ -25,6 +27,7 @@ import org.springframework.test.web.servlet.assertj.MockMvcTester;
         controllers = {
                 CandidateAdminController.class,
                 CandidateController.class,
+                MemberAdminController.class,
                 MemberController.class,
                 AuthController.class,
                 CandidateController.class,
@@ -41,6 +44,9 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected MemberService memberService;
+
+    @MockitoBean
+    protected MemberAdminService memberAdminService;
 
     @MockitoBean
     protected CandidateService candidateService;
