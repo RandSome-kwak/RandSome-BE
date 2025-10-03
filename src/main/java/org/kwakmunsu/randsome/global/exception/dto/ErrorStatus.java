@@ -28,6 +28,15 @@ public enum ErrorStatus {
     ALREADY_APPROVED    (409, "ERROR - 이미 승인된 회원입니다."),
     ALREADY_REJECTED    (409, "ERROR - 이미 거절된 회원입니다."),
 
+    // MATCHING_APPLICATION
+    NOT_FOUND_MATCHING_APPLICATION (404, "ERROR - 매칭 신청 정보를 찾을 수 없습니다."),
+    ALREADY_MATCHING_APPLICATION   (409, "ERROR - 이미 매칭 신청이 존재합니다."),
+    CANNOT_CANCEL_MATCHING         (400, "ERROR - 매칭 취소가 불가능합니다."),
+
+    // MATCHING
+    NOT_FOUND_MATCHING (404, "ERROR - 매칭 정보를 찾을 수 없습니다."),
+
+
     // PAYMENT
     INVALID_PAYMENT   (400, "ERROR - 유효하지 않은 결제 정보입니다."),
     PAYMENT_FAILED    (400, "ERROR - 결제에 실패하였습니다."),
