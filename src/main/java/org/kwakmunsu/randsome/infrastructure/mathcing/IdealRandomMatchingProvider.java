@@ -1,7 +1,7 @@
 package org.kwakmunsu.randsome.infrastructure.mathcing;
 
+import org.kwakmunsu.randsome.admin.matching.service.MatchingProvider;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
-import org.kwakmunsu.randsome.admin.matching.MatchingProvider;
 import org.springframework.stereotype.Component;
 
 @Component
