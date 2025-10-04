@@ -13,6 +13,7 @@ import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Slf4j
@@ -124,5 +125,20 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(statusCode).body(error);
     }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(HandlerMethodValidationException ex) {
+        int statusCode = BAD_REQUEST.value();
+        String message = "유효성 검증에 실패하셨습니다.: " + ex.getMessage();
+        log.error("HandlerMethodValidationException: {}", message);
+
+        ErrorResponse error = ErrorResponse.builder()
+                .statusCode(statusCode)
+                .message(message)
+                .build();
+
+        return ResponseEntity.status(statusCode).body(error);
+    }
+
 
 }

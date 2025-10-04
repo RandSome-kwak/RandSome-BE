@@ -1,11 +1,18 @@
 package org.kwakmunsu.randsome.domain.matching.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.kwakmunsu.randsome.domain.payment.enums.PaymentType;
 
+@Getter
+@AllArgsConstructor
 public enum MatchingType {
-    RANDOM_MATCHING,
-    IDEAL_MATCHING
+
+    RANDOM_MATCHING ("랜덤"),
+    IDEAL_MATCHING  ("이상형"),
     ;
+
+    private final String description;
 
     public PaymentType toPaymentType() {
         return switch (this) {

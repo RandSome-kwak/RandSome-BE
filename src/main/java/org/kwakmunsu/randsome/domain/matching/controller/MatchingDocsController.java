@@ -1,7 +1,6 @@
 package org.kwakmunsu.randsome.domain.matching.controller;
 
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.BAD_REQUEST;
-import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.DUPLICATE;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.FORBIDDEN_ERROR;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.INTERNAL_SERVER_ERROR;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.NOT_FOUND;
