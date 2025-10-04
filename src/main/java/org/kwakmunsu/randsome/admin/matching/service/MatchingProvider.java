@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.admin.matching;
+package org.kwakmunsu.randsome.admin.matching.service;
 
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 
