@@ -46,4 +46,11 @@ public class MemberFixture {
         return member;
     }
 
+    public static Member createMember(Long id, String nickname) {
+        var serviceRequest = createMemberRegisterRequest("loginId", nickname).toServiceRequest();
+        Member member = serviceRequest.toEntity("encryptedPassword");
+        ReflectionTestUtils.setField(member, "id", id);
+        return member;
+    }
+
 }
