@@ -3,6 +3,7 @@ package org.kwakmunsu.randsome.admin.matching.controller;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.BAD_REQUEST;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.FORBIDDEN_ERROR;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.INTERNAL_SERVER_ERROR;
+import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.NOT_FOUND;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.UNAUTHORIZED_ERROR;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,9 +11,12 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
+import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationStatusUpdateRequest;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.repository.dto.MatchingApplicationListResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
@@ -64,7 +68,55 @@ public abstract class MatchingAdminDocsController {
                     in = ParameterIn.QUERY,
                     schema = @Schema(type = "integer", minimum = "1", defaultValue = "1")
             )
-            int page
+            @Min(1) int page
+    );
+
+    @Operation(
+            summary = "매칭 신청 상태 변경 - [JWT O]",
+            description = """
+                    ### 매칭 신청의 상태를 변경합니다.
+                    - 관리자 권한이 필요합니다.
+                    - COMPLETED(완료)로 변경 시 자동으로 매칭이 실행됩니다.
+                    - FAILED(실패)로 변경 시 매칭 신청이 거절됩니다.
+                    - 상태 변경 후 해당 회원에게 알림이 전송됩니다.(미정)
+                    - 200 OK 상태 코드를 반환합니다.
+                    """,
+            security = {@SecurityRequirement(name = "Bearer ")}
+    )
+    @RequestBody(
+            description = """
+                    상태 변경 요청 본문
+                    - status: 변경할 상태 (COMPLETED, FAILED)
+                    """,
+            required = true,
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = MatchingApplicationStatusUpdateRequest.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "상태 변경 성공",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            UNAUTHORIZED_ERROR,
+            FORBIDDEN_ERROR,
+            NOT_FOUND,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<Void> updateApplicationStatus(
+            @Parameter(
+                    name = "applicationId",
+                    description = "상태를 변경할 매칭 신청 ID",
+                    in = ParameterIn.PATH,
+                    required = true,
+                    schema = @Schema(type = "integer", format = "int64")
+            )
+            Long applicationId,
+
+            MatchingApplicationStatusUpdateRequest request
     );
 
 }
