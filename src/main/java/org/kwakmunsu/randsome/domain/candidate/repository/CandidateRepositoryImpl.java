@@ -1,11 +1,13 @@
 package org.kwakmunsu.randsome.domain.candidate.repository;
 
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidateListResponse;
 import org.kwakmunsu.randsome.domain.candidate.serivce.CandidateRepository;
+import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Repository;
@@ -43,6 +45,11 @@ public class CandidateRepositoryImpl implements CandidateRepository {
     @Override
     public CandidateListResponse findAllByStatus(CandidateStatus status, int page) {
         return candidateQueryDslRepository.findAllByStatus(status, page);
+    }
+
+    @Override
+    public List<Candidate> findByGenderAndStatus(Gender gender, CandidateStatus status) {
+        return candidateJpaRepository.findByGenderAndStatus(gender, status);
     }
 
 }
