@@ -1,6 +1,8 @@
 package org.kwakmunsu.randsome.admin.matching.service;
 
+import java.util.List;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
+import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,8 +14,8 @@ public class RandomMatchingProvider implements MatchingProvider {
     }
 
     @Override
-    public void match(Long memberId) {
-
+    public List<Member> match(Member requester) {
+        return List.of();
     }
 
 }
