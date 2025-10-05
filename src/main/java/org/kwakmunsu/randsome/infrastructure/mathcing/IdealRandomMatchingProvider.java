@@ -15,7 +15,7 @@ public class IdealRandomMatchingProvider implements MatchingProvider {
     }
 
     @Override
-    public List<Member> match(Member requester) {
+    public List<Member> match(Member requester, int count) {
         return List.of();
     }
 
