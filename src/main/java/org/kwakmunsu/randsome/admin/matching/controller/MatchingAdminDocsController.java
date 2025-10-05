@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationStatusUpdateRequest;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
@@ -116,7 +117,7 @@ public abstract class MatchingAdminDocsController {
             )
             Long applicationId,
 
-            MatchingApplicationStatusUpdateRequest request
+            @Valid MatchingApplicationStatusUpdateRequest request
     );
 
 }

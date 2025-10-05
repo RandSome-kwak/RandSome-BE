@@ -29,6 +29,7 @@ public class MatchingApplicationQueryDslRepository {
         List<MatchingApplicationPreviewResponse> responses = queryFactory.select(
                         constructor(
                                 MatchingApplicationPreviewResponse.class,
+                                matchingApplication.id,
                                 matchingApplication.requester.id,
                                 matchingApplication.requester.legalName,
                                 matchingApplication.requester.nickname,
