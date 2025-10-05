@@ -34,6 +34,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                 .responses(List.of(
                         new MatchingApplicationPreviewResponse(
                                 1L,
+                                1L,
                                 "김철수",
                                 "철수닉네임",
                                 "남자",
@@ -44,6 +45,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                                 "대기중"
                         ),
                         new MatchingApplicationPreviewResponse(
+                                2L,
                                 2L,
                                 "이영희",
                                 "영희닉네임",
@@ -79,6 +81,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                 .hasPathSatisfying("$.responses", v -> v.assertThat().isNotNull())
                 .hasPathSatisfying("$.hasNext", v -> v.assertThat().isEqualTo(true))
                 .hasPathSatisfying("$.totalCount", v -> v.assertThat().asNumber().isEqualTo(25))
+                .hasPathSatisfying("$.responses[0].applicationId", v -> v.assertThat().asNumber().isEqualTo(1))
                 .hasPathSatisfying("$.responses[0].memberId", v -> v.assertThat().asNumber().isEqualTo(1))
                 .hasPathSatisfying("$.responses[0].legalName", v -> v.assertThat().isEqualTo("김철수"))
                 .hasPathSatisfying("$.responses[1].memberId", v -> v.assertThat().asNumber().isEqualTo(2));
@@ -252,7 +255,6 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
 
         // then
         verify(matchingAdminService).updateApplicationStatus(any(), any(MatchingStatus.class));
-
     }
 
 }

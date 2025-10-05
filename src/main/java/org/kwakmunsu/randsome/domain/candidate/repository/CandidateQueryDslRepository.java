@@ -27,6 +27,7 @@ public class CandidateQueryDslRepository {
         List<CandidatePreviewResponse> responses = queryFactory.select(
                         constructor(
                                 CandidatePreviewResponse.class,
+                                candidate.id,
                                 candidate.member.id,
                                 candidate.member.legalName,
                                 candidate.member.nickname,

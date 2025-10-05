@@ -9,6 +9,9 @@ import org.kwakmunsu.randsome.domain.member.enums.Gender;
 @Schema(description = "매칭 후보자 신청 목록 정보 DTO")
 @Builder
 public record CandidatePreviewResponse(
+        @Schema(description = "매칭 후보자 신청 ID", example = "1")
+        Long candidateId,
+
         @Schema(description = "회원 ID", example = "1")
         Long memberId,
 
@@ -29,6 +32,7 @@ public record CandidatePreviewResponse(
 ) {
     // QueryDSL용 enum을 받는 생성자 (새로 추가)
     public CandidatePreviewResponse(
+            Long candidateId,
             Long memberId,
             String legalName,
             String nickname,
@@ -37,6 +41,7 @@ public record CandidatePreviewResponse(
             CandidateStatus statusEnum
     ) {
         this(
+                candidateId,
                 memberId,
                 legalName,
                 nickname,
