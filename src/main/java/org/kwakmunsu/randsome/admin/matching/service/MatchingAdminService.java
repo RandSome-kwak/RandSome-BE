@@ -72,7 +72,7 @@ public class MatchingAdminService {
      */
     private void executeMatching(MatchingApplication application) {
         MatchingProvider provider = matchingProviders.get(application.getMatchingType());
-        List<Member> matchedCandidates = provider.match(application.getRequester());
+        List<Member> matchedCandidates = provider.match(application.getRequester(), application.getRequestedCount());
 
         saveMatchingResults(application, matchedCandidates);
 

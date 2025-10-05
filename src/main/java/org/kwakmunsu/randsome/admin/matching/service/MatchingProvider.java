@@ -7,6 +7,6 @@ import org.kwakmunsu.randsome.domain.member.entity.Member;
 public interface MatchingProvider {
 
     MatchingType getType();
-    List<Member> match(Member requester);
+    List<Member> match(Member requester, int count);
 
 }

@@ -3,6 +3,7 @@ package org.kwakmunsu.randsome.admin.matching.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -76,14 +77,14 @@ class MatchingAdminServiceTest {
     void updateApplicationStatusApprove() {
         // given
         given(applicationRepository.findById(1L)).willReturn(application);
-        given(randomMatchingProvider.match(requester)).willReturn(matchedMembers);
+        given(randomMatchingProvider.match(requester, 1)).willReturn(matchedMembers);
 
         // when
         matchingAdminService.updateApplicationStatus(1L, MatchingStatus.COMPLETED);
 
         // then
         assertThat(application.getMatchingStatus()).isEqualTo(MatchingStatus.COMPLETED);
-        then(randomMatchingProvider).should(times(1)).match(requester);
+        then(randomMatchingProvider).should(times(1)).match(requester, 1);
         then(matchingRepository).should(times(1)).saveAll(anyList());
     }
 
@@ -98,7 +99,7 @@ class MatchingAdminServiceTest {
 
         // then
         assertThat(application.getMatchingStatus()).isEqualTo(MatchingStatus.FAILED);
-        then(randomMatchingProvider).should(never()).match(any());
+        then(randomMatchingProvider).should(never()).match(any(), anyInt());
         then(matchingRepository).should(never()).saveAll(anyList());
     }
 
@@ -107,7 +108,7 @@ class MatchingAdminServiceTest {
     void executeMatchingCreatesCorrectNumberOfMatchings() {
         // given
         given(applicationRepository.findById(1L)).willReturn(application);
-        given(randomMatchingProvider.match(requester)).willReturn(matchedMembers);
+        given(randomMatchingProvider.match(requester, 1)).willReturn(matchedMembers);
 
         ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
 
@@ -132,14 +133,14 @@ class MatchingAdminServiceTest {
                 2L, requester, MatchingType.IDEAL_MATCHING
         );
         given(applicationRepository.findById(2L)).willReturn(idealApplication);
-        given(idealMatchingProvider.match(requester)).willReturn(matchedMembers);
+        given(idealMatchingProvider.match(requester, 1)).willReturn(matchedMembers);
 
         // when
         matchingAdminService.updateApplicationStatus(2L, MatchingStatus.COMPLETED);
 
         // then
-        then(idealMatchingProvider).should(times(1)).match(requester);
-        then(randomMatchingProvider).should(never()).match(any());
+        then(idealMatchingProvider).should(times(1)).match(requester, 1);
+        then(randomMatchingProvider).should(never()).match(any(), anyInt());
     }
 
     @DisplayName("존재하지 않는 신청 ID로 상태 변경 시 예외가 발생한다")
