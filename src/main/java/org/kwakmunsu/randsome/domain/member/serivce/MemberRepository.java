@@ -1,5 +1,6 @@
 package org.kwakmunsu.randsome.domain.member.serivce;
 
+import org.kwakmunsu.randsome.admin.member.service.dto.MemberListResponse;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 
 public interface MemberRepository {
@@ -10,5 +11,6 @@ public interface MemberRepository {
     Member findByLoginId(String loginId);
     Member findByRefreshToken(String refreshToken);
     Member findById(Long id);
+    MemberListResponse findAll(int page);
 
 }

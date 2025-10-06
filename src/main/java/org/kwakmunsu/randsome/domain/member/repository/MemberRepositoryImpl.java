@@ -1,6 +1,7 @@
 package org.kwakmunsu.randsome.domain.member.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.admin.member.service.dto.MemberListResponse;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 public class MemberRepositoryImpl implements MemberRepository {
 
     private final MemberJpaRepository memberJpaRepository;
+    private final MemberQueryDslRepository memberQueryDslRepository;
 
     @Override
     public Member save(Member member) {
@@ -44,6 +46,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     public Member findById(Long id) {
         return memberJpaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_MEMBER));
+    }
+
+    @Override
+    public MemberListResponse findAll(int page) {
+        return memberQueryDslRepository.findAll(page);
     }
 
 }
