@@ -7,6 +7,8 @@ import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.NOT_FOUND;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.UNAUTHORIZED_ERROR;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -14,6 +16,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.randsome.domain.matching.controller.dto.MatchingApplicationRequest;
+import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationListResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +33,7 @@ public abstract class MatchingDocsController {
                     - 매칭 신청 후 결제를 진행합니다.
                     - 201 Created 상태 코드와 함께 생성된 신청 ID를 반환합니다.
                     """,
-            security = {@SecurityRequirement(name = "bearerAuth")}
+            security = {@SecurityRequirement(name = "Bearer ")}
     )
     @RequestBody(
             description = """
@@ -61,5 +65,47 @@ public abstract class MatchingDocsController {
     public abstract ResponseEntity<Long> apply(
             MatchingApplicationRequest request,
             Long memberId
+    );
+
+    @Operation(
+            summary = "매칭 신청 목록 조회 - [JWT O]",
+            description = """
+                    ### 회원의 매칭 신청 목록을 상태별로 조회합니다.
+                    - 로그인한 회원 본인의 매칭 신청 목록만 조회할 수 있습니다.
+                    - 매칭 상태(PENDING, COMPLETED, FAILED)를 필터링하여 조회합니다.
+                    - 200 OK 상태 코드와 함께 매칭 신청 목록을 반환합니다.
+                    """,
+            security = {@SecurityRequirement(name = "Bearer ")}
+    )
+    @Parameter(
+            name = "status",
+            description = """
+                    조회할 매칭 신청 상태
+                    - PENDING: 대기 중
+                    - COMPLETED: 완료됨
+                    - FAILED: 실패함
+                    """,
+            required = true,
+            in = ParameterIn.QUERY,
+            schema = @Schema(implementation = MatchingStatus.class),
+            example = "PENDING"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "매칭 신청 목록 조회 성공",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = MatchingApplicationListResponse.class)
+            )
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            UNAUTHORIZED_ERROR,
+            FORBIDDEN_ERROR,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<MatchingApplicationListResponse> getApplications(
+            Long requesterId,
+            MatchingStatus status
     );
 }
