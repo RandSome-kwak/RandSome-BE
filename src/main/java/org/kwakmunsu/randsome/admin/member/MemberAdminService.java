@@ -3,6 +3,7 @@ package org.kwakmunsu.randsome.admin.member;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
+import org.kwakmunsu.randsome.domain.member.repository.dto.MemberListResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,11 @@ public class MemberAdminService {
         Member member = memberRepository.findById(memberId);
 
         return MemberDetailResponse.from(member);
+    }
+
+    // TODO: 추후 정렬, 검색 기능 추가
+    public MemberListResponse getMemberList(int page) {
+        return memberRepository.findAllByPagination(page);
     }
 
 }
