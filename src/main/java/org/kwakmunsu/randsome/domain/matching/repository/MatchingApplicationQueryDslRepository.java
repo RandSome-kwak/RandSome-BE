@@ -9,8 +9,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.MatchingApplicationListResponse;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.MatchingApplicationPreviewResponse;
+import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationListResponse;
+import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationPreviewResponse;
 import org.kwakmunsu.randsome.domain.payment.enums.PaymentType;
 import org.springframework.stereotype.Repository;
 
@@ -22,13 +22,13 @@ public class MatchingApplicationQueryDslRepository {
     private static final int NEXT_PAGE_CHECK_SIZE = 1;
     private final JPAQueryFactory queryFactory;
 
-    public MatchingApplicationListResponse findAllByStatus(MatchingStatus status, int page) {
+    public AdminMatchingApplicationListResponse findAllByStatus(MatchingStatus status, int page) {
         int offset = (page - 1) * PAGE_SIZE;
         int limit = PAGE_SIZE + NEXT_PAGE_CHECK_SIZE; // 다음 페이지 존재 여부 체크용
 
-        List<MatchingApplicationPreviewResponse> responses = queryFactory.select(
+        List<AdminMatchingApplicationPreviewResponse> responses = queryFactory.select(
                         constructor(
-                                MatchingApplicationPreviewResponse.class,
+                                AdminMatchingApplicationPreviewResponse.class,
                                 matchingApplication.id,
                                 matchingApplication.requester.id,
                                 matchingApplication.requester.legalName,
@@ -52,10 +52,10 @@ public class MatchingApplicationQueryDslRepository {
                 .fetch();
 
         boolean hasNext = responses.size() > PAGE_SIZE;
-        List<MatchingApplicationPreviewResponse> limitedPage = getLimitedPage(responses, hasNext);
+        List<AdminMatchingApplicationPreviewResponse> limitedPage = getLimitedPage(responses, hasNext);
         Long totalCount = countByStatus(status);
 
-        return new MatchingApplicationListResponse(limitedPage, hasNext, totalCount);
+        return new AdminMatchingApplicationListResponse(limitedPage, hasNext, totalCount);
     }
 
     public Long countByStatus(MatchingStatus status) {
@@ -76,7 +76,7 @@ public class MatchingApplicationQueryDslRepository {
         return matchingApplication.matchingStatus.eq(matchingStatus);
     }
 
-    private List<MatchingApplicationPreviewResponse> getLimitedPage(List<MatchingApplicationPreviewResponse> responses,
+    private List<AdminMatchingApplicationPreviewResponse> getLimitedPage(List<AdminMatchingApplicationPreviewResponse> responses,
             boolean hasNext) {
         if (hasNext) {
             return responses.subList(0, PAGE_SIZE); // 실제로는 limit 만큼만 반환

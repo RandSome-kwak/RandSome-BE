@@ -8,7 +8,7 @@ import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 
 @Schema(description = "매칭 신청 목록 정보 DTO")
-public record MatchingApplicationPreviewResponse(
+public record AdminMatchingApplicationPreviewResponse(
         @Schema(description = "매칭 신청 ID", example = "1")
         Long applicationId,
 
@@ -41,7 +41,7 @@ public record MatchingApplicationPreviewResponse(
 ) {
 
     // QueryDSL용 enum을 받는 생성자 (새로 추가)
-    public MatchingApplicationPreviewResponse(
+    public AdminMatchingApplicationPreviewResponse(
             Long applicationId,
             Long memberId,
             String legalName,

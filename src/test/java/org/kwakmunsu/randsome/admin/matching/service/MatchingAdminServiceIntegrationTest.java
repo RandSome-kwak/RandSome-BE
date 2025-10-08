@@ -13,8 +13,8 @@ import org.kwakmunsu.randsome.admin.matching.service.dto.MatchingApplicationList
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.MatchingApplicationListResponse;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.MatchingApplicationPreviewResponse;
+import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationListResponse;
+import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationPreviewResponse;
 import org.kwakmunsu.randsome.domain.matching.serivce.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
@@ -58,7 +58,7 @@ class MatchingAdminServiceIntegrationTest {
         var request = new MatchingApplicationListServiceRequest(MatchingStatus.PENDING, 1);
 
         // when
-        MatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
+        AdminMatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
 
         // then
         assertThat(response.responses().size()).isEqualTo(DEFAULT_PAGE_SIZE); // 20개
@@ -77,7 +77,7 @@ class MatchingAdminServiceIntegrationTest {
         var request = new MatchingApplicationListServiceRequest(MatchingStatus.PENDING, 2);
 
         // when
-        MatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
+        AdminMatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
 
         // then
         assertThat(response.responses().size()).isEqualTo(5); // 25 - 20 = 5개
@@ -96,7 +96,7 @@ class MatchingAdminServiceIntegrationTest {
         var request = new MatchingApplicationListServiceRequest(MatchingStatus.COMPLETED, 1);
 
         // when
-        MatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
+        AdminMatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
 
         // then
         assertThat(response.responses().size()).isEqualTo(DEFAULT_PAGE_SIZE);
@@ -115,7 +115,7 @@ class MatchingAdminServiceIntegrationTest {
         var request = new MatchingApplicationListServiceRequest(MatchingStatus.COMPLETED, 2);
 
         // when
-        MatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
+        AdminMatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
 
         // then
         assertThat(response.responses().size()).isEqualTo(5);
@@ -134,7 +134,7 @@ class MatchingAdminServiceIntegrationTest {
         var request = new MatchingApplicationListServiceRequest(MatchingStatus.FAILED, 1);
 
         // when
-        MatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
+        AdminMatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
 
         // then
         assertThat(response.responses().size()).isEqualTo(DEFAULT_PAGE_SIZE);
@@ -152,7 +152,7 @@ class MatchingAdminServiceIntegrationTest {
         var request = new MatchingApplicationListServiceRequest(MatchingStatus.FAILED, 2);
 
         // when
-        MatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
+        AdminMatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
 
         // then
         assertThat(response.responses().size()).isEqualTo(5);
@@ -200,11 +200,11 @@ class MatchingAdminServiceIntegrationTest {
 
         // then
         var firstPageIds = firstPageResponse.responses().stream()
-                .map(MatchingApplicationPreviewResponse::memberId)
+                .map(AdminMatchingApplicationPreviewResponse::memberId)
                 .collect(Collectors.toSet());
 
         var secondPageIds = secondPageResponse.responses().stream()
-                .map(MatchingApplicationPreviewResponse::memberId)
+                .map(AdminMatchingApplicationPreviewResponse::memberId)
                 .collect(Collectors.toSet());
 
         // 두 페이지의 ID가 겹치지 않아야 함
