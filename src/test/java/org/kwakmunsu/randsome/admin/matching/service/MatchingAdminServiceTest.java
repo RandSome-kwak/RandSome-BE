@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.never;
@@ -26,6 +27,7 @@ import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -44,6 +46,9 @@ class MatchingAdminServiceTest {
 
     @Mock
     private MatchingProvider idealMatchingProvider;
+
+    @Captor
+    private ArgumentCaptor<List<Matching>> matchingListCaptor;
 
     private MatchingAdminService matchingAdminService;
 
@@ -64,7 +69,7 @@ class MatchingAdminServiceTest {
 
         // 테스트 데이터
         requester = MemberFixture.createMember(1L, "requester");
-        application = createApplication(1L, requester, MatchingType.RANDOM_MATCHING);
+        application = createApplication(1L, requester, MatchingType.RANDOM_MATCHING, 3);
         matchedMembers = List.of(
                 MemberFixture.createMember(10L, "candidate1"),
                 MemberFixture.createMember(11L, "candidate2"),
@@ -77,14 +82,14 @@ class MatchingAdminServiceTest {
     void updateApplicationStatusApprove() {
         // given
         given(applicationRepository.findById(1L)).willReturn(application);
-        given(randomMatchingProvider.match(requester, 1)).willReturn(matchedMembers);
+        given(randomMatchingProvider.match(eq(requester), eq(3))).willReturn(matchedMembers);
 
         // when
         matchingAdminService.updateApplicationStatus(1L, MatchingStatus.COMPLETED);
 
         // then
         assertThat(application.getMatchingStatus()).isEqualTo(MatchingStatus.COMPLETED);
-        then(randomMatchingProvider).should(times(1)).match(requester, 1);
+        then(randomMatchingProvider).should(times(1)).match(eq(requester), eq(3));
         then(matchingRepository).should(times(1)).saveAll(anyList());
     }
 
@@ -99,7 +104,7 @@ class MatchingAdminServiceTest {
 
         // then
         assertThat(application.getMatchingStatus()).isEqualTo(MatchingStatus.FAILED);
-        then(randomMatchingProvider).should(never()).match(any(), anyInt());
+        then(randomMatchingProvider).should(never()).match(any(Member.class), anyInt());
         then(matchingRepository).should(never()).saveAll(anyList());
     }
 
@@ -108,16 +113,14 @@ class MatchingAdminServiceTest {
     void executeMatchingCreatesCorrectNumberOfMatchings() {
         // given
         given(applicationRepository.findById(1L)).willReturn(application);
-        given(randomMatchingProvider.match(requester, 1)).willReturn(matchedMembers);
-
-        ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
+        given(randomMatchingProvider.match(eq(requester), eq(3))).willReturn(matchedMembers);
 
         // when
         matchingAdminService.updateApplicationStatus(1L, MatchingStatus.COMPLETED);
 
         // then
-        then(matchingRepository).should().saveAll(captor.capture());
-        List<Matching> savedMatchings = captor.getValue();
+        then(matchingRepository).should().saveAll(matchingListCaptor.capture());
+        List<Matching> savedMatchings = matchingListCaptor.getValue();
 
         assertThat(savedMatchings).hasSize(3);
         assertThat(savedMatchings)
@@ -130,34 +133,35 @@ class MatchingAdminServiceTest {
     void executeMatchingUsesCorrectProvider() {
         // given
         MatchingApplication idealApplication = createApplication(
-                2L, requester, MatchingType.IDEAL_MATCHING
+                2L, requester, MatchingType.IDEAL_MATCHING, 3
         );
         given(applicationRepository.findById(2L)).willReturn(idealApplication);
-        given(idealMatchingProvider.match(requester, 1)).willReturn(matchedMembers);
+        given(idealMatchingProvider.match(eq(requester), eq(3))).willReturn(matchedMembers);
 
         // when
         matchingAdminService.updateApplicationStatus(2L, MatchingStatus.COMPLETED);
 
         // then
-        then(idealMatchingProvider).should(times(1)).match(requester, 1);
-        then(randomMatchingProvider).should(never()).match(any(), anyInt());
+        then(idealMatchingProvider).should(times(1)).match(eq(requester), eq(3));
+        then(randomMatchingProvider).should(never()).match(any(Member.class), anyInt());
     }
 
     @DisplayName("존재하지 않는 신청 ID로 상태 변경 시 예외가 발생한다")
     @Test
     void updateApplicationStatusNotFound() {
         // given
-        given(applicationRepository.findById(999L))
+        Long invalidId = 999L;
+        given(applicationRepository.findById(invalidId))
                 .willThrow(new NotFoundException(ErrorStatus.NOT_FOUND_MATCHING_APPLICATION));
 
         // when & then
         assertThatThrownBy(() ->
-                matchingAdminService.updateApplicationStatus(999L, MatchingStatus.COMPLETED)
+                matchingAdminService.updateApplicationStatus(invalidId, MatchingStatus.COMPLETED)
         ).isInstanceOf(NotFoundException.class);
     }
 
-    private MatchingApplication createApplication(Long id, Member requester, MatchingType type) {
-        MatchingApplication app = MatchingApplication.create(requester, type, 3);
+    private MatchingApplication createApplication(Long id, Member requester, MatchingType type, int requestedCount) {
+        MatchingApplication app = MatchingApplication.create(requester, type, requestedCount);
         ReflectionTestUtils.setField(app, "id", id);
         return app;
     }
