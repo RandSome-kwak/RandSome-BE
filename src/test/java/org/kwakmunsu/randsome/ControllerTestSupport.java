@@ -14,7 +14,7 @@ import org.kwakmunsu.randsome.domain.candidate.serivce.CandidateService;
 import org.kwakmunsu.randsome.domain.inquiry.controller.InquiryController;
 import org.kwakmunsu.randsome.domain.inquiry.serivce.InquiryService;
 import org.kwakmunsu.randsome.domain.matching.controller.MatchingController;
-import org.kwakmunsu.randsome.domain.matching.serivce.MatchingService;
+import org.kwakmunsu.randsome.domain.matching.service.MatchingService;
 import org.kwakmunsu.randsome.domain.member.controller.MemberController;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberService;
 import org.kwakmunsu.randsome.global.security.TestSecurityConfig;

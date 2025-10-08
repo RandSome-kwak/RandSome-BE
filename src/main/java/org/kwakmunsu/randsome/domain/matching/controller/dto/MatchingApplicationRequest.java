@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
-import org.kwakmunsu.randsome.domain.matching.serivce.dto.MatchingApplicationServiceRequest;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationServiceRequest;
 
 @Schema(description = "매칭 신청 요청")
 public record MatchingApplicationRequest(

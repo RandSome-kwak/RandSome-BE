@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.matching.serivce.dto;
+package org.kwakmunsu.randsome.domain.matching.service.dto;
 
 import lombok.Builder;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
