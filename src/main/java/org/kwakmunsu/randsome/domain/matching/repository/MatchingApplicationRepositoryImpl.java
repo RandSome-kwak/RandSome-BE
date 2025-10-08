@@ -1,10 +1,11 @@
 package org.kwakmunsu.randsome.domain.matching.repository;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationListResponse;
-import org.kwakmunsu.randsome.domain.matching.serivce.repository.MatchingApplicationRepository;
+import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Repository;
@@ -27,10 +28,14 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
                 .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_MATCHING_APPLICATION));
     }
 
+    @Override
+    public List<MatchingApplication> findAllByRequesterIdAndStatus(Long requesterId, MatchingStatus status) {
+        return matchingApplicationJpaRepository.findAllByRequesterIdAndMatchingStatus(requesterId, status);
+    }
 
     @Override
-    public void findAllByRequesterIdAndStatus(Long requesterId, MatchingStatus status) {
-
+    public List<MatchingApplication> findAllByRequesterIdAndStatusIn(Long requesterId, List<MatchingStatus> statuses) {
+        return matchingApplicationJpaRepository.findAllByRequesterIdAndMatchingStatusIn(requesterId, statuses);
     }
 
     // Admin 전용 메서드
