@@ -73,6 +73,7 @@ public abstract class MatchingDocsController {
                     ### 회원의 매칭 신청 목록을 상태별로 조회합니다.
                     - 로그인한 회원 본인의 매칭 신청 목록만 조회할 수 있습니다.
                     - 매칭 상태(PENDING, COMPLETED, FAILED)를 필터링하여 조회합니다.
+                    - 필터링은 (대기,취소) 및 (완료) 두 가지 유형으로 가능합니다.
                     - 200 OK 상태 코드와 함께 매칭 신청 목록을 반환합니다.
                     """,
             security = {@SecurityRequirement(name = "Bearer ")}
@@ -81,9 +82,8 @@ public abstract class MatchingDocsController {
             name = "status",
             description = """
                     조회할 매칭 신청 상태
-                    - PENDING: 대기 중
-                    - COMPLETED: 완료됨
-                    - FAILED: 실패함
+                    - PENDING: 대기 | FAILED: 실패
+                    - COMPLETED: 완료
                     """,
             required = true,
             in = ParameterIn.QUERY,
