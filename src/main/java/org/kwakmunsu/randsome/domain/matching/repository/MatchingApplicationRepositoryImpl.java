@@ -3,7 +3,7 @@ package org.kwakmunsu.randsome.domain.matching.repository;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.MatchingApplicationListResponse;
+import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationListResponse;
 import org.kwakmunsu.randsome.domain.matching.serivce.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
@@ -27,8 +27,15 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
                 .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_MATCHING_APPLICATION));
     }
 
+
     @Override
-    public MatchingApplicationListResponse findAllByStatus(MatchingStatus status, int page) {
+    public void findAllByRequesterIdAndStatus(Long requesterId, MatchingStatus status) {
+
+    }
+
+    // Admin 전용 메서드
+    @Override
+    public AdminMatchingApplicationListResponse findAllByStatus(MatchingStatus status, int page) {
         return matchingApplicationQueryDslRepository.findAllByStatus(status, page);
     }
 

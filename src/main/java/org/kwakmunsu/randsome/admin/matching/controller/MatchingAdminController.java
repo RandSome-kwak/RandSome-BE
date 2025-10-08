@@ -7,7 +7,7 @@ import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationS
 import org.kwakmunsu.randsome.admin.matching.service.MatchingAdminService;
 import org.kwakmunsu.randsome.admin.matching.service.dto.MatchingApplicationListServiceRequest;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.MatchingApplicationListResponse;
+import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationListResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,12 +26,12 @@ public class MatchingAdminController extends MatchingAdminDocsController {
 
     @Override
     @GetMapping("/applications")
-    public ResponseEntity<MatchingApplicationListResponse> getApplications(
+    public ResponseEntity<AdminMatchingApplicationListResponse> getApplications(
             @RequestParam MatchingStatus status,
             @RequestParam(defaultValue = "1") @Min(1) int page
     ) {
         MatchingApplicationListServiceRequest request = new MatchingApplicationListServiceRequest(status, page);
-        MatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
+        AdminMatchingApplicationListResponse response = matchingAdminService.findApplicationsByStatus(request);
 
         return ResponseEntity.ok(response);
     }

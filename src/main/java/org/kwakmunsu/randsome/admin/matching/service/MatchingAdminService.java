@@ -9,7 +9,7 @@ import org.kwakmunsu.randsome.domain.matching.entity.Matching;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.MatchingApplicationListResponse;
+import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationListResponse;
 import org.kwakmunsu.randsome.domain.matching.serivce.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.matching.serivce.repository.MatchingRepository;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
@@ -41,7 +41,7 @@ public class MatchingAdminService {
      * 매칭 신청 목록 조회
      */
     @Transactional(readOnly = true)
-    public MatchingApplicationListResponse findApplicationsByStatus(MatchingApplicationListServiceRequest request) {
+    public AdminMatchingApplicationListResponse findApplicationsByStatus(MatchingApplicationListServiceRequest request) {
         return applicationRepository.findAllByStatus(request.status(), request.page());
     }
 

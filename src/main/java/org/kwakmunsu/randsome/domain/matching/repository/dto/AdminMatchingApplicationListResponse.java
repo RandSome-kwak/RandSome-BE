@@ -6,9 +6,9 @@ import lombok.Builder;
 
 @Schema(description = "매칭 신청 목록 응답 DTO")
 @Builder
-public record MatchingApplicationListResponse(
+public record AdminMatchingApplicationListResponse(
         @Schema(description = "매칭 신청 목록")
-        List<MatchingApplicationPreviewResponse> responses,
+        List<AdminMatchingApplicationPreviewResponse> responses,
 
         @Schema(description = "다음 페이지 존재 여부", example = "true | false")
         boolean hasNext,
