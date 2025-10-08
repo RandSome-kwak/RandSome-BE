@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.matching.serivce.repository;
+package org.kwakmunsu.randsome.domain.matching.service.repository;
 
 import java.util.List;
 import org.kwakmunsu.randsome.domain.matching.entity.Matching;

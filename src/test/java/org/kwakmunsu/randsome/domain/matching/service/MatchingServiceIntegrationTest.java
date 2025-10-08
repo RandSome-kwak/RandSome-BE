@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.matching.serivce;
+package org.kwakmunsu.randsome.domain.matching.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
-import org.kwakmunsu.randsome.domain.matching.serivce.dto.MatchingApplicationServiceRequest;
-import org.kwakmunsu.randsome.domain.matching.serivce.repository.MatchingApplicationRepository;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationServiceRequest;
+import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;
