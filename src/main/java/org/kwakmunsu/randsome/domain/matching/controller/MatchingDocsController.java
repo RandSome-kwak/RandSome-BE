@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.randsome.domain.matching.controller.dto.MatchingApplicationRequest;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationListResponse;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -108,4 +109,43 @@ public abstract class MatchingDocsController {
             Long requesterId,
             MatchingStatus status
     );
+
+    @Operation(
+            summary = "매칭 결과 조회 - [JWT O]",
+            description = """
+                    ### 회원의 매칭 결과를 조회합니다.
+                    - 로그인한 회원 본인의 매칭 결과만 조회할 수 있습니다.
+                    - 매칭이 완료된 신청에 대해서만 조회할 수 있습니다.
+                    - 승인 대기중이거나 실패한 매칭 신청에 대해서는 조회할 수 없습니다.
+                    - 200 OK 상태 코드와 함께 매칭 결과를 반환합니다.
+                    """,
+            security = {@SecurityRequirement(name = "Bearer ")}
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "매칭 결과 조회 성공",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = MatchingReadResponse.class)
+            )
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            UNAUTHORIZED_ERROR,
+            FORBIDDEN_ERROR,
+            NOT_FOUND,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<MatchingReadResponse> getMatching(
+            @Parameter(
+                    name = "applicationId",
+                    description = "조회할 매칭 신청 ID",
+                    required = true,
+                    in = ParameterIn.PATH,
+                    schema = @Schema(implementation = Long.class),
+                    example = "1"
+            )
+            Long applicationId
+    );
+
 }

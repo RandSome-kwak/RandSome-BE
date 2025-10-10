@@ -62,4 +62,8 @@ public class MatchingApplication extends BaseEntity {
         this.matchingStatus = MatchingStatus.FAILED;
     }
 
+    public boolean isComplete() {
+        return this.matchingStatus == MatchingStatus.COMPLETED;
+    }
+
 }

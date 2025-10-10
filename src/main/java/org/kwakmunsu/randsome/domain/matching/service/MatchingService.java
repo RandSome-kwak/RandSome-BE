@@ -9,10 +9,14 @@ import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationListResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationPreviewResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationServiceRequest;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingMemberResponse;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
 import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.serivce.dto.PaymentEvent;
+import org.kwakmunsu.randsome.global.exception.ForbiddenException;
+import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,11 +45,28 @@ public class MatchingService {
     }
 
     /**
+     * 자신의 매칭 결과 조회
+     **/
+
+    public MatchingReadResponse getMatching(Long applicationId) {
+        MatchingApplication application = matchingApplicationRepository.findByIdWithMatchings(applicationId);
+
+        if (!application.isComplete()) {
+            throw new ForbiddenException(ErrorStatus.FORBIDDEN_READ_MATCHING);
+        }
+
+        List<MatchingMemberResponse> responses = application.getMatchings().stream()
+                .map(matching -> MatchingMemberResponse.from(matching.getSelectedMember())).toList();
+
+        return MatchingReadResponse.of(application, responses);
+    }
+
+    /**
      * 자신의 매칭 신청 목록 조회
      **/
     public MatchingApplicationListResponse getMatchingApplication(Long requesterId, MatchingStatus status) {
         List<MatchingApplication> applications = status == MatchingStatus.COMPLETED ?
-                        findCompletedApplications(requesterId) : findPendingOrFailedApplications(requesterId);
+                findCompletedApplications(requesterId) : findPendingOrFailedApplications(requesterId);
 
         List<MatchingApplicationPreviewResponse> previewResponses = applications.stream()
                 .map(MatchingApplicationPreviewResponse::of)

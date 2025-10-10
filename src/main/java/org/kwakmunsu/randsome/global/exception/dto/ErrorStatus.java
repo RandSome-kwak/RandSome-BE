@@ -34,7 +34,8 @@ public enum ErrorStatus {
     CANNOT_CANCEL_MATCHING         (400, "ERROR - 매칭 취소가 불가능합니다."),
 
     // MATCHING
-    NOT_FOUND_MATCHING (404, "ERROR - 매칭 정보를 찾을 수 없습니다."),
+    FORBIDDEN_READ_MATCHING (403, "ERROR - 매칭 조회 권한이 없습니다."),
+    NOT_FOUND_MATCHING      (404, "ERROR - 매칭 정보를 찾을 수 없습니다."),
 
 
     // PAYMENT

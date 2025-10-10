@@ -6,10 +6,12 @@ import org.kwakmunsu.randsome.domain.matching.controller.dto.MatchingApplication
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingService;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationListResponse;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
 import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +40,14 @@ public class MatchingController extends MatchingDocsController {
             @RequestParam MatchingStatus status
     ) {
         MatchingApplicationListResponse response = matchingService.getMatchingApplication(requesterId, status);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    @GetMapping("/{applicationId}")
+    public ResponseEntity<MatchingReadResponse> getMatching(@PathVariable Long applicationId) {
+        MatchingReadResponse response = matchingService.getMatching(applicationId);
 
         return ResponseEntity.ok(response);
     }
