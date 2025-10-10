@@ -16,6 +16,9 @@ import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationListResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationPreviewResponse;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingMemberResponse;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
+import org.kwakmunsu.randsome.domain.member.enums.Mbti;
 import org.kwakmunsu.randsome.global.security.annotation.TestMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -127,6 +130,41 @@ class MatchingControllerTest extends ControllerTestSupport {
                 .hasPathSatisfying("$.responses[1].matchingType", v -> v.assertThat().isEqualTo("이상형"))
                 .hasPathSatisfying("$.responses[1].requestedCount", v -> v.assertThat().isEqualTo(5))
                 .hasPathSatisfying("$.responses[1].matchingStatus", v -> v.assertThat().isEqualTo("완료"));
+    }
+
+    @TestMember
+    @DisplayName("승인 처리 된 자신의 매칭 신청 결과를 조회한다.")
+    @Test
+    void get() {
+        // given
+        var response = MatchingReadResponse.builder()
+                .matchingType("랜덤")
+                .requestedCount(3)
+                .requestedAt(LocalDateTime.now())
+                .memberResponse(List.of(
+                        new MatchingMemberResponse("nickname1", Mbti.ENFJ, "instargramId1", "introdution1"),
+                        new MatchingMemberResponse("nickname2", Mbti.ENFJ, "instargramId2", "introdution2"),
+                        new MatchingMemberResponse("nickname3", Mbti.ENFJ, "instargramId3", "introdution3")
+                ))
+                .build();
+
+        given(matchingService.getMatching(any(Long.class))).willReturn(response);
+
+        MatchingMemberResponse first = response.memberResponse().getFirst();
+
+        // when & then
+        assertThat(mvcTester.get().uri("/api/v1/matching/{applicationId}", 1L)
+                .contentType(MediaType.APPLICATION_JSON))
+                .apply(print())
+                .hasStatusOk()
+                .bodyJson()
+                .hasPathSatisfying("$.matchingType", v -> v.assertThat().isEqualTo("랜덤"))
+                .hasPathSatisfying("$.requestedCount", v -> v.assertThat().isEqualTo(response.requestedCount()))
+                .hasPathSatisfying("$.requestedAt", v -> v.assertThat().isEqualTo((response.requestedAt().toString())))
+                .hasPathSatisfying("$.memberResponse[0].nickname", v -> v.assertThat().isEqualTo(first.nickname()))
+                .hasPathSatisfying("$.memberResponse[0].mbti", v -> v.assertThat().isEqualTo(first.mbti().name()))
+                .hasPathSatisfying("$.memberResponse[0].instagramId", v -> v.assertThat().isEqualTo(first.instagramId()))
+                .hasPathSatisfying("$.memberResponse[0].introduction", v -> v.assertThat().isEqualTo(first.introduction()));
     }
 
 }

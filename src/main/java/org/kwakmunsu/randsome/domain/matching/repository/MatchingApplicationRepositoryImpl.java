@@ -29,6 +29,11 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
     }
 
     @Override
+    public MatchingApplication findByIdWithMatchings(Long id) {
+        return matchingApplicationJpaRepository.findByIdWithMatchings(id);
+    }
+
+    @Override
     public List<MatchingApplication> findAllByRequesterIdAndStatus(Long requesterId, MatchingStatus status) {
         return matchingApplicationJpaRepository.findAllByRequesterIdAndMatchingStatus(requesterId, status);
     }

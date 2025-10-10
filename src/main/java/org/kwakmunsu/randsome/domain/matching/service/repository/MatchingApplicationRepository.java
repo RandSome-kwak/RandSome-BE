@@ -9,6 +9,7 @@ public interface MatchingApplicationRepository {
 
     MatchingApplication save(MatchingApplication matchingApplication);
     MatchingApplication findById(Long id);
+    MatchingApplication findByIdWithMatchings(Long id);
     List<MatchingApplication> findAllByRequesterIdAndStatus(Long requesterId, MatchingStatus status);
     List<MatchingApplication> findAllByRequesterIdAndStatusIn(Long requesterId, List<MatchingStatus> statuses);
 
