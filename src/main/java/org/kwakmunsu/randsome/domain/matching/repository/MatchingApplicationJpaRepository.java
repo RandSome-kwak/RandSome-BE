@@ -1,6 +1,7 @@
 package org.kwakmunsu.randsome.domain.matching.repository;
 
 import java.util.List;
+import java.util.Optional;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +18,6 @@ public interface MatchingApplicationJpaRepository extends JpaRepository<Matching
             "LEFT JOIN FETCH ma.matchings m " +
             "LEFT JOIN FETCH m.selectedMember " +
             "WHERE ma.id = :id")
-    MatchingApplication findByIdWithMatchings(@Param("id") Long id);
+    Optional<MatchingApplication> findByIdWithMatchings(@Param("id") Long id);
 
 }

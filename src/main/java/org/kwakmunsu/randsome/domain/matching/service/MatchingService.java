@@ -31,12 +31,12 @@ public class MatchingService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    public Long matchingApply(MatchingApplicationServiceRequest request) {
+    public Long applyMatching(MatchingApplicationServiceRequest request) {
         MatchingType matchingType = request.type();
         Member member = memberRepository.findById(request.memberId());
 
-        MatchingApplication matchingApplication = MatchingApplication.create(member, matchingType, request.matchingCount());
-        MatchingApplication application = matchingApplicationRepository.save(matchingApplication);
+        MatchingApplication application = createAndSaveApplication(member, matchingType, request.matchingCount());
+
         log.info("[new MatchingApplication]. MatchingApplicationId = {}, memberId = {}", application.getId(), member.getId());
 
         eventPublisher.publishEvent(new PaymentEvent(member, matchingType.toPaymentType(), request.matchingCount()));
@@ -47,13 +47,11 @@ public class MatchingService {
     /**
      * 자신의 매칭 결과 조회
      **/
-
-    public MatchingReadResponse getMatching(Long applicationId) {
+    public MatchingReadResponse getMatching(Long requesterId, Long applicationId) {
         MatchingApplication application = matchingApplicationRepository.findByIdWithMatchings(applicationId);
 
-        if (!application.isComplete()) {
-            throw new ForbiddenException(ErrorStatus.FORBIDDEN_READ_MATCHING);
-        }
+        validateOwnership(application, requesterId);
+        validateCompletionStatus(application);
 
         List<MatchingMemberResponse> responses = application.getMatchings().stream()
                 .map(matching -> MatchingMemberResponse.from(matching.getSelectedMember())).toList();
@@ -65,7 +63,7 @@ public class MatchingService {
      * 자신의 매칭 신청 목록 조회
      **/
     public MatchingApplicationListResponse getMatchingApplication(Long requesterId, MatchingStatus status) {
-        List<MatchingApplication> applications = status == MatchingStatus.COMPLETED ?
+        List<MatchingApplication> applications = status.isCompleted() ?
                 findCompletedApplications(requesterId) : findPendingOrFailedApplications(requesterId);
 
         List<MatchingApplicationPreviewResponse> previewResponses = applications.stream()
@@ -75,19 +73,30 @@ public class MatchingService {
         return new MatchingApplicationListResponse(previewResponses);
     }
 
-    /**
-     * 자신의 매칭 신청 목록 조회 (완료)
-     **/
+    private MatchingApplication createAndSaveApplication(Member member, MatchingType matchingType, int matchingCount) {
+        MatchingApplication matchingApplication = MatchingApplication.create(member, matchingType, matchingCount);
+        return matchingApplicationRepository.save(matchingApplication);
+    }
+
     private List<MatchingApplication> findCompletedApplications(Long requesterId) {
         return matchingApplicationRepository.findAllByRequesterIdAndStatus(requesterId, MatchingStatus.COMPLETED);
     }
 
-    /**
-     * 자신의 매칭 신청 목록 조회 (대기, 실패)
-     **/
     private List<MatchingApplication> findPendingOrFailedApplications(Long requesterId) {
         return matchingApplicationRepository.findAllByRequesterIdAndStatusIn(requesterId,
                 List.of(MatchingStatus.PENDING, MatchingStatus.FAILED));
+    }
+
+    private void validateOwnership(MatchingApplication application, Long requesterId) {
+        if (!application.isOwnedBy(requesterId)) {
+            throw new ForbiddenException(ErrorStatus.FORBIDDEN_READ_MATCHING_OWNER);
+        }
+    }
+
+    private void validateCompletionStatus(MatchingApplication application) {
+        if (!application.isComplete()) {
+            throw new ForbiddenException(ErrorStatus.FORBIDDEN_READ_MATCHING);
+        }
     }
 
 }
