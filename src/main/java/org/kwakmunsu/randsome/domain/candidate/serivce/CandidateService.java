@@ -8,7 +8,7 @@ import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.enums.PaymentType;
 import org.kwakmunsu.randsome.domain.payment.serivce.dto.PaymentEvent;
-import org.kwakmunsu.randsome.global.exception.DuplicationException;
+import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -41,8 +41,8 @@ public class CandidateService {
 
     private void validateCandidateRegistration(Candidate candidate) {
         switch (candidate.getStatus()) {
-            case APPROVED -> throw new DuplicationException(ErrorStatus.ALREADY_APPROVED);
-            case PENDING -> throw new DuplicationException(ErrorStatus.PENDING_MEMBER);
+            case APPROVED -> throw new ConflictException(ErrorStatus.ALREADY_APPROVED);
+            case PENDING -> throw new ConflictException(ErrorStatus.PENDING_MEMBER);
             case REJECTED -> {} // 거절 상태는 다시 등록 가능하므로 통과
         }
     }

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
-import org.kwakmunsu.randsome.global.exception.DuplicationException;
+import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -62,7 +62,7 @@ class CandidateServiceTest {
 
         // when & then
         assertThatThrownBy(() -> candidateService.register(member.getId()))
-                .isInstanceOf(DuplicationException.class)
+                .isInstanceOf(ConflictException.class)
                 .hasMessage(ErrorStatus.ALREADY_APPROVED.getMessage());
     }
 
@@ -77,7 +77,7 @@ class CandidateServiceTest {
 
         // when & then
         assertThatThrownBy(() -> candidateService.register(member.getId()))
-                .isInstanceOf(DuplicationException.class)
+                .isInstanceOf(ConflictException.class)
                 .hasMessage(ErrorStatus.PENDING_MEMBER.getMessage());
     }
 

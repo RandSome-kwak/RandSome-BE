@@ -12,7 +12,7 @@ import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
-import org.kwakmunsu.randsome.global.exception.DuplicationException;
+import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.mockito.InjectMocks;
@@ -61,7 +61,7 @@ class MemberServiceTest {
 
         // when & then
         assertThatThrownBy(() -> memberService.register(request.toServiceRequest()))
-                .isInstanceOf(DuplicationException.class);
+                .isInstanceOf(ConflictException.class);
     }
 
     @DisplayName("로그인 아이디가 중복되어 회원 가입에 실패한다")
@@ -74,7 +74,7 @@ class MemberServiceTest {
 
         // when & then
         assertThatThrownBy(() -> memberService.register(request.toServiceRequest()))
-                .isInstanceOf(DuplicationException.class);
+                .isInstanceOf(ConflictException.class);
     }
 
     @DisplayName("로그인 아이디 중복 체크를 한다")

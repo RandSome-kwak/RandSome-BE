@@ -2,13 +2,13 @@ package org.kwakmunsu.randsome.global.exception;
 
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 
-public class DuplicationException extends RootException {
+public class ConflictException extends RootException {
 
-    public DuplicationException(ErrorStatus status) {
+    public ConflictException(ErrorStatus status) {
         super(status);
     }
 
-    public DuplicationException(ErrorStatus status, Throwable cause) {
+    public ConflictException(ErrorStatus status, Throwable cause) {
         super(status, cause);
     }
 
