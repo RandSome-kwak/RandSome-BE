@@ -14,4 +14,16 @@ public enum MatchingStatus {
 
     private final String description;
 
+    public boolean isCompleted() {
+        return this == COMPLETED;
+    }
+
+    public boolean isPending() {
+        return this == PENDING;
+    }
+
+    public boolean isFailed() {
+        return this == FAILED;
+    }
+
 }
