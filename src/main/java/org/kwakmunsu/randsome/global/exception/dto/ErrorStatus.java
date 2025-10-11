@@ -39,6 +39,15 @@ public enum ErrorStatus {
     NOT_FOUND_MATCHING            (404, "ERROR - 매칭 정보를 찾을 수 없습니다."),
 
 
+    // INQUIRY
+    NOT_FOUND_INQUIRY              (404, "ERROR - 문의를 찾을 수 없습니다."),
+    ALREADY_ANSWERED               (409, "ERROR - 이미 답변이 등록된 문의입니다."),
+    CANNOT_MODIFY_ANSWER           (409, "ERROR - 답변이 완료된 문의의 답변을 수정할 수 없습니다."),
+    CANNOT_MODIFY_ANSWERED_INQUIRY (409, "ERROR - 답변이 완료된 문의의 질문을 수정할 수 없습니다."),
+    CANNOT_DELETE_ANSWERED_INQUIRY (409, "ERROR - 답변이 완료된 문의는 삭제할 수 없습니다."),
+
+
+
     // PAYMENT
     INVALID_PAYMENT   (400, "ERROR - 유효하지 않은 결제 정보입니다."),
     PAYMENT_FAILED    (400, "ERROR - 결제에 실패하였습니다."),
