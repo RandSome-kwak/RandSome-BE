@@ -6,7 +6,7 @@ import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
-import org.kwakmunsu.randsome.global.exception.DuplicationException;
+import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.UnAuthenticationException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -59,13 +59,13 @@ public class MemberService {
 
     private void checkedAlreadyLoginId(String loginId) {
         if (memberRepository.existsByLoginId(loginId)) {
-            throw new DuplicationException(ErrorStatus.DUPLICATE_LOGIN_ID);
+            throw new ConflictException(ErrorStatus.DUPLICATE_LOGIN_ID);
         }
     }
 
     private void checkedAlreadyNickname(String nickname) {
         if (memberRepository.existsByNickname(nickname)) {
-            throw new DuplicationException(ErrorStatus.DUPLICATE_NICKNAME);
+            throw new ConflictException(ErrorStatus.DUPLICATE_NICKNAME);
         }
     }
 }
