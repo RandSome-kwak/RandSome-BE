@@ -137,6 +137,7 @@ public abstract class MatchingDocsController {
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<MatchingReadResponse> getMatching(
+            Long requesterId,
             @Parameter(
                     name = "applicationId",
                     description = "조회할 매칭 신청 ID",

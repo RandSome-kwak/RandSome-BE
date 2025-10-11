@@ -28,7 +28,7 @@ public class MatchingController extends MatchingDocsController {
     @Override
     @PostMapping("/apply")
     public ResponseEntity<Long> apply(@Valid @RequestBody MatchingApplicationRequest request, @AuthMember Long memberId) {
-        Long matchingApplicationId = matchingService.matchingApply(request.toServiceRequest(memberId));
+        Long matchingApplicationId = matchingService.applyMatching(request.toServiceRequest(memberId));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(matchingApplicationId);
     }
@@ -46,8 +46,8 @@ public class MatchingController extends MatchingDocsController {
 
     @Override
     @GetMapping("/{applicationId}")
-    public ResponseEntity<MatchingReadResponse> getMatching(@PathVariable Long applicationId) {
-        MatchingReadResponse response = matchingService.getMatching(applicationId);
+    public ResponseEntity<MatchingReadResponse> getMatching(@AuthMember Long requesterId, @PathVariable Long applicationId) {
+        MatchingReadResponse response = matchingService.getMatching(requesterId, applicationId);
 
         return ResponseEntity.ok(response);
     }

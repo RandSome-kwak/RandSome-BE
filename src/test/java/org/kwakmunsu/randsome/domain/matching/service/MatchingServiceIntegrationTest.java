@@ -47,14 +47,14 @@ class MatchingServiceIntegrationTest {
     // FIXME : transactional 미적용 시 DB 제약 조건 위반으로 테스트 실패. 그러나 트랜잭션을 헤제해야 테스트 진행됨
     @DisplayName("매칭 신청을 한다.")
     @Test
-    void matchingApplyApplication() {
+    void applyMatchingApplication() {
         // given
         var requester = MemberFixture.createMember();
         memberRepository.save(requester);
         var request = new MatchingApplicationServiceRequest(requester.getId(), MatchingType.RANDOM_MATCHING, 3);
 
         // when
-        Long matchingApplicationId = matchingService.matchingApply(request);
+        Long matchingApplicationId = matchingService.applyMatching(request);
 
         // then
         var matchingApplication = matchingApplicationRepository.findById(matchingApplicationId);
@@ -97,7 +97,7 @@ class MatchingServiceIntegrationTest {
         matchingRepository.saveAll(matchings);
 
         // when
-        var matchingReadResponse = matchingService.getMatching(application.getId());
+        var matchingReadResponse = matchingService.getMatching(requester.getId(), application.getId());
 
         // then
         assertThat(matchingReadResponse).extracting(
@@ -126,7 +126,7 @@ class MatchingServiceIntegrationTest {
         matchingApplicationRepository.save(application);
 
         // when & then
-        assertThatThrownBy(() -> matchingService.getMatching(application.getId()))
+        assertThatThrownBy(() -> matchingService.getMatching(requester.getId(), application.getId()))
             .isInstanceOf(ForbiddenException.class);
     }
 

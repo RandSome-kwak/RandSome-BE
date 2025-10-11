@@ -30,7 +30,7 @@ class MatchingControllerTest extends ControllerTestSupport {
     @Test
     void apply() throws JsonProcessingException {
         // given
-        given(matchingService.matchingApply(any())).willReturn(1L);
+        given(matchingService.applyMatching(any())).willReturn(1L);
         var request = new MatchingApplicationRequest(MatchingType.RANDOM_MATCHING, 3);
         String requestJson = objectMapper.writeValueAsString(request);
 
@@ -147,8 +147,7 @@ class MatchingControllerTest extends ControllerTestSupport {
                         new MatchingMemberResponse("nickname3", Mbti.ENFJ, "instargramId3", "introdution3")
                 ))
                 .build();
-
-        given(matchingService.getMatching(any(Long.class))).willReturn(response);
+        given(matchingService.getMatching(any(Long.class), any(Long.class))).willReturn(response);
 
         MatchingMemberResponse first = response.memberResponse().getFirst();
 

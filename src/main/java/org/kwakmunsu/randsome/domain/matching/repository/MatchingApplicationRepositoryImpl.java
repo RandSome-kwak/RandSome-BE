@@ -30,7 +30,8 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
 
     @Override
     public MatchingApplication findByIdWithMatchings(Long id) {
-        return matchingApplicationJpaRepository.findByIdWithMatchings(id);
+        return matchingApplicationJpaRepository.findByIdWithMatchings(id)
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_MATCHING_APPLICATION));
     }
 
     @Override

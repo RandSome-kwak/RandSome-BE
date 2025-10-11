@@ -66,4 +66,8 @@ public class MatchingApplication extends BaseEntity {
         return this.matchingStatus == MatchingStatus.COMPLETED;
     }
 
+    public boolean isOwnedBy(Long requesterId) {
+        return requester.getId().equals(requesterId);
+    }
+
 }
