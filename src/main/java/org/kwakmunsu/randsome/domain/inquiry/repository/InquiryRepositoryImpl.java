@@ -4,6 +4,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.serivce.InquiryRepository;
+import org.kwakmunsu.randsome.global.exception.NotFoundException;
+import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
@@ -20,6 +22,12 @@ public class InquiryRepositoryImpl implements InquiryRepository {
     @Override
     public List<Inquiry> findAllByAuthorId(Long authorId) {
         return inquiryJpaRepository.findAllByAuthorId(authorId);
+    }
+
+    @Override
+    public Inquiry findById(Long id) {
+        return inquiryJpaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_INQUIRY));
     }
 
 }
