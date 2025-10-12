@@ -1,5 +1,6 @@
 package org.kwakmunsu.randsome.domain.inquiry.repository;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.serivce.InquiryRepository;
@@ -14,6 +15,11 @@ public class InquiryRepositoryImpl implements InquiryRepository {
     @Override
     public Inquiry save(Inquiry inquiry) {
         return inquiryJpaRepository.save(inquiry);
+    }
+
+    @Override
+    public List<Inquiry> findAllByAuthorId(Long authorId) {
+        return inquiryJpaRepository.findAllByAuthorId(authorId);
     }
 
 }
