@@ -8,4 +8,6 @@ public interface InquiryRepository {
     Inquiry save(Inquiry inquiry);
 
     List<Inquiry> findAllByAuthorId(Long authorId);
+
+    Inquiry findById(Long id);
 }
