@@ -69,6 +69,11 @@ public class Inquiry extends BaseEntity {
         completeAnswer();
     }
 
+    public boolean isAnswered() {
+        return this.state == InquiryState.COMPLETED;
+    }
+
+
     private void completeAnswer() {
         this.state = InquiryState.COMPLETED;
     }
