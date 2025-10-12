@@ -23,7 +23,7 @@ class InquiryAdminControllerTest extends ControllerTestSupport {
         var requestJson = objectMapper.writeValueAsString(request);
 
         // when
-        assertThat(mvcTester.post().uri("/api/v1/admin/inquiries/answers")
+        assertThat(mvcTester.patch().uri("/api/v1/admin/inquiries/{inquiryId}/answers", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .hasStatusOk()

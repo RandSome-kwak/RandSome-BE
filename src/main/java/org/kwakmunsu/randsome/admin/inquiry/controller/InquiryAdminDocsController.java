@@ -7,6 +7,7 @@ import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.NOT_FOUND;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.UNAUTHORIZED_ERROR;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -52,6 +53,7 @@ public abstract class InquiryAdminDocsController {
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<Void> registerAnswer(
+            @Parameter(description = "답변을 등록할 문의 ID", example = "1", required = true)
             Long inquiryId,
             AnswerRegisterRequest request
     );
