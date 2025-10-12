@@ -15,9 +15,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.randsome.admin.inquiry.controller.dto.AnswerRegisterRequest;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "Inquiry Admin API", description = "관리자 문의 관리 API 문서입니다.")
 public abstract class InquiryAdminDocsController {
@@ -56,6 +59,36 @@ public abstract class InquiryAdminDocsController {
             @Parameter(description = "답변을 등록할 문의 ID", example = "1", required = true)
             Long inquiryId,
             AnswerRegisterRequest request
+    );
+
+    @Operation(
+            summary = "문의 목록 조회 - [JWT O]",
+            description = """
+                    ### 회원의 문의 목록을 조회합니다.
+                    - 관리자 권한이 필요합니다.
+                    - 문의 상태(대기, 완료)로 필터링할 수 있습니다.
+                    - 페이지네이션을 지원합니다. (페이지당 20개)
+                    - 200 OK 상태 코드를 반환합니다.
+                    """,
+            security = {@SecurityRequirement(name = "Bearer ")}
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "문의 목록 조회 성공",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = InquiryListAdminResponse.class)
+            )
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            UNAUTHORIZED_ERROR,
+            FORBIDDEN_ERROR,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<InquiryListAdminResponse> getInquires(
+            InquiryState state,
+            int page
     );
 
 }

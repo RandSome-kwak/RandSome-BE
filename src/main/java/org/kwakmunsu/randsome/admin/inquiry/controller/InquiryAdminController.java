@@ -4,12 +4,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.admin.inquiry.controller.dto.AnswerRegisterRequest;
 import org.kwakmunsu.randsome.admin.inquiry.serivce.InquiryAdminService;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/v1/admin/inquiries")
@@ -25,6 +29,17 @@ public class InquiryAdminController extends InquiryAdminDocsController {
         inquiryAdminService.registerAnswer(inquiryId, request.answer());
 
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    @GetMapping
+    public ResponseEntity<InquiryListAdminResponse> getInquires(
+            @RequestParam InquiryState state,
+            @RequestParam(defaultValue = "1") int page
+    ) {
+        InquiryListAdminResponse response = inquiryAdminService.getInquires(state, page);
+
+        return ResponseEntity.ok(response);
     }
 
 }

@@ -3,6 +3,8 @@ package org.kwakmunsu.randsome.domain.inquiry.repository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.serivce.InquiryRepository;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Repository;
 public class InquiryRepositoryImpl implements InquiryRepository {
 
     private final InquiryJpaRepository inquiryJpaRepository;
+    private final InquiryQueryDslRepository inquiryQueryDslRepository;
 
     @Override
     public Inquiry save(Inquiry inquiry) {
@@ -30,4 +33,8 @@ public class InquiryRepositoryImpl implements InquiryRepository {
                 .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_INQUIRY));
     }
 
+    @Override
+    public InquiryListAdminResponse findAllByState(InquiryState state, int page) {
+        return inquiryQueryDslRepository.findAllByState(state, page);
+    }
 }
