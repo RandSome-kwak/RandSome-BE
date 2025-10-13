@@ -20,7 +20,6 @@ import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResp
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "Inquiry Admin API", description = "관리자 문의 관리 API 문서입니다.")
 public abstract class InquiryAdminDocsController {

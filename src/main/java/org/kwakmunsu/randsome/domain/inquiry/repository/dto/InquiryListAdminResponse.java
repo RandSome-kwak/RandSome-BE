@@ -3,7 +3,6 @@ package org.kwakmunsu.randsome.domain.inquiry.repository.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.Builder;
-import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 
 @Schema(description = "문의 신청 목록 응답 DTO")
 @Builder
