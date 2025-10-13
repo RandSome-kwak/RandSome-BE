@@ -12,6 +12,7 @@ public interface MatchingApplicationRepository {
     MatchingApplication findByIdWithMatchings(Long id);
     List<MatchingApplication> findAllByRequesterIdAndStatus(Long requesterId, MatchingStatus status);
     List<MatchingApplication> findAllByRequesterIdAndStatusIn(Long requesterId, List<MatchingStatus> statuses);
+    List<MatchingApplication> findRecentApplicationByOrderByCreatedAtDesc(int limit);
 
     // Admin 전용 메서드
     AdminMatchingApplicationListResponse findAllByStatus(MatchingStatus status, int page);

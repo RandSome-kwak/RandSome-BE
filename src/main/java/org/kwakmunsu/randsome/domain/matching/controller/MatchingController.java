@@ -1,11 +1,13 @@
 package org.kwakmunsu.randsome.domain.matching.controller;
 
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.matching.controller.dto.MatchingApplicationRequest;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingService;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationListResponse;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingEventResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
 import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.HttpStatus;
@@ -50,6 +52,15 @@ public class MatchingController extends MatchingDocsController {
         MatchingReadResponse response = matchingService.getMatching(requesterId, applicationId);
 
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    @GetMapping("/recent-news")
+    public ResponseEntity<List<MatchingEventResponse>> getRecentMatchingNews() {
+        final int limit = 5;
+        List<MatchingEventResponse> responses = matchingService.getRecentMatchingNews(limit);
+
+        return ResponseEntity.ok(responses);
     }
 
 }

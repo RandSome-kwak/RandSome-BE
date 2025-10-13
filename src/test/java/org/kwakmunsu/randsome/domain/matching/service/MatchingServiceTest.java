@@ -1,17 +1,23 @@
 package org.kwakmunsu.randsome.domain.matching.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
+import org.kwakmunsu.randsome.domain.candidate.serivce.CandidateRepository;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
+import org.kwakmunsu.randsome.domain.matching.enums.MatchingEventType;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationPreviewResponse;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingEventResponse;
 import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
@@ -20,12 +26,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 class MatchingServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
+
+    @Mock
+    private CandidateRepository candidateRepository;
 
     @Mock
     private MatchingApplicationRepository matchingApplicationRepository;
@@ -102,11 +112,43 @@ class MatchingServiceTest {
         assertThat(applicationPreviewResponses).isEmpty();
     }
 
+    @DisplayName("최근 매칭 소식 5개를 조회한다.")
+    @Test
+    void getRecentMatchingNews() {
+        // given
+        var candidates = createCandidates();
+        var member = MemberFixture.createMember(999L);
+        var matchingApplications = createMatchingApplication(member);
+        given(matchingApplicationRepository.findRecentApplicationByOrderByCreatedAtDesc(any(Integer.class))).willReturn(matchingApplications);
+        given(candidateRepository.findRecentApplicationByOrderByCreatedAtDesc(any(Integer.class))).willReturn(candidates);
+        var limit = 5;
+        // when
+        List<MatchingEventResponse> responses = matchingService.getRecentMatchingNews(limit);
+
+        // then
+        assertThat(responses).hasSizeLessThanOrEqualTo(limit);
+        assertThat(responses).allSatisfy(event -> {
+            assertThat(event).isNotNull();
+            assertThat(event.createdAt()).isNotNull();
+            assertThat(event.eventType()).isIn(MatchingEventType.MATCHING.getDescription(), MatchingEventType.CANDIDATE.getDescription());
+            assertThat(event.eventDescription()).isNotBlank();
+        });
+
+        // createdAt가 내림차순 정렬인지 검증 (앞이 크거나 같아야함)
+        for (int i = 0; i < responses.size() - 1; i++) {
+            LocalDateTime curr = responses.get(i).createdAt();
+            LocalDateTime next = responses.get(i + 1).createdAt();
+            assertThat(curr).isAfterOrEqualTo(next);
+        }
+
+    }
+
     private List<MatchingApplication> createMatchingApplication(Member requester) {
         List<MatchingApplication> matchingApplications = new ArrayList<>();
 
         for (int i = 1; i <= 10; i++) {
             var application = MatchingApplication.create(requester, MatchingType.IDEAL_MATCHING, 3);
+            ReflectionTestUtils.setField(application, "createdAt", LocalDateTime.now());
             if (i % 3 == 0) {
                 application.complete();
             } else if (i % 3 == 2) {
@@ -116,6 +158,18 @@ class MatchingServiceTest {
         }
 
         return matchingApplications;
+    }
+
+    private List<Candidate> createCandidates() {
+        List<Candidate> candidates = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            var member = MemberFixture.createMember((long) i);
+            var candidate = Candidate.create(member);
+            ReflectionTestUtils.setField(candidate, "createdAt", LocalDateTime.now());
+            candidates.add(candidate);
+        }
+        return candidates;
+
     }
 
 }

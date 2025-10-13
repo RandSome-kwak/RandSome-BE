@@ -1,5 +1,7 @@
 package org.kwakmunsu.randsome.domain.matching.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
@@ -16,6 +18,9 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
 
     private final MatchingApplicationJpaRepository matchingApplicationJpaRepository;
     private final MatchingApplicationQueryDslRepository matchingApplicationQueryDslRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public MatchingApplication save(MatchingApplication matchingApplication) {
@@ -42,6 +47,15 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
     @Override
     public List<MatchingApplication> findAllByRequesterIdAndStatusIn(Long requesterId, List<MatchingStatus> statuses) {
         return matchingApplicationJpaRepository.findAllByRequesterIdAndMatchingStatusIn(requesterId, statuses);
+    }
+
+    @Override
+    public List<MatchingApplication> findRecentApplicationByOrderByCreatedAtDesc(int limit) {
+        String jpql = "SELECT m FROM MatchingApplication m JOIN FETCH m.requester ORDER BY m.createdAt DESC";
+
+        return entityManager.createQuery(jpql, MatchingApplication.class)
+                .setMaxResults(limit)
+                .getResultList();
     }
 
     // Admin 전용 메서드

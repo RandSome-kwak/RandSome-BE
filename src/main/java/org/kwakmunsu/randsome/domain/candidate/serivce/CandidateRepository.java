@@ -13,6 +13,7 @@ public interface CandidateRepository {
     Candidate findById(Long id);
     Candidate findByIdWithMember(Long id);
     Optional<Candidate> findByMemberId(Long memberId);
+    List<Candidate> findRecentApplicationByOrderByCreatedAtDesc(int limit);
 
     // Admin 전용 메서드
     CandidateListResponse findAllByStatus(CandidateStatus status, int page);
