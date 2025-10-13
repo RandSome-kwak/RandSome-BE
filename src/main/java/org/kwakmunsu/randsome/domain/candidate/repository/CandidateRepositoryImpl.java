@@ -1,5 +1,7 @@
 package org.kwakmunsu.randsome.domain.candidate.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,9 @@ public class CandidateRepositoryImpl implements CandidateRepository {
 
     private final CandidateJpaRepository candidateJpaRepository;
     private final CandidateQueryDslRepository candidateQueryDslRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void save(Candidate candidate) {
@@ -39,6 +44,15 @@ public class CandidateRepositoryImpl implements CandidateRepository {
     @Override
     public Optional<Candidate> findByMemberId(Long memberId) {
         return candidateJpaRepository.findByMemberId(memberId);
+    }
+
+    @Override
+    public List<Candidate> findRecentApplicationByOrderByCreatedAtDesc(int limit) {
+        String jpql = "SELECT c FROM Candidate c JOIN FETCH c.member ORDER BY c.createdAt DESC";
+
+        return entityManager.createQuery(jpql, Candidate.class)
+                .setMaxResults(limit)
+                .getResultList();
     }
 
     // Admin 전용 메서드

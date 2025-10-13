@@ -9,15 +9,18 @@ import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.UNAUTHORIZ
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import org.kwakmunsu.randsome.domain.matching.controller.dto.MatchingApplicationRequest;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationListResponse;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingEventResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
@@ -148,5 +151,31 @@ public abstract class MatchingDocsController {
             )
             Long applicationId
     );
+
+
+    @Operation(
+            summary = "최근 매칭 소식 조회",
+            description = """
+                    ### 최근 5개의 매칭 소식을 조회합니다. (매칭 후보자 등록, 매칭 신청)
+                    - 인증이 필요하지 않습니다.
+                    - 최근 소식 5개를 생성일시 내림차순으로 정렬하여 반환합니다.
+                    - 200 OK 상태 코드와 함께 매칭 소식 목록을 반환합니다.
+                    """,
+            security = {}
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "최근 매칭 소식 조회 성공",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    array = @ArraySchema(
+                            schema = @Schema(implementation = MatchingEventResponse.class))
+            )
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<List<MatchingEventResponse>> getRecentMatchingNews();
 
 }

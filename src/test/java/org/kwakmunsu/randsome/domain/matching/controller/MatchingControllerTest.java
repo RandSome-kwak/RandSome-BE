@@ -12,10 +12,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
 import org.kwakmunsu.randsome.domain.matching.controller.dto.MatchingApplicationRequest;
+import org.kwakmunsu.randsome.domain.matching.enums.MatchingEventType;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationListResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationPreviewResponse;
+import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingEventResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingMemberResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
@@ -164,6 +166,37 @@ class MatchingControllerTest extends ControllerTestSupport {
                 .hasPathSatisfying("$.memberResponse[0].mbti", v -> v.assertThat().isEqualTo(first.mbti().name()))
                 .hasPathSatisfying("$.memberResponse[0].instagramId", v -> v.assertThat().isEqualTo(first.instagramId()))
                 .hasPathSatisfying("$.memberResponse[0].introduction", v -> v.assertThat().isEqualTo(first.introduction()));
+    }
+
+    @TestMember
+    @DisplayName("최근 매칭 소식을 조회한다.")
+    @Test
+    void getRecentNews() {
+        // given
+        var eventResponses = List.of(
+                MatchingEventResponse.from(MatchingEventType.MATCHING, "매칭 신청", LocalDateTime.now()),
+                MatchingEventResponse.from(MatchingEventType.CANDIDATE, "매칭 후보자 신청", LocalDateTime.now()),
+                MatchingEventResponse.from(MatchingEventType.MATCHING, "매칭 신청", LocalDateTime.now())
+        );
+
+        given(matchingService.getRecentMatchingNews(any(Integer.class))).willReturn(eventResponses);
+
+        // when & then
+        assertThat(mvcTester.get().uri("/api/v1/matching/recent-news")
+                .contentType(MediaType.APPLICATION_JSON))
+                .apply(print())
+                .hasStatusOk()
+                .bodyJson()
+                .hasPathSatisfying("$.length()", v -> v.assertThat().isEqualTo(eventResponses.size()))
+                .hasPathSatisfying("$[0].eventType", v -> v.assertThat().isEqualTo(MatchingEventType.MATCHING.getDescription()))
+                .hasPathSatisfying("$[0].eventDescription", v -> v.assertThat().isEqualTo("매칭 신청"))
+                .hasPathSatisfying("$[0].createdAt", v -> v.assertThat().isNotNull())
+                .hasPathSatisfying("$[1].eventType", v -> v.assertThat().isEqualTo(MatchingEventType.CANDIDATE.getDescription()))
+                .hasPathSatisfying("$[1].eventDescription", v -> v.assertThat().isEqualTo("매칭 후보자 신청"))
+                .hasPathSatisfying("$[1].createdAt", v -> v.assertThat().isNotNull())
+                .hasPathSatisfying("$[2].eventType", v -> v.assertThat().isEqualTo(MatchingEventType.MATCHING.getDescription()))
+                .hasPathSatisfying("$[2].eventDescription", v -> v.assertThat().isEqualTo("매칭 신청"))
+                .hasPathSatisfying("$[2].createdAt", v -> v.assertThat().isNotNull());
     }
 
 }
