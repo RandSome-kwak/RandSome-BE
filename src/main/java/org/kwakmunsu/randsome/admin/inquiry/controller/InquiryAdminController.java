@@ -6,7 +6,6 @@ import org.kwakmunsu.randsome.admin.inquiry.controller.dto.AnswerRegisterRequest
 import org.kwakmunsu.randsome.admin.inquiry.serivce.InquiryAdminService;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
-import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
