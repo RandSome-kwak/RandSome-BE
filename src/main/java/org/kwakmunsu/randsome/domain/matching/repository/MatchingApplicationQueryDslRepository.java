@@ -38,7 +38,7 @@ public class MatchingApplicationQueryDslRepository {
                                 matchingApplication.requestedCount.as("matchingCount"),
                                 payment.amount.as("price"),
                                 matchingApplication.createdAt.as("appliedAt"),
-                                matchingApplication.matchingStatus.as("status")
+                                matchingApplication.status.as("status")
                         ))
                 .from(matchingApplication)
                 .join(payment).on(matchingApplication.requester.id.eq(payment.member.id))
@@ -73,7 +73,7 @@ public class MatchingApplicationQueryDslRepository {
     private BooleanExpression statusEq(MatchingStatus status) {
         // 기본값 : PENDING
         MatchingStatus matchingStatus = status != null ? status : MatchingStatus.PENDING;
-        return matchingApplication.matchingStatus.eq(matchingStatus);
+        return matchingApplication.status.eq(matchingStatus);
     }
 
     private List<AdminMatchingApplicationPreviewResponse> getLimitedPage(List<AdminMatchingApplicationPreviewResponse> responses,

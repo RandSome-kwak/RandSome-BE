@@ -10,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface MatchingApplicationJpaRepository extends JpaRepository<MatchingApplication, Long> {
 
-    List<MatchingApplication> findAllByRequesterIdAndMatchingStatus(Long requesterId, MatchingStatus status);
+    List<MatchingApplication> findAllByRequesterIdAndStatus(Long requesterId, MatchingStatus status);
 
-    List<MatchingApplication> findAllByRequesterIdAndMatchingStatusIn(Long requesterId, List<MatchingStatus> statuses);
+    List<MatchingApplication> findAllByRequesterIdAndStatusIn(Long requesterId, List<MatchingStatus> statuses);
 
     @Query("SELECT ma FROM MatchingApplication ma " +
             "LEFT JOIN FETCH ma.matchings m " +
@@ -20,4 +20,5 @@ public interface MatchingApplicationJpaRepository extends JpaRepository<Matching
             "WHERE ma.id = :id")
     Optional<MatchingApplication> findByIdWithMatchings(@Param("id") Long id);
 
+    long countByStatus(MatchingStatus matchingStatus);
 }

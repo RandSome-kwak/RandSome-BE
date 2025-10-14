@@ -62,7 +62,7 @@ class MatchingServiceIntegrationTest {
                         MatchingApplication::getId,
                         MatchingApplication::getRequester,
                         MatchingApplication::getMatchingType,
-                        MatchingApplication::getMatchingStatus,
+                        MatchingApplication::getStatus,
                         MatchingApplication::getRequestedCount
                 )
                 .containsExactly(
