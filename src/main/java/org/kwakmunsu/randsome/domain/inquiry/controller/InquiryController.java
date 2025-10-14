@@ -1,14 +1,19 @@
 package org.kwakmunsu.randsome.domain.inquiry.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.inquiry.controller.dto.InquiryRegisterRequest;
+import org.kwakmunsu.randsome.domain.inquiry.controller.dto.InquiryUpdateRequest;
 import org.kwakmunsu.randsome.domain.inquiry.service.InquiryService;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
 import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +38,18 @@ public class InquiryController extends InquiryDocsController {
         InquiryListResponse response = inquiryService.getInquires(memberId);
 
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    @PatchMapping("/{inquiryId}")
+    public ResponseEntity<Void> updateInquiry(
+            @PathVariable Long inquiryId,
+            @AuthMember Long memberId,
+            @Valid @RequestBody InquiryUpdateRequest request
+    ) {
+        inquiryService.updateInquiry(request.toServiceRequest(inquiryId, memberId));
+
+        return ResponseEntity.ok().build();
     }
 
 }
