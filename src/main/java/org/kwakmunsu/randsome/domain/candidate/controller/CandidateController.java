@@ -1,7 +1,7 @@
 package org.kwakmunsu.randsome.domain.candidate.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.domain.candidate.serivce.CandidateService;
+import org.kwakmunsu.randsome.domain.candidate.service.CandidateService;
 import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

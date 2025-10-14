@@ -9,7 +9,7 @@ import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryReadResponse;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryRegisterServiceRequest;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

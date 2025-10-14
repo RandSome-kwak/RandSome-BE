@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.member.serivce;
+package org.kwakmunsu.randsome.domain.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileUpdateServiceRequest;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileUpdateServiceRequest;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

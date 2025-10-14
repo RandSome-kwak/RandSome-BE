@@ -9,7 +9,7 @@ import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
 import org.kwakmunsu.randsome.domain.member.repository.dto.MemberListResponse;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;

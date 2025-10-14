@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.auth.serivce;
+package org.kwakmunsu.randsome.domain.auth.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.enums.Role;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberService;
+import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.service.MemberService;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.kwakmunsu.randsome.global.jwt.JwtProvider;

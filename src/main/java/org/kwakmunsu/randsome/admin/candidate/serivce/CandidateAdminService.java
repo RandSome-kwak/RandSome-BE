@@ -9,7 +9,7 @@ import org.kwakmunsu.randsome.admin.candidate.serivce.dto.CandidateListReadServi
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidateListResponse;
-import org.kwakmunsu.randsome.domain.candidate.serivce.CandidateRepository;
+import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

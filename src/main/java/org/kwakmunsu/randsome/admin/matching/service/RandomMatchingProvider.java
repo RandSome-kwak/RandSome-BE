@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.serivce.CandidateRepository;
+import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.springframework.stereotype.Component;

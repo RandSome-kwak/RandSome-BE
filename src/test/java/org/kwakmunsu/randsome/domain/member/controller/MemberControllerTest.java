@@ -18,10 +18,10 @@ import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileUpdateServiceRequest;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
+import org.kwakmunsu.randsome.domain.member.service.dto.CheckResponse;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileResponse;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileUpdateServiceRequest;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberRegisterServiceRequest;
 import org.kwakmunsu.randsome.global.security.annotation.TestMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

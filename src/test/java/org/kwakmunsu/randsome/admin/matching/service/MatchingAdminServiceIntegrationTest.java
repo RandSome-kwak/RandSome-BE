@@ -19,9 +19,9 @@ import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplica
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;
-import org.kwakmunsu.randsome.domain.payment.serivce.PaymentRepository;
+import org.kwakmunsu.randsome.domain.payment.service.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;

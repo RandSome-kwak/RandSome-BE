@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.candidate.serivce;
+package org.kwakmunsu.randsome.domain.candidate.service;
 
 import java.util.List;
 import java.util.Optional;

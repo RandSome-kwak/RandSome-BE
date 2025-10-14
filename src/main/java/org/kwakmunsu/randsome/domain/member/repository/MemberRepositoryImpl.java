@@ -3,7 +3,7 @@ package org.kwakmunsu.randsome.domain.member.repository;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.repository.dto.MemberListResponse;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Repository;

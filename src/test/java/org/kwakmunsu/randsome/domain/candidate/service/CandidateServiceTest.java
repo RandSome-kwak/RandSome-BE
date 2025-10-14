@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.candidate.serivce;
+package org.kwakmunsu.randsome.domain.candidate.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.mockito.InjectMocks;

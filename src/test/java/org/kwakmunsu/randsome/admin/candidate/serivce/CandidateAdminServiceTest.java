@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.serivce.CandidateRepository;
+import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.enums.Role;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;

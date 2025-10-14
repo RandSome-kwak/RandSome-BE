@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.member.serivce;
+package org.kwakmunsu.randsome.domain.member.service;
 
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.repository.dto.MemberListResponse;

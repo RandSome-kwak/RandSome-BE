@@ -1,12 +1,12 @@
-package org.kwakmunsu.randsome.domain.member.serivce;
+package org.kwakmunsu.randsome.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileUpdateServiceRequest;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
+import org.kwakmunsu.randsome.domain.member.service.dto.CheckResponse;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileResponse;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileUpdateServiceRequest;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberRegisterServiceRequest;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.UnAuthenticationException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
