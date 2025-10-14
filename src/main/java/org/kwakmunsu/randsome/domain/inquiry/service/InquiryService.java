@@ -10,6 +10,8 @@ import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryRegisterServiceR
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
+import org.kwakmunsu.randsome.global.exception.ConflictException;
+import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +50,18 @@ public class InquiryService {
 
         // 답변이 완료된 문의글은 수정 불가
         inquiry.updateQuestion(request.title(), request.content());
+    }
+
+    @Transactional
+    public void delete(Long inquiryId, Long authorId) {
+        Inquiry inquiry = inquiryRepository.findByIdAndAuthorId(inquiryId, authorId);
+
+        if (inquiry.isAnswered()) {
+            throw new ConflictException(ErrorStatus.CANNOT_DELETE_ANSWERED_INQUIRY);
+        }
+
+        // 논리적 delete
+        inquiry.delete();
     }
 
 }

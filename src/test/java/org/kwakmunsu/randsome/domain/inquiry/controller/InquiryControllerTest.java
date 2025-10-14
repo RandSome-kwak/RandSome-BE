@@ -88,6 +88,19 @@ class InquiryControllerTest extends ControllerTestSupport {
         verify(inquiryService).update(any());
     }
 
+    @TestMember
+    @DisplayName("문의 내역을 삭제한다.")
+    @Test
+    void delete() {
+        // when
+        assertThat(mvcTester.delete().uri("/api/v1/inquiries/{inquiryId}", 1L))
+                .apply(print())
+                .hasStatus(HttpStatus.NO_CONTENT);
+
+        // then
+        verify(inquiryService).delete(1L, 1L);
+    }
+
     private List<InquiryReadResponse> createInquiryReadResponse(int count) {
         List<InquiryReadResponse> inquiryReadResponses = new ArrayList<>();
         for (long i = 1; i <= count; i++) {
