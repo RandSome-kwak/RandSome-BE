@@ -19,23 +19,15 @@ import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.kwakmunsu.randsome.global.exception.ForbiddenException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MatchingQueryServiceIntegrationTest {
-
-    @Autowired
-    private MatchingQueryService matchingQueryService;
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private MatchingApplicationRepository matchingApplicationRepository;
-
-    @Autowired
-    private MatchingRepository matchingRepository;
+record MatchingQueryServiceIntegrationTest(
+        MatchingQueryService matchingQueryService,
+        MemberRepository memberRepository,
+        MatchingApplicationRepository matchingApplicationRepository,
+        MatchingRepository matchingRepository
+) {
 
     @DisplayName("자신의 매칭 결과를 조회한다.")
     @Test

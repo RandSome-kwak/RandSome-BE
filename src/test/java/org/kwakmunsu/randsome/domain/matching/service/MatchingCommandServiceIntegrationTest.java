@@ -14,23 +14,15 @@ import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;
 import org.kwakmunsu.randsome.domain.payment.service.PaymentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MatchingCommandServiceIntegrationTest {
-
-    @Autowired
-    private MatchingCommandService matchingCommandService;
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private MatchingApplicationRepository matchingApplicationRepository;
-
-    @Autowired
-    private PaymentRepository paymentRepository;
+record MatchingCommandServiceIntegrationTest(
+        MatchingCommandService matchingCommandService,
+        MemberRepository memberRepository,
+        MatchingApplicationRepository matchingApplicationRepository,
+        PaymentRepository paymentRepository
+) {
 
     @DisplayName("매칭 신청을 한다.")
     @Test
