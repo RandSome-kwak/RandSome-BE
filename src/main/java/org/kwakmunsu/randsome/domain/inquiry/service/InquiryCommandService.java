@@ -1,11 +1,8 @@
 package org.kwakmunsu.randsome.domain.inquiry.service;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
-import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
-import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryReadResponse;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryRegisterServiceRequest;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
@@ -18,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class InquiryService {
+public class InquiryCommandService {
 
     private final InquiryRepository inquiryRepository;
     private final MemberRepository memberRepository;
@@ -32,16 +29,6 @@ public class InquiryService {
         log.info("[new Inquiry]. authorId = {}, title = {}, ", author.getId(), inquiry.getTitle());
 
         return saved.getId();
-    }
-
-    public InquiryListResponse getInquires(Long authorId) {
-        List<Inquiry> inquiries = inquiryRepository.findAllByAuthorId(authorId);
-
-        List<InquiryReadResponse> responses = inquiries.stream()
-                .map(InquiryReadResponse::from)
-                .toList();
-
-        return new InquiryListResponse(responses);
     }
 
     @Transactional

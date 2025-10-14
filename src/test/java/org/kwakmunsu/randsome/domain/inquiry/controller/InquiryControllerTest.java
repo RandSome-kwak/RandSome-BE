@@ -34,7 +34,7 @@ class InquiryControllerTest extends ControllerTestSupport {
                 .build();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        given(inquiryService.register(any())).willReturn(1L);
+        given(inquiryCommandService.register(any())).willReturn(1L);
 
         // when
         assertThat(mvcTester.post().uri("/api/v1/inquiries")
@@ -54,7 +54,7 @@ class InquiryControllerTest extends ControllerTestSupport {
         var inquiryCount = 10;
         var inquiryReadResponses = createInquiryReadResponse(inquiryCount);
         var inquiryListResponse = new InquiryListResponse(inquiryReadResponses);
-        given(inquiryService.getInquires(any(Long.class))).willReturn(inquiryListResponse);
+        given(inquiryQueryService.getInquires(any(Long.class))).willReturn(inquiryListResponse);
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/inquiries")
@@ -85,7 +85,7 @@ class InquiryControllerTest extends ControllerTestSupport {
                 .hasStatusOk();
 
         // then
-        verify(inquiryService).update(any());
+        verify(inquiryCommandService).update(any());
     }
 
     @TestMember
@@ -98,7 +98,7 @@ class InquiryControllerTest extends ControllerTestSupport {
                 .hasStatus(HttpStatus.NO_CONTENT);
 
         // then
-        verify(inquiryService).delete(1L, 1L);
+        verify(inquiryCommandService).delete(1L, 1L);
     }
 
     private List<InquiryReadResponse> createInquiryReadResponse(int count) {
