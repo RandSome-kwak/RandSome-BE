@@ -33,7 +33,7 @@ class InquiryServiceTest {
 
     @DisplayName("문의를 등록한다.")
     @Test
-    void registerInquiry() {
+    void register() {
         // given
         var author = MemberFixture.createMember(1L);
         var request = InquiryRegisterServiceRequest.builder()
@@ -48,7 +48,7 @@ class InquiryServiceTest {
         given(inquiryRepository.save(any(Inquiry.class))).willReturn(inquiry);
 
         // when
-        var inquiryId = inquiryService.registerInquiry(request);
+        var inquiryId = inquiryService.register(request);
 
         // then
         assertThat(inquiryId).isEqualTo(inquiry.getId());

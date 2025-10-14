@@ -27,7 +27,7 @@ public class InquiryController extends InquiryDocsController {
     @Override
     @PostMapping
     public ResponseEntity<Long> register(@AuthMember Long memberId, InquiryRegisterRequest request) {
-        Long inquiryId = inquiryService.registerInquiry(request.toServiceRequest(memberId));
+        Long inquiryId = inquiryService.register(request.toServiceRequest(memberId));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(inquiryId);
     }
@@ -47,7 +47,7 @@ public class InquiryController extends InquiryDocsController {
             @AuthMember Long memberId,
             @Valid @RequestBody InquiryUpdateRequest request
     ) {
-        inquiryService.updateInquiry(request.toServiceRequest(inquiryId, memberId));
+        inquiryService.update(request.toServiceRequest(inquiryId, memberId));
 
         return ResponseEntity.ok().build();
     }
