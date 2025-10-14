@@ -1,22 +1,20 @@
 package org.kwakmunsu.randsome.admin.statistics.controller;
 
-import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.*;
+import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.BAD_REQUEST;
+import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.FORBIDDEN_ERROR;
+import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.INTERNAL_SERVER_ERROR;
+import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.UNAUTHORIZED_ERROR;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsResponse;
-import org.kwakmunsu.randsome.admin.statistics.service.StatisticsAdminService;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
-import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Statistics Admin API", description = "관리자 통계 조회 API 문서입니다.")
 public abstract class StatisticsAdminDocsController {

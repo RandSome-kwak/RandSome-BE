@@ -1,8 +1,6 @@
 package org.kwakmunsu.randsome.domain.member;
 
-import java.util.Random;
 import java.util.UUID;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
