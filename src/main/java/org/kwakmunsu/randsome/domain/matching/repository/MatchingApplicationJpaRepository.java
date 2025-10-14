@@ -1,5 +1,6 @@
 package org.kwakmunsu.randsome.domain.matching.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
@@ -21,4 +22,6 @@ public interface MatchingApplicationJpaRepository extends JpaRepository<Matching
     Optional<MatchingApplication> findByIdWithMatchings(@Param("id") Long id);
 
     long countByStatus(MatchingStatus matchingStatus);
+
+    long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 }

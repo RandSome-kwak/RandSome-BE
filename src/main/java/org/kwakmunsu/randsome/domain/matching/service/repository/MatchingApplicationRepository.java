@@ -1,5 +1,6 @@
 package org.kwakmunsu.randsome.domain.matching.service.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
@@ -13,9 +14,9 @@ public interface MatchingApplicationRepository {
     List<MatchingApplication> findAllByRequesterIdAndStatus(Long requesterId, MatchingStatus status);
     List<MatchingApplication> findAllByRequesterIdAndStatusIn(Long requesterId, List<MatchingStatus> statuses);
     List<MatchingApplication> findRecentApplicationByOrderByCreatedAtDesc(int limit);
+    long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
     // Admin 전용 메서드
     AdminMatchingApplicationListResponse findAllByStatus(MatchingStatus status, int page);
     long countByStatus(MatchingStatus matchingStatus);
-
 }

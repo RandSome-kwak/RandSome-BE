@@ -2,6 +2,7 @@ package org.kwakmunsu.randsome.domain.matching.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
@@ -56,6 +57,10 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
         return entityManager.createQuery(jpql, MatchingApplication.class)
                 .setMaxResults(limit)
                 .getResultList();
+    }
+
+    public long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end) {
+        return matchingApplicationJpaRepository.countByCreatedAtBetween(start, end);
     }
 
     // Admin 전용 메서드

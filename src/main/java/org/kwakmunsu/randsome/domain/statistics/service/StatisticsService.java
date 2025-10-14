@@ -1,0 +1,31 @@
+package org.kwakmunsu.randsome.domain.statistics.service;
+
+import java.time.LocalDateTime;
+import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
+import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
+import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
+import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
+import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
+import org.kwakmunsu.randsome.domain.statistics.service.dto.MatchingStatisticsResponse;
+import org.springframework.stereotype.Service;
+
+@RequiredArgsConstructor
+@Service
+public class StatisticsService {
+
+    private final CandidateRepository candidateRepository;
+    private final MatchingApplicationRepository matchingApplicationRepository;
+
+    public MatchingStatisticsResponse getMatchingStatistics() {
+        LocalDateTime startOfToday = LocalDateTime.now().toLocalDate().atStartOfDay();
+        LocalDateTime endOfToday = startOfToday.plusDays(1).minusNanos(1);
+
+        long totalCandidateCount = candidateRepository.countByStatus(CandidateStatus.APPROVED);
+        long todayMatchingCount = matchingApplicationRepository.countByCreatedAtBetween(startOfToday, endOfToday);
+        long totalMatchingCount = matchingApplicationRepository.countByStatus(MatchingStatus.COMPLETED);
+
+        return MatchingStatisticsResponse.of(totalCandidateCount, todayMatchingCount, totalMatchingCount);
+    }
+
+}
