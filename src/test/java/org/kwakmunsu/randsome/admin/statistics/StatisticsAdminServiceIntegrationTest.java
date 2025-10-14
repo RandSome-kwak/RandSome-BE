@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.kwakmunsu.randsome.admin.statistics.service.StatisticsRepository;
 import org.kwakmunsu.randsome.admin.statistics.service.StatisticsAdminService;
+import org.kwakmunsu.randsome.admin.statistics.service.StatisticsRepository;
 import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsResponse;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.serivce.CandidateRepository;
