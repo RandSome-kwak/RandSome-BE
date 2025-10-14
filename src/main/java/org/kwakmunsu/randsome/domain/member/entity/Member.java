@@ -129,4 +129,8 @@ public class Member extends BaseEntity {
         this.refreshToken = refreshToken;
     }
 
+    public boolean hasNickname(String nickname) {
+        return this.nickname.equals(nickname);
+    }
+
 }

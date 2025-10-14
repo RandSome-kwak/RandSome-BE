@@ -5,12 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
+import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.UnAuthenticationException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,6 +30,24 @@ public class MemberService {
         Member member = request.toEntity(encodedPassword);
 
         return memberRepository.save(member).getId();
+    }
+
+    @Transactional
+    public void updateProfile(MemberProfileUpdateServiceRequest request) {
+        Member member = memberRepository.findById(request.memberId());
+
+        // 닉네임이 변경되었을 때만 중복 체크
+        if (!member.hasNickname(request.nickname())) {
+            checkedAlreadyNickname(request.nickname());
+        }
+
+        member.updateInfo(
+                request.nickname(),
+                request.mbti(),
+                request.instagramId(),
+                request.introduction(),
+                request.idealDescription()
+        );
     }
 
     public Member getMember(String loginId, String password) {
@@ -68,4 +88,5 @@ public class MemberService {
             throw new ConflictException(ErrorStatus.DUPLICATE_NICKNAME);
         }
     }
+
 }

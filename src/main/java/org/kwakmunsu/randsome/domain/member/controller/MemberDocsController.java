@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.kwakmunsu.randsome.domain.member.controller.dto.MemberProfileUpdateRequest;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
@@ -67,11 +68,11 @@ public abstract class MemberDocsController {
     @Operation(
             summary = "회원 프로필 조회 - [JWT O]",
             description = """
-                ### 로그인한 회원의 프로필 정보를 조회합니다.
-                - 회원의 기본 정보, 프로필 사진, 선호 설정 등을 포함합니다.
-                - 로그인한 본인의 프로필만 조회할 수 있습니다.
-                - 200 OK 상태 코드와 함께 프로필 정보를 반환합니다.
-                """,
+                    ### 로그인한 회원의 프로필 정보를 조회합니다.
+                    - 회원의 기본 정보, 프로필 사진, 선호 설정 등을 포함합니다.
+                    - 로그인한 본인의 프로필만 조회할 수 있습니다.
+                    - 200 OK 상태 코드와 함께 프로필 정보를 반환합니다.
+                    """,
             security = {@SecurityRequirement(name = "Bearer ")}
     )
     @ApiResponse(
@@ -145,5 +146,39 @@ public abstract class MemberDocsController {
             )
             String nickname
     );
+
+    @Operation(
+            summary = "회원 프로필 수정 - [JWT O]",
+            description = """
+                    ### 로그인한 회원의 프로필 정보를 수정합니다.
+                    - 닉네임, MBTI, 인스타그램 ID, 자기소개, 이상형 소개 등을 수정할 수 있습니다.
+                    - 요청 본문은 검증 규칙에 따라 유효성 검사를 수행합니다.
+                    - 200 OK 상태 코드를 반환합니다.
+                    """,
+            security = {@SecurityRequirement(name = "Bearer ")}
+    )
+    @RequestBody(
+            description = """
+                    회원 프로필 수정 요청 본문
+                    - 모든 필드는 필수입니다.
+                    """,
+            required = true,
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = MemberProfileUpdateRequest.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "회원 프로필 수정 성공"
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            UNAUTHORIZED_ERROR,
+            NOT_FOUND,
+            DUPLICATE_NICKNAME,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<Void> updateProfile(Long memberId, MemberProfileUpdateRequest request);
 
 }
