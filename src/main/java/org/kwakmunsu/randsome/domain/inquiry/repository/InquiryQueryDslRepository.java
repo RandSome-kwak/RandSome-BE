@@ -8,7 +8,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryReadAdminResponse;
 import org.springframework.stereotype.Repository;
@@ -21,7 +21,7 @@ public class InquiryQueryDslRepository {
     private static final int NEXT_PAGE_CHECK_SIZE = 1;
     private final JPAQueryFactory queryFactory;
 
-    public InquiryListAdminResponse findAllByState(InquiryState state, int page) {
+    public InquiryListAdminResponse findAllByState(InquiryStatus status, int page) {
         int offset = (page - 1) * PAGE_SIZE;
         int limit = PAGE_SIZE + NEXT_PAGE_CHECK_SIZE; // 다음 페이지 존재 여부 체크용
 
@@ -33,12 +33,12 @@ public class InquiryQueryDslRepository {
                         inquiry.title,
                         inquiry.content,
                         inquiry.answer,
-                        inquiry.state,
+                        inquiry.status,
                         inquiry.createdAt
                 ))
                 .from(inquiry)
                 .join(inquiry.author, member)
-                .where(stateEq(state))
+                .where(statusEq(status))
                 .orderBy(inquiry.createdAt.desc())
                 .offset(offset)
                 .limit(limit) // 다음 페이지 존재 여부 체크용
@@ -46,20 +46,20 @@ public class InquiryQueryDslRepository {
 
         boolean hasNext = responses.size() > PAGE_SIZE;
         List<InquiryReadAdminResponse> limitedPage = getLimitedPage(responses, hasNext);
-        Long totalCount = countByState(state);
+        Long totalCount = countByState(status);
 
         return new InquiryListAdminResponse(limitedPage, hasNext, totalCount);
     }
 
-    private BooleanExpression stateEq(InquiryState state) {
-        return state == null ? inquiry.state.eq(InquiryState.PENDING) : inquiry.state.eq(state);
+    private BooleanExpression statusEq(InquiryStatus state) {
+        return state == null ? inquiry.status.eq(InquiryStatus.PENDING) : inquiry.status.eq(state);
     }
 
-    private Long countByState(InquiryState state) {
+    private Long countByState(InquiryStatus state) {
         return queryFactory
                 .select(inquiry.countDistinct())
                 .from(inquiry)
-                .where(stateEq(state))
+                .where(statusEq(state))
                 .fetchOne();
     }
 

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
 import org.kwakmunsu.randsome.admin.inquiry.controller.dto.AnswerRegisterRequest;
-import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryReadAdminResponse;
 import org.kwakmunsu.randsome.global.security.annotation.TestAdmin;
@@ -53,12 +53,12 @@ class InquiryAdminControllerTest extends ControllerTestSupport {
                 .totalCount((long) responses.size())
                 .build();
 
-        given(inquiryAdminService.getInquires(any(InquiryState.class), any(Integer.class))).willReturn(response);
+        given(inquiryAdminService.getInquires(any(InquiryStatus.class), any(Integer.class))).willReturn(response);
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/inquiries")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("state", InquiryState.PENDING.name()))
+                .param("state", InquiryStatus.PENDING.name()))
                 .hasStatusOk()
                 .apply(print())
                 .bodyJson()
@@ -82,7 +82,7 @@ class InquiryAdminControllerTest extends ControllerTestSupport {
                         .authorNickname("nickname")
                         .title("title")
                         .content("content")
-                        .state(InquiryState.PENDING.getDescription())
+                        .state(InquiryStatus.PENDING.getDescription())
                         .createdAt(LocalDateTime.now())
                         .build(),
 
@@ -93,7 +93,7 @@ class InquiryAdminControllerTest extends ControllerTestSupport {
                         .title("title")
                         .content("content")
                         .answer("answer")
-                        .state(InquiryState.COMPLETED.getDescription())
+                        .state(InquiryStatus.COMPLETED.getDescription())
                         .createdAt(LocalDateTime.now())
                         .build()
         );

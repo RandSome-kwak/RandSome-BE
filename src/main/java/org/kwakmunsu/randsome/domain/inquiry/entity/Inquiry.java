@@ -12,7 +12,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.kwakmunsu.randsome.domain.BaseEntity;
-import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
@@ -34,7 +34,7 @@ public class Inquiry extends BaseEntity {
     private String content;
 
     @Enumerated(EnumType.STRING)
-    private InquiryState state;
+    private InquiryStatus status;
 
     @Column(length = 5000)
     private String answer;
@@ -45,14 +45,14 @@ public class Inquiry extends BaseEntity {
         inquiry.author = author;
         inquiry.title = title;
         inquiry.content = content;
-        inquiry.state = InquiryState.PENDING;
+        inquiry.status = InquiryStatus.PENDING;
         inquiry.answer = null;
 
         return inquiry;
     }
 
     public void updateQuestion(String newTitle, String newContent) {
-        if (this.state == InquiryState.COMPLETED) {
+        if (this.status == InquiryStatus.COMPLETED) {
             throw new ConflictException(ErrorStatus.CANNOT_MODIFY_ANSWERED_INQUIRY);
         }
 
@@ -61,7 +61,7 @@ public class Inquiry extends BaseEntity {
     }
 
     public void registerAnswer(String newAnswer) {
-        if (this.state == InquiryState.COMPLETED) {
+        if (this.status == InquiryStatus.COMPLETED) {
             throw new ConflictException(ErrorStatus.CANNOT_MODIFY_ANSWER);
         }
 
@@ -70,12 +70,12 @@ public class Inquiry extends BaseEntity {
     }
 
     public boolean isAnswered() {
-        return this.state == InquiryState.COMPLETED;
+        return this.status == InquiryStatus.COMPLETED;
     }
 
 
     private void completeAnswer() {
-        this.state = InquiryState.COMPLETED;
+        this.status = InquiryStatus.COMPLETED;
     }
 
 }

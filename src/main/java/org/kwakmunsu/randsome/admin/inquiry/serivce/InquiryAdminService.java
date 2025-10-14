@@ -2,7 +2,7 @@ package org.kwakmunsu.randsome.admin.inquiry.serivce;
 
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
-import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.serivce.InquiryRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class InquiryAdminService {
         inquiry.registerAnswer(answer);
     }
 
-    public InquiryListAdminResponse getInquires(InquiryState state, int page) {
+    public InquiryListAdminResponse getInquires(InquiryStatus state, int page) {
         return inquiryRepository.findAllByState(state, page);
     }
 
