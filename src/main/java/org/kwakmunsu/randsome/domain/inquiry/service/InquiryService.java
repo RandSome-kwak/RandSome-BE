@@ -21,7 +21,7 @@ public class InquiryService {
     private final InquiryRepository inquiryRepository;
     private final MemberRepository memberRepository;
 
-    public Long registerInquiry(InquiryRegisterServiceRequest request) {
+    public Long register(InquiryRegisterServiceRequest request) {
         Member author = memberRepository.findById(request.authorId());
 
         Inquiry inquiry = Inquiry.create(author, request.title(), request.content());
@@ -43,7 +43,7 @@ public class InquiryService {
     }
 
     @Transactional
-    public void updateInquiry(InquiryUpdateServiceRequest request) {
+    public void update(InquiryUpdateServiceRequest request) {
         Inquiry inquiry = inquiryRepository.findByIdAndAuthorId(request.inquiryId(), request.authorId());
 
         // 답변이 완료된 문의글은 수정 불가

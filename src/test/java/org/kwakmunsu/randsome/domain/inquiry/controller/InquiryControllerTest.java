@@ -34,7 +34,7 @@ class InquiryControllerTest extends ControllerTestSupport {
                 .build();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        given(inquiryService.registerInquiry(any())).willReturn(1L);
+        given(inquiryService.register(any())).willReturn(1L);
 
         // when
         assertThat(mvcTester.post().uri("/api/v1/inquiries")
@@ -85,7 +85,7 @@ class InquiryControllerTest extends ControllerTestSupport {
                 .hasStatusOk();
 
         // then
-        verify(inquiryService).updateInquiry(any());
+        verify(inquiryService).update(any());
     }
 
     private List<InquiryReadResponse> createInquiryReadResponse(int count) {

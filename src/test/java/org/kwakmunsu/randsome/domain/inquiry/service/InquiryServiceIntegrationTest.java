@@ -48,12 +48,12 @@ class InquiryServiceIntegrationTest {
 
     @DisplayName("답변이 등록되지 않은 자신의 문의 글을 수정한다. ")
     @Test
-    void updateInquiry() {
+    void update() {
         // given
         var request = getInquiryUpdateServiceRequest(inquiry.getId(), author.getId());
 
         // when
-        inquiryService.updateInquiry(request);
+        inquiryService.update(request);
         entityManager.flush();
 
         // then
@@ -72,7 +72,7 @@ class InquiryServiceIntegrationTest {
         var request = getInquiryUpdateServiceRequest(inquiry.getId(), author.getId());
 
         // when & then
-        assertThatThrownBy(() -> inquiryService.updateInquiry(request))
+        assertThatThrownBy(() -> inquiryService.update(request))
             .isInstanceOf(ConflictException.class);
     }
 
@@ -84,7 +84,7 @@ class InquiryServiceIntegrationTest {
         var request = getInquiryUpdateServiceRequest(inquiry.getId(), invalidAuthorId);
 
         // when & then
-        assertThatThrownBy(() -> inquiryService.updateInquiry(request))
+        assertThatThrownBy(() -> inquiryService.update(request))
             .isInstanceOf(NotFoundException.class);
     }
 
