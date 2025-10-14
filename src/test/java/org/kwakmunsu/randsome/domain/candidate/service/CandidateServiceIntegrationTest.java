@@ -9,24 +9,15 @@ import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;
 import org.kwakmunsu.randsome.domain.payment.service.PaymentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-//@Transactional
 @SpringBootTest
-class CandidateServiceIntegrationTest {
-
-    @Autowired
-    private CandidateService candidateService;
-
-    @Autowired
-    private CandidateRepository candidateRepository;
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private PaymentRepository paymentRepository;
+record CandidateServiceIntegrationTest(
+        CandidateService candidateService,
+        CandidateRepository candidateRepository,
+        MemberRepository memberRepository,
+        PaymentRepository paymentRepository
+) {
 
     @DisplayName("후보자 등록 성공 후 결제 정보가 등록된다.")
     @Test

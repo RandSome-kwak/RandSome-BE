@@ -11,22 +11,16 @@ import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileUpdateServiceRequest;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @SpringBootTest
-class MemberCommandServiceIntegrationTest {
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private MemberCommandService memberCommandService;
-
-    @Autowired
-    private EntityManager entityManager;
+record MemberCommandServiceIntegrationTest(
+        MemberRepository memberRepository,
+        MemberCommandService memberCommandService,
+        EntityManager entityManager
+) {
 
     @DisplayName("회원 정보를 업데이트한다.")
     @Test

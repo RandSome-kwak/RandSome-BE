@@ -9,26 +9,17 @@ import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @SpringBootTest
-class InquiryQueryServiceIntegrationTest {
-
-    @Autowired
-    private InquiryRepository inquiryRepository;
-
-    @Autowired
-    private  MemberRepository memberRepository;
-
-    @Autowired
-    private InquiryQueryService inquiryQueryService;
-
-    @Autowired
-    private EntityManager entityManager;
-
+record InquiryQueryServiceIntegrationTest(
+        InquiryQueryService inquiryQueryService,
+        InquiryRepository inquiryRepository,
+        MemberRepository memberRepository,
+        EntityManager entityManager
+) {
 
     @DisplayName("삭제된 문의 조회 확인 테스트")
     @Test
