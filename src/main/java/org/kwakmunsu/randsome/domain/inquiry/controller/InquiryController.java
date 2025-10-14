@@ -2,8 +2,8 @@ package org.kwakmunsu.randsome.domain.inquiry.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.inquiry.controller.dto.InquiryRegisterRequest;
-import org.kwakmunsu.randsome.domain.inquiry.serivce.InquiryService;
-import org.kwakmunsu.randsome.domain.inquiry.serivce.dto.InquiryListResponse;
+import org.kwakmunsu.randsome.domain.inquiry.service.InquiryService;
+import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
 import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

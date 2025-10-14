@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
-import org.kwakmunsu.randsome.domain.inquiry.serivce.InquiryRepository;
+import org.kwakmunsu.randsome.domain.inquiry.service.InquiryRepository;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Repository;

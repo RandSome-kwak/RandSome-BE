@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.inquiry.serivce;
+package org.kwakmunsu.randsome.domain.inquiry.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
-import org.kwakmunsu.randsome.domain.inquiry.serivce.dto.InquiryRegisterServiceRequest;
+import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryRegisterServiceRequest;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;

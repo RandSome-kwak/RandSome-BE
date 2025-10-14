@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
-import org.kwakmunsu.randsome.domain.inquiry.serivce.InquiryRepository;
+import org.kwakmunsu.randsome.domain.inquiry.service.InquiryRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;

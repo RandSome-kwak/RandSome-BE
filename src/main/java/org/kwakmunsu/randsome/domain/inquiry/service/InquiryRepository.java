@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.inquiry.serivce;
+package org.kwakmunsu.randsome.domain.inquiry.service;
 
 import java.util.List;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
