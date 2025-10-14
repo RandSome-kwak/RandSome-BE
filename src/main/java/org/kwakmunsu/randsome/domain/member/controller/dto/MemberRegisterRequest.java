@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberRegisterServiceRequest;
 
 @Schema(description = "회원 가입 요청 DTO")
 public record MemberRegisterRequest(

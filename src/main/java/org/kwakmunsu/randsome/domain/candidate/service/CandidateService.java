@@ -1,13 +1,13 @@
-package org.kwakmunsu.randsome.domain.candidate.serivce;
+package org.kwakmunsu.randsome.domain.candidate.service;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.enums.PaymentType;
-import org.kwakmunsu.randsome.domain.payment.serivce.dto.PaymentEvent;
+import org.kwakmunsu.randsome.domain.payment.service.dto.PaymentEvent;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.context.ApplicationEventPublisher;

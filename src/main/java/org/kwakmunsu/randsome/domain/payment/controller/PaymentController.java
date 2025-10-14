@@ -1,7 +1,7 @@
 package org.kwakmunsu.randsome.domain.payment.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.domain.payment.serivce.PaymentService;
+import org.kwakmunsu.randsome.domain.payment.service.PaymentService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

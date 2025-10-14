@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.auth.controller.dto.LoginRequest;
 import org.kwakmunsu.randsome.domain.auth.controller.dto.ReissueRequest;
-import org.kwakmunsu.randsome.domain.auth.serivce.AuthService;
+import org.kwakmunsu.randsome.domain.auth.service.AuthService;
 import org.kwakmunsu.randsome.global.jwt.dto.TokenResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

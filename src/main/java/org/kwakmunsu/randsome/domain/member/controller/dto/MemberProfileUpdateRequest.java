@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
-import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileUpdateServiceRequest;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileUpdateServiceRequest;
 
 @Schema(description = "회원 프로필 수정 요청 DTO")
 @Builder

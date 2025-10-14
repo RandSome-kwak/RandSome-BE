@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.candidate.serivce;
+package org.kwakmunsu.randsome.domain.candidate.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,9 +6,9 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;
-import org.kwakmunsu.randsome.domain.payment.serivce.PaymentRepository;
+import org.kwakmunsu.randsome.domain.payment.service.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

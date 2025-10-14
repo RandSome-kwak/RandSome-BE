@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.payment.serivce;
+package org.kwakmunsu.randsome.domain.payment.service;
 
 import java.util.List;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;

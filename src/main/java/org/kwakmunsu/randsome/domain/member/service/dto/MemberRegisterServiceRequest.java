@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.member.serivce.dto;
+package org.kwakmunsu.randsome.domain.member.service.dto;
 
 import lombok.Builder;
 import org.kwakmunsu.randsome.domain.member.entity.Member;

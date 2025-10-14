@@ -3,7 +3,7 @@ package org.kwakmunsu.randsome.domain.payment.repository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;
-import org.kwakmunsu.randsome.domain.payment.serivce.PaymentRepository;
+import org.kwakmunsu.randsome.domain.payment.service.PaymentRepository;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Repository;

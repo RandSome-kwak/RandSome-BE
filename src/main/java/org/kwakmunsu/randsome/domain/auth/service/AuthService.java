@@ -1,10 +1,10 @@
-package org.kwakmunsu.randsome.domain.auth.serivce;
+package org.kwakmunsu.randsome.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
-import org.kwakmunsu.randsome.domain.member.serivce.MemberService;
+import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.service.MemberService;
 import org.kwakmunsu.randsome.global.jwt.JwtProvider;
 import org.kwakmunsu.randsome.global.jwt.dto.TokenResponse;
 import org.springframework.stereotype.Service;
