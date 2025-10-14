@@ -32,7 +32,7 @@ class MatchingControllerTest extends ControllerTestSupport {
     @Test
     void apply() throws JsonProcessingException {
         // given
-        given(matchingService.applyMatching(any())).willReturn(1L);
+        given(matchingCommandService.applyMatching(any())).willReturn(1L);
         var request = new MatchingApplicationRequest(MatchingType.RANDOM_MATCHING, 3);
         String requestJson = objectMapper.writeValueAsString(request);
 
@@ -70,7 +70,7 @@ class MatchingControllerTest extends ControllerTestSupport {
                         )
                 )
         );
-        given(matchingService.getMatchingApplication(any(Long.class), any(MatchingStatus.class)))
+        given(matchingQueryService.getMatchingApplication(any(Long.class), any(MatchingStatus.class)))
                 .willReturn(response);
 
         // when & then
@@ -114,7 +114,7 @@ class MatchingControllerTest extends ControllerTestSupport {
                         )
                 )
         );
-        given(matchingService.getMatchingApplication(any(Long.class), any(MatchingStatus.class)))
+        given(matchingQueryService.getMatchingApplication(any(Long.class), any(MatchingStatus.class)))
                 .willReturn(response);
 
         // when & then
@@ -149,7 +149,7 @@ class MatchingControllerTest extends ControllerTestSupport {
                         new MatchingMemberResponse("nickname3", Mbti.ENFJ, "instargramId3", "introdution3")
                 ))
                 .build();
-        given(matchingService.getMatching(any(Long.class), any(Long.class))).willReturn(response);
+        given(matchingQueryService.getMatching(any(Long.class), any(Long.class))).willReturn(response);
 
         MatchingMemberResponse first = response.memberResponse().getFirst();
 
@@ -179,7 +179,7 @@ class MatchingControllerTest extends ControllerTestSupport {
                 MatchingEventResponse.from(MatchingEventType.MATCHING, "매칭 신청", LocalDateTime.now())
         );
 
-        given(matchingService.getRecentMatchingNews(any(Integer.class))).willReturn(eventResponses);
+        given(matchingQueryService.getRecentMatchingNews(any(Integer.class))).willReturn(eventResponses);
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/matching/recent-news")

@@ -29,7 +29,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
-class MatchingServiceTest {
+class MatchingQueryServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
@@ -44,7 +44,7 @@ class MatchingServiceTest {
     private ApplicationEventPublisher eventPublisher;
 
     @InjectMocks
-    private MatchingService matchingService;
+    private MatchingQueryService matchingQueryService;
 
     @DisplayName("승인 완료된 매칭 신청 목록을 조회한다.")
     @Test
@@ -60,7 +60,7 @@ class MatchingServiceTest {
                 .willReturn(completedApplications);
 
         // when
-        var matchingApplicationListResponse = matchingService.getMatchingApplication(requester.getId(), MatchingStatus.COMPLETED);
+        var matchingApplicationListResponse = matchingQueryService.getMatchingApplication(requester.getId(), MatchingStatus.COMPLETED);
 
         // then
         var applicationPreviewResponses = matchingApplicationListResponse.responses();
@@ -84,7 +84,7 @@ class MatchingServiceTest {
                 .willReturn(pendingAndFailApplications);
 
         // when
-        var matchingApplicationListResponse = matchingService.getMatchingApplication(requester.getId(), MatchingStatus.PENDING);
+        var matchingApplicationListResponse = matchingQueryService.getMatchingApplication(requester.getId(), MatchingStatus.PENDING);
 
         // then
         var applicationPreviewResponses = matchingApplicationListResponse.responses();
@@ -105,7 +105,7 @@ class MatchingServiceTest {
                 .willReturn(List.of());
 
         // when
-        var matchingApplicationListResponse = matchingService.getMatchingApplication(1L, MatchingStatus.COMPLETED);
+        var matchingApplicationListResponse = matchingQueryService.getMatchingApplication(1L, MatchingStatus.COMPLETED);
 
         // then
         var applicationPreviewResponses = matchingApplicationListResponse.responses();
@@ -123,7 +123,7 @@ class MatchingServiceTest {
         given(candidateRepository.findRecentApplicationByOrderByCreatedAtDesc(any(Integer.class))).willReturn(candidates);
         var limit = 5;
         // when
-        List<MatchingEventResponse> responses = matchingService.getRecentMatchingNews(limit);
+        List<MatchingEventResponse> responses = matchingQueryService.getRecentMatchingNews(limit);
 
         // then
         assertThat(responses).hasSizeLessThanOrEqualTo(limit);

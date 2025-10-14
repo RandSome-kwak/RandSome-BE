@@ -10,46 +10,23 @@ import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingEventType;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
-import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationListResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationPreviewResponse;
-import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationServiceRequest;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingEventResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingMemberResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
 import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
-import org.kwakmunsu.randsome.domain.member.entity.Member;
-import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
-import org.kwakmunsu.randsome.domain.payment.service.dto.PaymentEvent;
 import org.kwakmunsu.randsome.global.exception.ForbiddenException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class MatchingService {
+public class MatchingQueryService {
 
-    private final MemberRepository memberRepository;
     private final CandidateRepository candidateRepository;
     private final MatchingApplicationRepository matchingApplicationRepository;
-    private final ApplicationEventPublisher eventPublisher;
-
-    @Transactional
-    public Long applyMatching(MatchingApplicationServiceRequest request) {
-        MatchingType matchingType = request.type();
-        Member member = memberRepository.findById(request.memberId());
-
-        MatchingApplication application = createAndSaveApplication(member, matchingType, request.matchingCount());
-
-        log.info("[new MatchingApplication]. MatchingApplicationId = {}, memberId = {}", application.getId(), member.getId());
-
-        eventPublisher.publishEvent(new PaymentEvent(member, matchingType.toPaymentType(), request.matchingCount()));
-
-        return application.getId();
-    }
 
     /**
      * 자신의 매칭 결과 조회
@@ -94,11 +71,6 @@ public class MatchingService {
                 .sorted(Comparator.comparing(MatchingEventResponse::createdAt).reversed())
                 .limit(limit)
                 .toList();
-    }
-
-    private MatchingApplication createAndSaveApplication(Member member, MatchingType matchingType, int matchingCount) {
-        MatchingApplication matchingApplication = MatchingApplication.create(member, matchingType, matchingCount);
-        return matchingApplicationRepository.save(matchingApplication);
     }
 
     private List<MatchingApplication> findCompletedApplications(Long requesterId) {

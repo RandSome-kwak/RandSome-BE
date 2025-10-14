@@ -19,7 +19,8 @@ import org.kwakmunsu.randsome.domain.inquiry.controller.InquiryController;
 import org.kwakmunsu.randsome.domain.inquiry.service.InquiryCommandService;
 import org.kwakmunsu.randsome.domain.inquiry.service.InquiryQueryService;
 import org.kwakmunsu.randsome.domain.matching.controller.MatchingController;
-import org.kwakmunsu.randsome.domain.matching.service.MatchingService;
+import org.kwakmunsu.randsome.domain.matching.service.MatchingCommandService;
+import org.kwakmunsu.randsome.domain.matching.service.MatchingQueryService;
 import org.kwakmunsu.randsome.domain.member.controller.MemberController;
 import org.kwakmunsu.randsome.domain.member.service.MemberService;
 import org.kwakmunsu.randsome.global.security.TestSecurityConfig;
@@ -73,7 +74,10 @@ public abstract class ControllerTestSupport {
     protected InquiryAdminService inquiryAdminService;
 
     @MockitoBean
-    protected MatchingService matchingService;
+    protected MatchingQueryService matchingQueryService;
+
+    @MockitoBean
+    protected MatchingCommandService matchingCommandService;
 
     @MockitoBean
     protected MatchingAdminService matchingAdminService;

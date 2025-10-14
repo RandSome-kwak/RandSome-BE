@@ -25,4 +25,5 @@ public class InquiryQueryService {
         return new InquiryListResponse(responses);
     }
 
+
 }
