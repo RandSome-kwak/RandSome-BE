@@ -2,7 +2,7 @@ package org.kwakmunsu.randsome.domain.inquiry.controller.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import org.kwakmunsu.randsome.domain.inquiry.serivce.dto.InquiryRegisterServiceRequest;
+import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryRegisterServiceRequest;
 
 @Builder
 @Schema(description = "문의 등록 요청 DTO")

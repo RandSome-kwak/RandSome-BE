@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.inquiry.serivce.dto;
+package org.kwakmunsu.randsome.domain.inquiry.service.dto;
 
 import lombok.Builder;
 
