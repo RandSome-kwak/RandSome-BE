@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
@@ -31,14 +31,14 @@ class InquiryTest {
                         Inquiry::getAuthor,
                         Inquiry::getTitle,
                         Inquiry::getContent,
-                        Inquiry::getState,
+                        Inquiry::getStatus,
                         Inquiry::getAnswer
                 )
                 .containsExactly(
                         author,
                         title,
                         content,
-                        InquiryState.PENDING,
+                        InquiryStatus.PENDING,
                         null
                 );
     }
@@ -65,14 +65,14 @@ class InquiryTest {
         // given
         var newAnswer = "답변 내용";
 
-        assertThat(inquiry).extracting(Inquiry::getState, Inquiry::getAnswer)
-                .containsExactly(InquiryState.PENDING, null);
+        assertThat(inquiry).extracting(Inquiry::getStatus, Inquiry::getAnswer)
+                .containsExactly(InquiryStatus.PENDING, null);
         // when
         inquiry.registerAnswer(newAnswer);
 
         // then
-        assertThat(inquiry).extracting(Inquiry::getState, Inquiry::getAnswer)
-                .containsExactly(InquiryState.COMPLETED, newAnswer);
+        assertThat(inquiry).extracting(Inquiry::getStatus, Inquiry::getAnswer)
+                .containsExactly(InquiryStatus.COMPLETED, newAnswer);
     }
 
     @DisplayName("답변이 완료된 문의의 내용을 수정할 수 없다.")

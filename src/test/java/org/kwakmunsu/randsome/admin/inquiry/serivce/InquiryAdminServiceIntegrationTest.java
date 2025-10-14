@@ -2,12 +2,12 @@ package org.kwakmunsu.randsome.admin.inquiry.serivce;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState.PENDING;
+import static org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus.PENDING;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
-import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.serivce.InquiryRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
@@ -53,12 +53,12 @@ class InquiryAdminServiceIntegrationTest {
         assertThat(result).extracting(
                         Inquiry::getAnswer,
                         Inquiry::isAnswered,
-                        Inquiry::getState
+                        Inquiry::getStatus
                 )
                 .containsExactly(
                         answer,
                         true,
-                        InquiryState.COMPLETED
+                        InquiryStatus.COMPLETED
                 );
     }
 
@@ -126,7 +126,7 @@ class InquiryAdminServiceIntegrationTest {
         createAndSaveInquiries(totalInquiries, author);
 
         // when
-        InquiryListAdminResponse response = inquiryAdminService.getInquires(InquiryState.COMPLETED, 1);
+        InquiryListAdminResponse response = inquiryAdminService.getInquires(InquiryStatus.COMPLETED, 1);
 
         // then
         assertThat(response.responses()).hasSize(15);  // 30개 중 15개가 COMPLETED (짝수 인덱스)
@@ -135,7 +135,7 @@ class InquiryAdminServiceIntegrationTest {
 
         // 모든 문의가 COMPLETED 상태이고 답변이 있는지 확인
         assertThat(response.responses())
-                .allMatch(inquiry -> inquiry.state().equals(InquiryState.COMPLETED.getDescription()))
+                .allMatch(inquiry -> inquiry.state().equals(InquiryStatus.COMPLETED.getDescription()))
                 .allMatch(inquiry -> inquiry.answer() != null);
     }
 

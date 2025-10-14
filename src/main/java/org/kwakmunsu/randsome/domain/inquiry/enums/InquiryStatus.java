@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum InquiryState {
+public enum InquiryStatus {
 
     PENDING  ("대기"),
     COMPLETED("완료"),

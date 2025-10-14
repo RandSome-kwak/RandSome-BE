@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.randsome.admin.inquiry.controller.dto.AnswerRegisterRequest;
-import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
@@ -86,7 +86,7 @@ public abstract class InquiryAdminDocsController {
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<InquiryListAdminResponse> getInquires(
-            InquiryState state,
+            InquiryStatus state,
             int page
     );
 

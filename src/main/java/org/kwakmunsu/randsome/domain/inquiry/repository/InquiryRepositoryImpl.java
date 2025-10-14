@@ -3,7 +3,7 @@ package org.kwakmunsu.randsome.domain.inquiry.repository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
-import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.serivce.InquiryRepository;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
@@ -34,7 +34,7 @@ public class InquiryRepositoryImpl implements InquiryRepository {
     }
 
     @Override
-    public InquiryListAdminResponse findAllByState(InquiryState state, int page) {
+    public InquiryListAdminResponse findAllByState(InquiryStatus state, int page) {
         return inquiryQueryDslRepository.findAllByState(state, page);
     }
 }

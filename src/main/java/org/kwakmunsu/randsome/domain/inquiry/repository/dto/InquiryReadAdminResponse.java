@@ -3,7 +3,7 @@ package org.kwakmunsu.randsome.domain.inquiry.repository.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.Builder;
-import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryState;
+import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 
 @Builder
 @Schema(description = "관리자용 문의 상세 응답 DTO")
@@ -40,7 +40,7 @@ public record InquiryReadAdminResponse(
             String title,
             String content,
             String answer,
-            InquiryState stateEnum,
+            InquiryStatus stateEnum,
             LocalDateTime createdAt
     ) {
         this(
