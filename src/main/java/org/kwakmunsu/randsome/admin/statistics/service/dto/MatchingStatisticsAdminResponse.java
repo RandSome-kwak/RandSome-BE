@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Schema(description = "매칭 통계 응답 DTO")
 @Builder
-public record MatchingStatisticsResponse(
+public record MatchingStatisticsAdminResponse(
         @Schema(description = "총 회원 수", example = "1500")
         long totalMemberCount,
 
@@ -19,13 +19,13 @@ public record MatchingStatisticsResponse(
         long pendingApprovalsCount      // 승인 대기 수 (후보자, 매칭 신청, 문의 등)
 ) {
 
-    public static MatchingStatisticsResponse of(
+    public static MatchingStatisticsAdminResponse of(
             long totalMemberCount,
             long totalCandidateCount,
             long totalMatchingCount,
             long pendingApprovals
     ) {
-        return MatchingStatisticsResponse.builder()
+        return MatchingStatisticsAdminResponse.builder()
                 .totalMemberCount(totalMemberCount)
                 .totalCandidateCount(totalCandidateCount)
                 .totalMatchingCount(totalMatchingCount)

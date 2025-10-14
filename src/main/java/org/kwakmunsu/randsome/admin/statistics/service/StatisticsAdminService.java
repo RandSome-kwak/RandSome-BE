@@ -1,7 +1,7 @@
 package org.kwakmunsu.randsome.admin.statistics.service;
 
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsResponse;
+import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsAdminResponse;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
@@ -18,7 +18,7 @@ public class StatisticsAdminService {
     private final MatchingApplicationRepository matchingApplicationRepository;
     private final StatisticsRepository statisticsRepository;
 
-    public MatchingStatisticsResponse getMatchingStatistics() {
+    public MatchingStatisticsAdminResponse getMatchingStatistics() {
         long totalMemberCount = memberRepository.count();
         long totalCandidateCount = candidateRepository.countByStatus(CandidateStatus.APPROVED);
         long totalMatchingCount = matchingApplicationRepository.countByStatus(MatchingStatus.COMPLETED);
@@ -27,7 +27,7 @@ public class StatisticsAdminService {
         String pending = "PENDING";
         long pendingApprovals = statisticsRepository.findPendingApprovals(pending);
 
-        return MatchingStatisticsResponse.of(
+        return MatchingStatisticsAdminResponse.of(
                 totalMemberCount,
                 totalCandidateCount,
                 totalMatchingCount,
