@@ -17,7 +17,7 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
             SELECT
               (SELECT COUNT(*) FROM candidates WHERE status = :pendingStatus)
             + (SELECT COUNT(*) FROM matching_applications WHERE status = :pendingStatus)
-            + (SELECT COUNT(*) FROM inquiries WHERE status = :pendingStatus)
+            + (SELECT COUNT(*) FROM inquiries WHERE status = :pendingStatus AND is_deleted = false) 
         """;
         Object result = entityManager.createNativeQuery(sql)
                 .setParameter("pendingStatus", pendingStatus)
