@@ -9,10 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
-import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.service.dto.CheckResponse;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileResponse;
-import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.mockito.InjectMocks;
@@ -21,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
-class MemberServiceTest {
+class MemberQueryServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
@@ -30,52 +28,7 @@ class MemberServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private MemberService memberService;
-
-    @DisplayName("회원 가입에 성공한다.")
-    @Test
-    void register() {
-        // given
-        var member = MemberFixture.createMember(1L);
-        var request = MemberFixture.createMemberRegisterRequest();
-
-        given(memberRepository.save(any(Member.class))).willReturn(member);
-        given(memberRepository.existsByLoginId(any(String.class))).willReturn(false);
-        given(memberRepository.existsByNickname(any(String.class))).willReturn(false);
-
-        // when
-        Long memberId = memberService.register(request.toServiceRequest());
-
-        // then
-        assertThat(memberId).isEqualTo(member.getId());
-    }
-
-    @DisplayName("닉네임이 중복되어 회원 가입에 실패한다")
-    @Test
-    void failRegisterWhenAlreadyExistsNickname() {
-        // given
-        var request = MemberFixture.createMemberRegisterRequest();
-
-        given(memberRepository.existsByLoginId(any(String.class))).willReturn(false);
-        given(memberRepository.existsByNickname(any(String.class))).willReturn(true);
-
-        // when & then
-        assertThatThrownBy(() -> memberService.register(request.toServiceRequest()))
-                .isInstanceOf(ConflictException.class);
-    }
-
-    @DisplayName("로그인 아이디가 중복되어 회원 가입에 실패한다")
-    @Test
-    void failRegisterWhenAlreadyExistsLoginId() {
-        // given
-        var request = MemberFixture.createMemberRegisterRequest();
-
-        given(memberRepository.existsByLoginId(any(String.class))).willReturn(true);
-
-        // when & then
-        assertThatThrownBy(() -> memberService.register(request.toServiceRequest()))
-                .isInstanceOf(ConflictException.class);
-    }
+    private MemberQueryService memberQueryService;
 
     @DisplayName("로그인 아이디 중복 체크를 한다")
     @Test
@@ -84,7 +37,7 @@ class MemberServiceTest {
         given(memberRepository.existsByLoginId(any(String.class))).willReturn(false);
 
         // when
-        CheckResponse response = memberService.isLoginIdAvailable("test");
+        CheckResponse response = memberQueryService.isLoginIdAvailable("test");
 
         // then
         assertThat(response.available()).isTrue();
@@ -97,7 +50,7 @@ class MemberServiceTest {
         given(memberRepository.existsByNickname(any(String.class))).willReturn(false);
 
         // when
-        CheckResponse response = memberService.isNicknameAvailable("test");
+        CheckResponse response = memberQueryService.isNicknameAvailable("test");
 
         // then
         assertThat(response.available()).isTrue();
@@ -111,7 +64,7 @@ class MemberServiceTest {
         given(memberRepository.findById(any(Long.class))).willReturn(member);
 
         // when
-        MemberProfileResponse response = memberService.getProfile(1L);
+        MemberProfileResponse response = memberQueryService.getProfile(1L);
 
         // then
         assertThat(response).extracting(
@@ -143,7 +96,7 @@ class MemberServiceTest {
         given(memberRepository.findById(any(Long.class))).willThrow(new NotFoundException(ErrorStatus.NOT_FOUND));
 
         // when & then
-        assertThatThrownBy(() -> memberService.getProfile(1L))
+        assertThatThrownBy(() -> memberQueryService.getProfile(1L))
                 .isInstanceOf(NotFoundException.class);
 
     }

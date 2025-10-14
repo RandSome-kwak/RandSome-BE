@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.enums.Role;
+import org.kwakmunsu.randsome.domain.member.service.MemberQueryService;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
-import org.kwakmunsu.randsome.domain.member.service.MemberService;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.kwakmunsu.randsome.global.jwt.JwtProvider;
@@ -24,7 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class AuthServiceTest {
 
     @Mock
-    private MemberService memberService;
+    private MemberQueryService memberQueryService;
 
     @Mock
     private MemberRepository memberRepository;
@@ -41,7 +41,7 @@ class AuthServiceTest {
         // given
         var member = MemberFixture.createMember(1L);
         var tokenResponse = new TokenResponse("accessToken", "refreshToken");
-        given(memberService.getMember(any(String.class), any(String.class))).willReturn(member);
+        given(memberQueryService.getMember(any(String.class), any(String.class))).willReturn(member);
         given(jwtProvider.createTokens(any(Long.class), any(Role.class))).willReturn(tokenResponse);
 
         // when
@@ -59,7 +59,7 @@ class AuthServiceTest {
     @Test
     void failLogin() {
         // given
-        given(memberService.getMember(any(String.class), any(String.class)))
+        given(memberQueryService.getMember(any(String.class), any(String.class)))
                 .willThrow(new NotFoundException(ErrorStatus.NOT_FOUND));
 
         // when & then
