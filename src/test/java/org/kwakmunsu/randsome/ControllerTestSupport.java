@@ -22,7 +22,8 @@ import org.kwakmunsu.randsome.domain.matching.controller.MatchingController;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingCommandService;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingQueryService;
 import org.kwakmunsu.randsome.domain.member.controller.MemberController;
-import org.kwakmunsu.randsome.domain.member.service.MemberService;
+import org.kwakmunsu.randsome.domain.member.service.MemberCommandService;
+import org.kwakmunsu.randsome.domain.member.service.MemberQueryService;
 import org.kwakmunsu.randsome.global.security.TestSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -53,7 +54,10 @@ public abstract class ControllerTestSupport {
     protected ObjectMapper objectMapper;
 
     @MockitoBean
-    protected MemberService memberService;
+    protected MemberQueryService memberQueryService;
+
+    @MockitoBean
+    protected MemberCommandService memberCommandService;
 
     @MockitoBean
     protected MemberAdminService memberAdminService;

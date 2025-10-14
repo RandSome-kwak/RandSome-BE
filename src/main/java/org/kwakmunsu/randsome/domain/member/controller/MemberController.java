@@ -4,7 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberProfileUpdateRequest;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
-import org.kwakmunsu.randsome.domain.member.service.MemberService;
+import org.kwakmunsu.randsome.domain.member.service.MemberCommandService;
+import org.kwakmunsu.randsome.domain.member.service.MemberQueryService;
 import org.kwakmunsu.randsome.domain.member.service.dto.CheckResponse;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileResponse;
 import org.kwakmunsu.randsome.global.annotation.AuthMember;
@@ -23,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MemberController extends MemberDocsController {
 
-    private final MemberService memberService;
+    private final MemberQueryService memberQueryService;
+    private final MemberCommandService memberCommandService;
 
     @Override
     @PostMapping("/sign-up")
     public ResponseEntity<Long> register(@Valid @RequestBody MemberRegisterRequest request) {
-        Long memberId = memberService.register(request.toServiceRequest());
+        Long memberId = memberCommandService.register(request.toServiceRequest());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(memberId);
     }
@@ -36,7 +38,7 @@ public class MemberController extends MemberDocsController {
     @Override
     @GetMapping("/profile")
     public ResponseEntity<MemberProfileResponse> getProfile(@AuthMember Long memberId) {
-        MemberProfileResponse response = memberService.getProfile(memberId);
+        MemberProfileResponse response = memberQueryService.getProfile(memberId);
 
         return ResponseEntity.ok(response);
     }
@@ -46,7 +48,7 @@ public class MemberController extends MemberDocsController {
             @AuthMember Long memberId,
             @Valid @RequestBody MemberProfileUpdateRequest request
     ) {
-        memberService.updateProfile(request.toServiceRequest(memberId));
+        memberCommandService.updateProfile(request.toServiceRequest(memberId));
 
         return ResponseEntity.ok().build();
     }
@@ -54,7 +56,7 @@ public class MemberController extends MemberDocsController {
     @Override
     @GetMapping("/check-login-id")
     public ResponseEntity<CheckResponse> checkLoginId(@RequestParam String loginId) {
-        CheckResponse response = memberService.isLoginIdAvailable(loginId);
+        CheckResponse response = memberQueryService.isLoginIdAvailable(loginId);
 
         return ResponseEntity.ok(response);
     }
@@ -62,7 +64,7 @@ public class MemberController extends MemberDocsController {
     @Override
     @GetMapping("/check-nickname")
     public ResponseEntity<CheckResponse> checkNickname(@RequestParam String nickname) {
-        CheckResponse response = memberService.isNicknameAvailable(nickname);
+        CheckResponse response = memberQueryService.isNicknameAvailable(nickname);
 
         return ResponseEntity.ok(response);
     }

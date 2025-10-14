@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @SpringBootTest
-class MemberServiceIntegrationTest {
+class MemberCommandServiceIntegrationTest {
 
     @Autowired
     private MemberRepository memberRepository;
 
     @Autowired
-    private MemberService memberService;
+    private MemberCommandService memberCommandService;
 
     @Autowired
     private EntityManager entityManager;
@@ -39,7 +39,7 @@ class MemberServiceIntegrationTest {
                 member.getIdealDescription());
 
         // when
-        memberService.updateProfile(request);
+        memberCommandService.updateProfile(request);
 
         entityManager.flush();
         // then
@@ -72,7 +72,7 @@ class MemberServiceIntegrationTest {
                 member1.getIdealDescription());
 
         // when & then
-        assertThatThrownBy(() -> memberService.updateProfile(request))
+        assertThatThrownBy(() -> memberCommandService.updateProfile(request))
                 .isInstanceOf(ConflictException.class);
     }
 

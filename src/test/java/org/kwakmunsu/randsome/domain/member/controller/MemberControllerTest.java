@@ -35,7 +35,7 @@ class MemberControllerTest extends ControllerTestSupport {
         var request = MemberFixture.createMemberRegisterRequest();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        given(memberService.register(any(MemberRegisterServiceRequest.class))).willReturn(1L);
+        given(memberCommandService.register(any(MemberRegisterServiceRequest.class))).willReturn(1L);
 
         // when & then
         assertThat(mvcTester.post().uri("/api/v1/members/sign-up")
@@ -104,7 +104,7 @@ class MemberControllerTest extends ControllerTestSupport {
         // given
         var loginId = "testLoginId";
 
-        given(memberService.isLoginIdAvailable(loginId)).willReturn(new CheckResponse(true));
+        given(memberQueryService.isLoginIdAvailable(loginId)).willReturn(new CheckResponse(true));
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/members/check-login-id")
@@ -121,7 +121,7 @@ class MemberControllerTest extends ControllerTestSupport {
         // given
         var nickname = "testNickname";
 
-        given(memberService.isNicknameAvailable(nickname)).willReturn(new CheckResponse(true));
+        given(memberQueryService.isNicknameAvailable(nickname)).willReturn(new CheckResponse(true));
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/members/check-nickname")
@@ -140,7 +140,7 @@ class MemberControllerTest extends ControllerTestSupport {
         Member member = MemberFixture.createMember();
         var response = MemberProfileResponse.from(member);
 
-        given(memberService.getProfile(any(Long.class))).willReturn(response);
+        given(memberQueryService.getProfile(any(Long.class))).willReturn(response);
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/members/profile")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -179,7 +179,7 @@ class MemberControllerTest extends ControllerTestSupport {
                 .hasStatusOk();
 
         // then
-        verify(memberService).updateProfile(any(MemberProfileUpdateServiceRequest.class));
+        verify(memberCommandService).updateProfile(any(MemberProfileUpdateServiceRequest.class));
     }
 
 }
