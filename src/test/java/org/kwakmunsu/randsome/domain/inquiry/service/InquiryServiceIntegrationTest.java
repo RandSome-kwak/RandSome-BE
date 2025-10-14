@@ -1,9 +1,11 @@
 package org.kwakmunsu.randsome.domain.inquiry.service;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import jakarta.persistence.EntityManager;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -86,6 +88,30 @@ class InquiryServiceIntegrationTest {
         // when & then
         assertThatThrownBy(() -> inquiryService.update(request))
             .isInstanceOf(NotFoundException.class);
+    }
+
+    @DisplayName("답변이 등록되지 않은 자신의 문의글을 삭제할 수 있다.")
+    @Test
+    void delete() {
+        // when
+        inquiryService.delete(inquiry.getId(), author.getId());
+        entityManager.flush();
+
+        // then
+        var deleted = inquiryRepository.findById(inquiry.getId());
+        assertThat(deleted.isDeleted()).isTrue();
+    }
+
+    @DisplayName("답변이 등록되었을 경우 문의글을 삭제할 수 없다.")
+    @Test
+    void failDelete() {
+        // given
+        inquiry.registerAnswer("answer");
+        entityManager.flush();
+
+        // when & then
+        assertThatThrownBy(() -> inquiryService.delete(inquiry.getId(), author.getId()))
+            .isInstanceOf(ConflictException.class);
     }
 
     private InquiryUpdateServiceRequest getInquiryUpdateServiceRequest(Long inquiryId, Long authorId) {

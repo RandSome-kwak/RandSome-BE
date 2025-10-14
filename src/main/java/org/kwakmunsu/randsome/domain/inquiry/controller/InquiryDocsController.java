@@ -116,4 +116,27 @@ public abstract class InquiryDocsController {
     })
     public abstract ResponseEntity<Void> updateInquiry(Long inquiryId, Long memberId, InquiryUpdateRequest request);
 
+    @Operation(
+            summary = "문의 삭제 - [JWT O]",
+            description = """
+                    ### 회원이 자신의 문의를 삭제합니다.
+                    - 로그인한 회원만 자신의 문의를 삭제할 수 있습니다.
+                    - 204 No Content 상태 코드를 반환합니다.
+                    - 답변이 등록된 문의는 삭제할 수 없습니다.
+                    """,
+            security = {@SecurityRequirement(name = "Bearer ")}
+    )
+    @ApiResponse(
+            responseCode = "204",
+            description = "문의 삭제 성공"
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            UNAUTHORIZED_ERROR,
+            FORBIDDEN_ERROR,
+            NOT_FOUND,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<Void> deleteInquiry(Long inquiryId, Long memberId);
+
 }
