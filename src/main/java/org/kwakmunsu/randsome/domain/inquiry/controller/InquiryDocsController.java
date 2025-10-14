@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.randsome.domain.inquiry.controller.dto.InquiryRegisterRequest;
+import org.kwakmunsu.randsome.domain.inquiry.controller.dto.InquiryUpdateRequest;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
@@ -82,5 +83,37 @@ public abstract class InquiryDocsController {
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<InquiryListResponse> getInquires(Long memberId);
+
+
+    @Operation(
+            summary = "문의 수정 - [JWT O]",
+            description = """
+                    ### 회원이 자신의 문의를 수정합니다.
+                    - 로그인한 회원만 자신의 문의를 수정할 수 있습니다.
+                    - 문의 제목, 내용 을 입력합니다.
+                    - 204 No Content 상태 코드를 반환합니다.
+                    - 답변이 등록된 문의는 수정할 수 없습니다.
+                    """,
+            security = {@SecurityRequirement(name = "Bearer ")}
+    )
+    @RequestBody(
+            required = true,
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = InquiryUpdateRequest.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "문의 수정 성공"
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            UNAUTHORIZED_ERROR,
+            FORBIDDEN_ERROR,
+            NOT_FOUND,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<Void> updateInquiry(Long inquiryId, Long memberId, InquiryUpdateRequest request);
 
 }

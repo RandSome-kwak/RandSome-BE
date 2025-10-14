@@ -8,10 +8,9 @@ import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResp
 public interface InquiryRepository {
 
     Inquiry save(Inquiry inquiry);
-
     List<Inquiry> findAllByAuthorId(Long authorId);
-
     Inquiry findById(Long id);
-
     InquiryListAdminResponse findAllByState(InquiryStatus state, int page);
+    Inquiry findByIdAndAuthorId(Long id, Long authorId);
+
 }

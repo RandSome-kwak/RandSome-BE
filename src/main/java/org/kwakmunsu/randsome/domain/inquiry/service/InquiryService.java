@@ -7,9 +7,11 @@ import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryReadResponse;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryRegisterServiceRequest;
+import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,6 +40,14 @@ public class InquiryService {
                 .toList();
 
         return new InquiryListResponse(responses);
+    }
+
+    @Transactional
+    public void updateInquiry(InquiryUpdateServiceRequest request) {
+        Inquiry inquiry = inquiryRepository.findByIdAndAuthorId(request.inquiryId(), request.authorId());
+
+        // 답변이 완료된 문의글은 수정 불가
+        inquiry.updateQuestion(request.title(), request.content());
     }
 
 }

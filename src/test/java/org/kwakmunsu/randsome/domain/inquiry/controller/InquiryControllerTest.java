@@ -3,6 +3,7 @@ package org.kwakmunsu.randsome.domain.inquiry.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
 import org.kwakmunsu.randsome.domain.inquiry.controller.dto.InquiryRegisterRequest;
+import org.kwakmunsu.randsome.domain.inquiry.controller.dto.InquiryUpdateRequest;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryReadResponse;
 import org.kwakmunsu.randsome.global.security.annotation.TestMember;
@@ -62,6 +64,28 @@ class InquiryControllerTest extends ControllerTestSupport {
                 .bodyJson()
                 .hasPathSatisfying("$.inquiries", inquiries ->
                         assertThat(inquiries).asList().hasSize(inquiryCount));
+    }
+
+    @TestMember
+    @DisplayName("자신의 문의를 수정한다.")
+    @Test
+    void updateInquiry() throws JsonProcessingException {
+        // given
+        var request = InquiryUpdateRequest.builder()
+                .title("수정된 문의 제목")
+                .content("수정된 문의 내용")
+                .build();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        // when
+        assertThat(mvcTester.patch().uri("/api/v1/inquiries/{inquiryId}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .apply(print())
+                .hasStatusOk();
+
+        // then
+        verify(inquiryService).updateInquiry(any());
     }
 
     private List<InquiryReadResponse> createInquiryReadResponse(int count) {

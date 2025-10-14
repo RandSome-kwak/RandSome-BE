@@ -37,4 +37,11 @@ public class InquiryRepositoryImpl implements InquiryRepository {
     public InquiryListAdminResponse findAllByState(InquiryStatus state, int page) {
         return inquiryQueryDslRepository.findAllByState(state, page);
     }
+
+    @Override
+    public Inquiry findByIdAndAuthorId(Long id, Long authorId) {
+        return inquiryJpaRepository.findByIdAndAuthorId(id, authorId)
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_INQUIRY));
+    }
+
 }
