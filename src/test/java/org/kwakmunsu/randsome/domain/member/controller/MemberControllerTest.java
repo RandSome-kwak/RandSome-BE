@@ -3,6 +3,7 @@ package org.kwakmunsu.randsome.domain.member.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,12 +13,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.kwakmunsu.randsome.ControllerTestSupport;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
+import org.kwakmunsu.randsome.domain.member.controller.dto.MemberProfileUpdateRequest;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileResponse;
+import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberProfileUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.MemberRegisterServiceRequest;
 import org.kwakmunsu.randsome.global.security.annotation.TestMember;
 import org.springframework.http.HttpStatus;
@@ -56,7 +59,8 @@ class MemberControllerTest extends ControllerTestSupport {
             "'login123', 'password123!', legalName', 'nickname', 'M', '', 'instaId', 'intro', 'ideal'",    // mbti null
             "'login123', 'password123!', legalName', 'nickname', 'M', 'INTJ', '', 'intro', 'ideal'",       // instagramId empty
             "'login123', 'password123!', legalName', 'nickname', 'M', 'INTJ', 'instaId', '', 'ideal'",     // introduction empty
-            "'login123', 'password123!', legalName', 'nickname', 'M', 'INTJ', 'instaId', 'intro', ''"      // idealDescription empty
+            "'login123', 'password123!', legalName', 'nickname', 'M', 'INTJ', 'instaId', 'intro', ''"
+            // idealDescription empty
     })
     void registerMemberWithInvalidRequest(
             String loginId,
@@ -88,8 +92,8 @@ class MemberControllerTest extends ControllerTestSupport {
 
         // when & then
         assertThat(mvcTester.post().uri("/api/v1/members/sign-up")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
                 .apply(print())
                 .hasStatus(HttpStatus.BAD_REQUEST);
     }
@@ -151,6 +155,31 @@ class MemberControllerTest extends ControllerTestSupport {
                 .hasPathSatisfying("$.introduction", v -> v.assertThat().isEqualTo(response.introduction()))
                 .hasPathSatisfying("$.idealDescription", v -> v.assertThat().isEqualTo(response.idealDescription()))
                 .hasPathSatisfying("$.instagramId", v -> v.assertThat().isEqualTo(response.instagramId()));
+    }
+
+    @TestMember
+    @DisplayName("회원 프로필 정보를 업데이트 한다.")
+    @Test
+    void updateProfile() throws JsonProcessingException {
+        // given
+        var request = new MemberProfileUpdateRequest(
+                "newNickname",
+                Mbti.ENFJ,
+                "newInsta",
+                "newIntro",
+                "newIdeal"
+        );
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        // when
+        assertThat(mvcTester.patch().uri("/api/v1/members/profile")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .apply(print())
+                .hasStatusOk();
+
+        // then
+        verify(memberService).updateProfile(any(MemberProfileUpdateServiceRequest.class));
     }
 
 }

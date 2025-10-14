@@ -2,6 +2,7 @@ package org.kwakmunsu.randsome.domain.member.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.domain.member.controller.dto.MemberProfileUpdateRequest;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
 import org.kwakmunsu.randsome.domain.member.serivce.MemberService;
 import org.kwakmunsu.randsome.domain.member.serivce.dto.CheckResponse;
@@ -10,6 +11,7 @@ import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,16 @@ public class MemberController extends MemberDocsController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/profile")
+    public ResponseEntity<Void> updateProfile(
+            @AuthMember Long memberId,
+            @Valid @RequestBody MemberProfileUpdateRequest request
+    ) {
+        memberService.updateProfile(request.toServiceRequest(memberId));
+
+        return ResponseEntity.ok().build();
+    }
+
     @Override
     @GetMapping("/check-login-id")
     public ResponseEntity<CheckResponse> checkLoginId(@RequestParam String loginId) {
@@ -52,7 +64,7 @@ public class MemberController extends MemberDocsController {
     public ResponseEntity<CheckResponse> checkNickname(@RequestParam String nickname) {
         CheckResponse response = memberService.isNicknameAvailable(nickname);
 
-        return  ResponseEntity.ok(response);
+        return ResponseEntity.ok(response);
     }
 
 }
