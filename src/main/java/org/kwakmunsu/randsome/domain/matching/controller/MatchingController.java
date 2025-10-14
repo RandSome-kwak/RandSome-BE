@@ -5,7 +5,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.matching.controller.dto.MatchingApplicationRequest;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
-import org.kwakmunsu.randsome.domain.matching.service.MatchingService;
+import org.kwakmunsu.randsome.domain.matching.service.MatchingCommandService;
+import org.kwakmunsu.randsome.domain.matching.service.MatchingQueryService;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationListResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingEventResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
@@ -25,12 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MatchingController extends MatchingDocsController {
 
-    private final MatchingService matchingService;
+    private final MatchingQueryService matchingQueryService;
+    private final MatchingCommandService matchingCommandService;
 
     @Override
     @PostMapping("/apply")
     public ResponseEntity<Long> apply(@Valid @RequestBody MatchingApplicationRequest request, @AuthMember Long memberId) {
-        Long matchingApplicationId = matchingService.applyMatching(request.toServiceRequest(memberId));
+        Long matchingApplicationId = matchingCommandService.applyMatching(request.toServiceRequest(memberId));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(matchingApplicationId);
     }
@@ -41,7 +43,7 @@ public class MatchingController extends MatchingDocsController {
             @AuthMember Long requesterId,
             @RequestParam MatchingStatus status
     ) {
-        MatchingApplicationListResponse response = matchingService.getMatchingApplication(requesterId, status);
+        MatchingApplicationListResponse response = matchingQueryService.getMatchingApplication(requesterId, status);
 
         return ResponseEntity.ok(response);
     }
@@ -49,7 +51,7 @@ public class MatchingController extends MatchingDocsController {
     @Override
     @GetMapping("/{applicationId}")
     public ResponseEntity<MatchingReadResponse> getMatching(@AuthMember Long requesterId, @PathVariable Long applicationId) {
-        MatchingReadResponse response = matchingService.getMatching(requesterId, applicationId);
+        MatchingReadResponse response = matchingQueryService.getMatching(requesterId, applicationId);
 
         return ResponseEntity.ok(response);
     }
@@ -58,7 +60,7 @@ public class MatchingController extends MatchingDocsController {
     @GetMapping("/recent-news")
     public ResponseEntity<List<MatchingEventResponse>> getRecentMatchingNews() {
         final int limit = 5;
-        List<MatchingEventResponse> responses = matchingService.getRecentMatchingNews(limit);
+        List<MatchingEventResponse> responses = matchingQueryService.getRecentMatchingNews(limit);
 
         return ResponseEntity.ok(responses);
     }

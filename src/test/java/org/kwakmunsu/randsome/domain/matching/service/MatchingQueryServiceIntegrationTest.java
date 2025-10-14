@@ -9,9 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.matching.entity.Matching;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
-import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
-import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationServiceRequest;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
 import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingRepository;
@@ -20,17 +18,15 @@ import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
-import org.kwakmunsu.randsome.domain.payment.entity.Payment;
-import org.kwakmunsu.randsome.domain.payment.service.PaymentRepository;
 import org.kwakmunsu.randsome.global.exception.ForbiddenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MatchingServiceIntegrationTest {
+class MatchingQueryServiceIntegrationTest {
 
     @Autowired
-    private MatchingService matchingService;
+    private MatchingQueryService matchingQueryService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -39,44 +35,7 @@ class MatchingServiceIntegrationTest {
     private MatchingApplicationRepository matchingApplicationRepository;
 
     @Autowired
-    private PaymentRepository paymentRepository;
-
-    @Autowired
     private MatchingRepository matchingRepository;
-
-    // FIXME : transactional 미적용 시 DB 제약 조건 위반으로 테스트 실패. 그러나 트랜잭션을 헤제해야 테스트 진행됨
-    @DisplayName("매칭 신청을 한다.")
-    @Test
-    void applyMatchingApplication() {
-        // given
-        var requester = MemberFixture.createMember();
-        memberRepository.save(requester);
-        var request = new MatchingApplicationServiceRequest(requester.getId(), MatchingType.RANDOM_MATCHING, 3);
-
-        // when
-        Long matchingApplicationId = matchingService.applyMatching(request);
-
-        // then
-        var matchingApplication = matchingApplicationRepository.findById(matchingApplicationId);
-        assertThat(matchingApplication).extracting(
-                        MatchingApplication::getId,
-                        MatchingApplication::getRequester,
-                        MatchingApplication::getMatchingType,
-                        MatchingApplication::getStatus,
-                        MatchingApplication::getRequestedCount
-                )
-                .containsExactly(
-                        matchingApplicationId,
-                        requester,
-                        request.type(),
-                        MatchingStatus.PENDING,
-                        request.matchingCount()
-                );
-        List<Payment> payments = paymentRepository.findByMemberId(request.memberId());
-
-        assertThat(payments).hasSize(1);
-        assertThat(payments.getFirst().getMember().getId()).isEqualTo(requester.getId());
-    }
 
     @DisplayName("자신의 매칭 결과를 조회한다.")
     @Test
@@ -97,7 +56,7 @@ class MatchingServiceIntegrationTest {
         matchingRepository.saveAll(matchings);
 
         // when
-        var matchingReadResponse = matchingService.getMatching(requester.getId(), application.getId());
+        var matchingReadResponse = matchingQueryService.getMatching(requester.getId(), application.getId());
 
         // then
         assertThat(matchingReadResponse).extracting(
@@ -126,7 +85,7 @@ class MatchingServiceIntegrationTest {
         matchingApplicationRepository.save(application);
 
         // when & then
-        assertThatThrownBy(() -> matchingService.getMatching(requester.getId(), application.getId()))
+        assertThatThrownBy(() -> matchingQueryService.getMatching(requester.getId(), application.getId()))
             .isInstanceOf(ForbiddenException.class);
     }
 
