@@ -14,5 +14,6 @@ public interface MemberRepository {
 
     // Admin 전용 메서드
     MemberListResponse findAllByPagination(int page);
+    long count();
 
 }

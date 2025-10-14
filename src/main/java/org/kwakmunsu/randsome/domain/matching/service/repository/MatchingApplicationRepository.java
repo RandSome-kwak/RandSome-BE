@@ -16,5 +16,6 @@ public interface MatchingApplicationRepository {
 
     // Admin 전용 메서드
     AdminMatchingApplicationListResponse findAllByStatus(MatchingStatus status, int page);
+    long countByStatus(MatchingStatus matchingStatus);
 
 }

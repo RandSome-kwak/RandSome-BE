@@ -66,7 +66,7 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
 
     @Override
     public long countByStatus(MatchingStatus matchingStatus) {
-        return  0L; /*matchingApplicationJpaRepository.countByStatus(matchingStatus);*/
+        return matchingApplicationJpaRepository.countByStatus(matchingStatus);
     }
 
 }
