@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsResponse;
+import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsAdminResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,7 @@ public abstract class StatisticsAdminDocsController {
             description = "매칭 통계 조회 성공",
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = MatchingStatisticsResponse.class)
+                    schema = @Schema(implementation = MatchingStatisticsAdminResponse.class)
             )
     )
     @ApiExceptions(values = {
@@ -43,6 +43,6 @@ public abstract class StatisticsAdminDocsController {
             FORBIDDEN_ERROR,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<MatchingStatisticsResponse> getStatistics();
+    public abstract ResponseEntity<MatchingStatisticsAdminResponse> getStatistics();
 
 }

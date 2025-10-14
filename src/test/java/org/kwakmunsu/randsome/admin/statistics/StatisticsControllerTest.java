@@ -7,18 +7,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
-import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsResponse;
+import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsAdminResponse;
 import org.kwakmunsu.randsome.global.security.annotation.TestAdmin;
 import org.springframework.http.MediaType;
 
-class StatisticsAdminControllerTest extends ControllerTestSupport {
+class StatisticsControllerTest extends ControllerTestSupport {
 
     @TestAdmin
     @DisplayName("관리자가 매칭 통계를 조회한다.")
     @Test
     void getStatistics() {
         // given
-        var matchingStatisticsResponse = MatchingStatisticsResponse.builder()
+        var matchingStatisticsResponse = MatchingStatisticsAdminResponse.builder()
                 .totalMemberCount(100)
                 .totalCandidateCount(50)
                 .totalMatchingCount(30)

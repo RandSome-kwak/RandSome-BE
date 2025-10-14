@@ -2,7 +2,7 @@ package org.kwakmunsu.randsome.admin.statistics.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.admin.statistics.service.StatisticsAdminService;
-import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsResponse;
+import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsAdminResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +15,8 @@ public class StatisticsAdminController extends StatisticsAdminDocsController{
 
     @Override
     @GetMapping("/api/v1/admin/statistics")
-    public ResponseEntity<MatchingStatisticsResponse> getStatistics() {
-        MatchingStatisticsResponse response = statisticsAdminService.getMatchingStatistics();
+    public ResponseEntity<MatchingStatisticsAdminResponse> getStatistics() {
+        MatchingStatisticsAdminResponse response = statisticsAdminService.getMatchingStatistics();
 
         return ResponseEntity.ok(response);
     }
