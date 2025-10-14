@@ -9,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
-import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
@@ -22,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @SpringBootTest
-class InquiryServiceIntegrationTest {
+class InquiryCommandServiceIntegrationTest {
 
     @Autowired
     private InquiryRepository inquiryRepository;
@@ -31,7 +30,7 @@ class InquiryServiceIntegrationTest {
     private  MemberRepository memberRepository;
 
     @Autowired
-    private InquiryService inquiryService;
+    private InquiryCommandService inquiryCommandService;
 
     @Autowired
     private EntityManager entityManager;
@@ -54,7 +53,7 @@ class InquiryServiceIntegrationTest {
         var request = getInquiryUpdateServiceRequest(inquiry.getId(), author.getId());
 
         // when
-        inquiryService.update(request);
+        inquiryCommandService.update(request);
         entityManager.flush();
 
         // then
@@ -73,7 +72,7 @@ class InquiryServiceIntegrationTest {
         var request = getInquiryUpdateServiceRequest(inquiry.getId(), author.getId());
 
         // when & then
-        assertThatThrownBy(() -> inquiryService.update(request))
+        assertThatThrownBy(() -> inquiryCommandService.update(request))
             .isInstanceOf(ConflictException.class);
     }
 
@@ -85,7 +84,7 @@ class InquiryServiceIntegrationTest {
         var request = getInquiryUpdateServiceRequest(inquiry.getId(), invalidAuthorId);
 
         // when & then
-        assertThatThrownBy(() -> inquiryService.update(request))
+        assertThatThrownBy(() -> inquiryCommandService.update(request))
             .isInstanceOf(NotFoundException.class);
     }
 
@@ -93,7 +92,7 @@ class InquiryServiceIntegrationTest {
     @Test
     void delete() {
         // when
-        inquiryService.delete(inquiry.getId(), author.getId());
+        inquiryCommandService.delete(inquiry.getId(), author.getId());
         entityManager.flush();
 
         // then
@@ -109,22 +108,8 @@ class InquiryServiceIntegrationTest {
         entityManager.flush();
 
         // when & then
-        assertThatThrownBy(() -> inquiryService.delete(inquiry.getId(), author.getId()))
+        assertThatThrownBy(() -> inquiryCommandService.delete(inquiry.getId(), author.getId()))
             .isInstanceOf(ConflictException.class);
-    }
-
-    @DisplayName("삭제된 문의 조회 확인 테스트")
-    @Test
-    void ReadDelete()   {
-        // given
-        inquiry.delete();
-        entityManager.flush();
-
-        // when
-        InquiryListResponse inquires = inquiryService.getInquires(author.getId());
-
-        // then
-        assertThat(inquires.inquiries()).isEmpty();
     }
 
     private InquiryUpdateServiceRequest getInquiryUpdateServiceRequest(Long inquiryId, Long authorId) {

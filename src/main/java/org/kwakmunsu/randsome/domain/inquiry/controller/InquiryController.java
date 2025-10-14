@@ -4,7 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.inquiry.controller.dto.InquiryRegisterRequest;
 import org.kwakmunsu.randsome.domain.inquiry.controller.dto.InquiryUpdateRequest;
-import org.kwakmunsu.randsome.domain.inquiry.service.InquiryService;
+import org.kwakmunsu.randsome.domain.inquiry.service.InquiryCommandService;
+import org.kwakmunsu.randsome.domain.inquiry.service.InquiryQueryService;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
 import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class InquiryController extends InquiryDocsController {
 
-    private final InquiryService inquiryService;
+    private final InquiryQueryService inquiryQueryService;
+    private final InquiryCommandService inquiryCommandService;
 
     @Override
     @PostMapping
     public ResponseEntity<Long> register(@AuthMember Long memberId, InquiryRegisterRequest request) {
-        Long inquiryId = inquiryService.register(request.toServiceRequest(memberId));
+        Long inquiryId = inquiryCommandService.register(request.toServiceRequest(memberId));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(inquiryId);
     }
@@ -36,7 +38,7 @@ public class InquiryController extends InquiryDocsController {
     @Override
     @GetMapping
     public ResponseEntity<InquiryListResponse> getInquires(@AuthMember Long memberId) {
-        InquiryListResponse response = inquiryService.getInquires(memberId);
+        InquiryListResponse response = inquiryQueryService.getInquires(memberId);
 
         return ResponseEntity.ok(response);
     }
@@ -48,7 +50,7 @@ public class InquiryController extends InquiryDocsController {
             @AuthMember Long memberId,
             @Valid @RequestBody InquiryUpdateRequest request
     ) {
-        inquiryService.update(request.toServiceRequest(inquiryId, memberId));
+        inquiryCommandService.update(request.toServiceRequest(inquiryId, memberId));
 
         return ResponseEntity.ok().build();
     }
@@ -56,7 +58,7 @@ public class InquiryController extends InquiryDocsController {
     @Override
     @DeleteMapping("/{inquiryId}")
     public ResponseEntity<Void> deleteInquiry(@PathVariable Long inquiryId, @AuthMember Long memberId) {
-        inquiryService.delete(inquiryId, memberId);
+        inquiryCommandService.delete(inquiryId, memberId);
 
         return ResponseEntity.noContent().build();
     }
