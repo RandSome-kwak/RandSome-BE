@@ -28,4 +28,5 @@ public interface CandidateJpaRepository extends JpaRepository<Candidate, Long> {
             @Param("status") CandidateStatus status
     );
 
+    long countByStatus(CandidateStatus status);
 }

@@ -54,4 +54,9 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberQueryDslRepository.findAllByPagination(page);
     }
 
+    @Override
+    public long count() {
+        return memberJpaRepository.count();
+    }
+
 }

@@ -9,6 +9,8 @@ import org.kwakmunsu.randsome.admin.matching.controller.MatchingAdminController;
 import org.kwakmunsu.randsome.admin.matching.service.MatchingAdminService;
 import org.kwakmunsu.randsome.admin.member.MemberAdminService;
 import org.kwakmunsu.randsome.admin.member.controller.MemberAdminController;
+import org.kwakmunsu.randsome.admin.statistics.controller.StatisticsAdminController;
+import org.kwakmunsu.randsome.admin.statistics.service.StatisticsAdminService;
 import org.kwakmunsu.randsome.domain.auth.controller.AuthController;
 import org.kwakmunsu.randsome.domain.auth.serivce.AuthService;
 import org.kwakmunsu.randsome.domain.candidate.controller.CandidateController;
@@ -37,7 +39,8 @@ import org.springframework.test.web.servlet.assertj.MockMvcTester;
                 InquiryAdminController.class,
                 InquiryController.class,
                 MatchingAdminController.class,
-                MatchingController.class
+                MatchingController.class,
+                StatisticsAdminController.class
         })
 public abstract class ControllerTestSupport {
 
@@ -73,5 +76,8 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected AuthService authService;
+
+    @MockitoBean
+    protected StatisticsAdminService statisticsAdminService;
 
 }

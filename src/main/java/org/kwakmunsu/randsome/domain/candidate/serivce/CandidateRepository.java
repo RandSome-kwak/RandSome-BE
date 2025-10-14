@@ -18,5 +18,5 @@ public interface CandidateRepository {
     // Admin 전용 메서드
     CandidateListResponse findAllByStatus(CandidateStatus status, int page);
     List<Candidate> findByGenderAndStatus(Gender gender, CandidateStatus status);
-
+    long countByStatus(CandidateStatus candidateStatus);
 }

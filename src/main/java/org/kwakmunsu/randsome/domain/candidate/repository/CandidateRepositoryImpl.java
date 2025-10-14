@@ -66,4 +66,9 @@ public class CandidateRepositoryImpl implements CandidateRepository {
         return candidateJpaRepository.findByGenderAndStatus(gender, status);
     }
 
+    @Override
+    public long countByStatus(CandidateStatus candidateStatus) {
+        return candidateJpaRepository.countByStatus(candidateStatus);
+    }
+
 }
