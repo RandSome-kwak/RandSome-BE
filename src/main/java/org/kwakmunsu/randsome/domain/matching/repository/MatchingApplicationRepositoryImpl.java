@@ -41,12 +41,12 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
 
     @Override
     public List<MatchingApplication> findAllByRequesterIdAndStatus(Long requesterId, MatchingStatus status) {
-        return matchingApplicationJpaRepository.findAllByRequesterIdAndMatchingStatus(requesterId, status);
+        return matchingApplicationJpaRepository.findAllByRequesterIdAndStatus(requesterId, status);
     }
 
     @Override
     public List<MatchingApplication> findAllByRequesterIdAndStatusIn(Long requesterId, List<MatchingStatus> statuses) {
-        return matchingApplicationJpaRepository.findAllByRequesterIdAndMatchingStatusIn(requesterId, statuses);
+        return matchingApplicationJpaRepository.findAllByRequesterIdAndStatusIn(requesterId, statuses);
     }
 
     @Override
@@ -62,6 +62,11 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
     @Override
     public AdminMatchingApplicationListResponse findAllByStatus(MatchingStatus status, int page) {
         return matchingApplicationQueryDslRepository.findAllByStatus(status, page);
+    }
+
+    @Override
+    public long countByStatus(MatchingStatus matchingStatus) {
+        return  0L; /*matchingApplicationJpaRepository.countByStatus(matchingStatus);*/
     }
 
 }
