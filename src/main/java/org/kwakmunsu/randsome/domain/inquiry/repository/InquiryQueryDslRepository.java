@@ -26,19 +26,21 @@ public class InquiryQueryDslRepository {
         int limit = PAGE_SIZE + NEXT_PAGE_CHECK_SIZE; // 다음 페이지 존재 여부 체크용
 
         List<InquiryReadAdminResponse> responses = queryFactory.select(
-                constructor(InquiryReadAdminResponse.class,
-                        inquiry.id.as("inquiryId"),
-                        inquiry.author.id.as("authorId"),
-                        inquiry.author.nickname.as("authorNickname"),
-                        inquiry.title,
-                        inquiry.content,
-                        inquiry.answer,
-                        inquiry.status,
-                        inquiry.createdAt
-                ))
+                        constructor(InquiryReadAdminResponse.class,
+                                inquiry.id.as("inquiryId"),
+                                inquiry.author.id.as("authorId"),
+                                inquiry.author.nickname.as("authorNickname"),
+                                inquiry.title,
+                                inquiry.content,
+                                inquiry.answer,
+                                inquiry.status,
+                                inquiry.createdAt
+                        ))
                 .from(inquiry)
                 .join(inquiry.author, member)
-                .where(statusEq(status))
+                .where(
+                        statusEq(status)
+                )
                 .orderBy(inquiry.createdAt.desc())
                 .offset(offset)
                 .limit(limit) // 다음 페이지 존재 여부 체크용

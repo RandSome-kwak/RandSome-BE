@@ -1,16 +1,15 @@
 package org.kwakmunsu.randsome.domain.inquiry.service;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
+import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
@@ -112,6 +111,20 @@ class InquiryServiceIntegrationTest {
         // when & then
         assertThatThrownBy(() -> inquiryService.delete(inquiry.getId(), author.getId()))
             .isInstanceOf(ConflictException.class);
+    }
+
+    @DisplayName("삭제된 문의 조회 확인 테스트")
+    @Test
+    void ReadDelete()   {
+        // given
+        inquiry.delete();
+        entityManager.flush();
+
+        // when
+        InquiryListResponse inquires = inquiryService.getInquires(author.getId());
+
+        // then
+        assertThat(inquires.inquiries()).isEmpty();
     }
 
     private InquiryUpdateServiceRequest getInquiryUpdateServiceRequest(Long inquiryId, Long authorId) {
