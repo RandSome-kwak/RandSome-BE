@@ -34,11 +34,6 @@ public class CandidateRepositoryImpl implements CandidateRepository {
     }
 
     @Override
-    public List<Candidate> findByGenderAndStatus(Gender gender, CandidateStatus status) {
-        return candidateJpaRepository.findByGenderAndStatus(gender, status);
-    }
-
-    @Override
     public Optional<Candidate> findByMemberId(Long memberId) {
         return candidateJpaRepository.findByMemberId(memberId);
     }

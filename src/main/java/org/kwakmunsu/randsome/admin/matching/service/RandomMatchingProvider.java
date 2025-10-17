@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.admin.candidate.serivce.CandidateAdminRepository;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RandomMatchingProvider implements MatchingProvider {
 
-    private final CandidateRepository candidateRepository;
+    private final CandidateAdminRepository candidateRepository;
 
     @Override
     public MatchingType getType() {

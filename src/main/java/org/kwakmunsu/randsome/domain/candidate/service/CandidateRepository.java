@@ -16,8 +16,6 @@ public interface CandidateRepository {
 
     List<Candidate> findRecentApplicationByOrderByCreatedAtDesc(int limit);
 
-    List<Candidate> findByGenderAndStatus(Gender gender, CandidateStatus status);
-
     long countByStatus(CandidateStatus candidateStatus);
 
 }
