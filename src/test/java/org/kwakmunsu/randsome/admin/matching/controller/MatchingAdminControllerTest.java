@@ -17,8 +17,8 @@ import org.kwakmunsu.randsome.ControllerTestSupport;
 import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationStatusUpdateRequest;
 import org.kwakmunsu.randsome.admin.matching.service.dto.MatchingApplicationListServiceRequest;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationListResponse;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationPreviewResponse;
+import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
+import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminPreviewResponse;
 import org.kwakmunsu.randsome.global.security.annotation.TestAdmin;
 import org.mockito.ArgumentCaptor;
 import org.springframework.http.HttpStatus;
@@ -26,13 +26,13 @@ import org.springframework.http.MediaType;
 
 class MatchingAdminControllerTest extends ControllerTestSupport {
 
-    private AdminMatchingApplicationListResponse adminMatchingApplicationListResponse;
+    private MatchingApplicationAdminListResponse matchingApplicationAdminListResponse;
 
     @BeforeEach
     void setUp() {
-        adminMatchingApplicationListResponse = AdminMatchingApplicationListResponse.builder()
+        matchingApplicationAdminListResponse = MatchingApplicationAdminListResponse.builder()
                 .responses(List.of(
-                        new AdminMatchingApplicationPreviewResponse(
+                        new MatchingApplicationAdminPreviewResponse(
                                 1L,
                                 1L,
                                 "김철수",
@@ -44,7 +44,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                                 LocalDateTime.of(2025, 10, 4, 14, 30),
                                 "대기중"
                         ),
-                        new AdminMatchingApplicationPreviewResponse(
+                        new MatchingApplicationAdminPreviewResponse(
                                 2L,
                                 2L,
                                 "이영희",
@@ -68,7 +68,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     void getApplications() {
         // given
         given(matchingAdminService.findApplicationsByStatus(any(MatchingApplicationListServiceRequest.class)))
-                .willReturn(adminMatchingApplicationListResponse);
+                .willReturn(matchingApplicationAdminListResponse);
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
@@ -95,7 +95,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     void getCompletedApplications() {
         // given
         given(matchingAdminService.findApplicationsByStatus(any(MatchingApplicationListServiceRequest.class)))
-                .willReturn(adminMatchingApplicationListResponse);
+                .willReturn(matchingApplicationAdminListResponse);
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
@@ -116,7 +116,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     void getApplicationsWithDefaultPage() {
         // given
         given(matchingAdminService.findApplicationsByStatus(any(MatchingApplicationListServiceRequest.class)))
-                .willReturn(adminMatchingApplicationListResponse);
+                .willReturn(matchingApplicationAdminListResponse);
 
         ArgumentCaptor<MatchingApplicationListServiceRequest> captor =
                 ArgumentCaptor.forClass(MatchingApplicationListServiceRequest.class);
@@ -140,7 +140,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     @Test
     void getApplicationsSecondPage() {
         // given
-        AdminMatchingApplicationListResponse secondPageResponse = AdminMatchingApplicationListResponse.builder()
+        MatchingApplicationAdminListResponse secondPageResponse = MatchingApplicationAdminListResponse.builder()
                 .responses(List.of())
                 .hasNext(false)
                 .totalCount(25L)
@@ -165,7 +165,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     @Test
     void getApplicationsEmptyResult() {
         // given
-        AdminMatchingApplicationListResponse emptyResponse = AdminMatchingApplicationListResponse.builder()
+        MatchingApplicationAdminListResponse emptyResponse = MatchingApplicationAdminListResponse.builder()
                 .responses(List.of())
                 .hasNext(false)
                 .totalCount(0L)

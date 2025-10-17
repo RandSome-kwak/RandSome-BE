@@ -5,7 +5,7 @@ import org.kwakmunsu.randsome.admin.candidate.serivce.CandidateAdminRepository;
 import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsAdminResponse;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
+import org.kwakmunsu.randsome.domain.matching.service.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.springframework.stereotype.Service;
 

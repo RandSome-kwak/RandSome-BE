@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.matching.repository.dto;
+package org.kwakmunsu.randsome.admin.matching.repository.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
@@ -6,9 +6,9 @@ import lombok.Builder;
 
 @Schema(description = "매칭 신청 목록 응답 DTO")
 @Builder
-public record AdminMatchingApplicationListResponse(
+public record MatchingApplicationAdminListResponse(
         @Schema(description = "매칭 신청 목록")
-        List<AdminMatchingApplicationPreviewResponse> responses,
+        List<MatchingApplicationAdminPreviewResponse> responses,
 
         @Schema(description = "다음 페이지 존재 여부", example = "true | false")
         boolean hasNext,

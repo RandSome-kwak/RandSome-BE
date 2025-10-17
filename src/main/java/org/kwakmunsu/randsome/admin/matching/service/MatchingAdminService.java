@@ -1,18 +1,17 @@
 package org.kwakmunsu.randsome.admin.matching.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.admin.matching.service.dto.MatchingApplicationListServiceRequest;
+import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
 import org.kwakmunsu.randsome.domain.matching.entity.Matching;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationListResponse;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingRepository;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MatchingAdminService {
 
-    private final MatchingRepository matchingRepository;
-    private final MatchingApplicationRepository applicationRepository;
+    private final MatchingAdminRepository matchingAdminRepository;
+    private final MatchingApplicationAdminRepository applicationRepository;
     private final Map<MatchingType, MatchingProvider> matchingProviders;
 
     public MatchingAdminService(
-            MatchingRepository matchingRepository,
-            MatchingApplicationRepository applicationRepository,
+            MatchingAdminRepository matchingAdminRepository,
+            MatchingApplicationAdminRepository applicationRepository,
             List<MatchingProvider> matchingProviders
     ) {
-        this.matchingRepository = matchingRepository;
+        this.matchingAdminRepository = matchingAdminRepository;
         this.applicationRepository = applicationRepository;
         this.matchingProviders = matchingProviders.stream()
                 .collect(Collectors.toMap(
@@ -41,7 +40,7 @@ public class MatchingAdminService {
      * 매칭 신청 목록 조회
      */
     @Transactional(readOnly = true)
-    public AdminMatchingApplicationListResponse findApplicationsByStatus(MatchingApplicationListServiceRequest request) {
+    public MatchingApplicationAdminListResponse findApplicationsByStatus(MatchingApplicationListServiceRequest request) {
         return applicationRepository.findAllByStatus(request.status(), request.page());
     }
 
@@ -86,7 +85,7 @@ public class MatchingAdminService {
         List<Matching> results = matchedCandidates.stream()
                 .map(c -> Matching.create(application, c))
                 .toList();
-        matchingRepository.saveAll(results);
+        matchingAdminRepository.saveAll(results);
     }
 
 }

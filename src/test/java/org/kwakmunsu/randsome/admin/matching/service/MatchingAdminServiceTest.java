@@ -20,8 +20,6 @@ import org.kwakmunsu.randsome.domain.matching.entity.Matching;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
@@ -36,10 +34,10 @@ import org.springframework.test.util.ReflectionTestUtils;
 class MatchingAdminServiceTest {
 
     @Mock
-    private MatchingRepository matchingRepository;
+    private MatchingAdminRepository matchingAdminRepository;
 
     @Mock
-    private MatchingApplicationRepository applicationRepository;
+    private MatchingApplicationAdminRepository applicationAdminRepository;
 
     @Mock
     private MatchingProvider randomMatchingProvider;
@@ -62,8 +60,8 @@ class MatchingAdminServiceTest {
         given(idealMatchingProvider.getType()).willReturn(MatchingType.IDEAL_MATCHING);
 
         matchingAdminService = new MatchingAdminService(
-                matchingRepository,
-                applicationRepository,
+                matchingAdminRepository,
+                applicationAdminRepository,
                 List.of(randomMatchingProvider, idealMatchingProvider)
         );
 
@@ -81,7 +79,7 @@ class MatchingAdminServiceTest {
     @Test
     void updateApplicationStatusApprove() {
         // given
-        given(applicationRepository.findById(1L)).willReturn(application);
+        given(applicationAdminRepository.findById(1L)).willReturn(application);
         given(randomMatchingProvider.match(eq(requester), eq(3))).willReturn(matchedMembers);
 
         // when
@@ -90,14 +88,14 @@ class MatchingAdminServiceTest {
         // then
         assertThat(application.getStatus()).isEqualTo(MatchingStatus.COMPLETED);
         then(randomMatchingProvider).should(times(1)).match(eq(requester), eq(3));
-        then(matchingRepository).should(times(1)).saveAll(anyList());
+        then(matchingAdminRepository).should(times(1)).saveAll(anyList());
     }
 
     @DisplayName("매칭 신청을 거절하면 상태를 FAILED로 변경하고 매칭을 실행하지 않는다")
     @Test
     void updateApplicationStatusReject() {
         // given
-        given(applicationRepository.findById(1L)).willReturn(application);
+        given(applicationAdminRepository.findById(1L)).willReturn(application);
 
         // when
         matchingAdminService.updateApplicationStatus(1L, MatchingStatus.FAILED);
@@ -105,21 +103,21 @@ class MatchingAdminServiceTest {
         // then
         assertThat(application.getStatus()).isEqualTo(MatchingStatus.FAILED);
         then(randomMatchingProvider).should(never()).match(any(Member.class), anyInt());
-        then(matchingRepository).should(never()).saveAll(anyList());
+        then(matchingAdminRepository).should(never()).saveAll(anyList());
     }
 
     @DisplayName("매칭 실행 시 Provider 에서 반환한 회원 수만큼 Matching 엔티티를 생성한다")
     @Test
     void executeMatchingCreatesCorrectNumberOfMatchings() {
         // given
-        given(applicationRepository.findById(1L)).willReturn(application);
+        given(applicationAdminRepository.findById(1L)).willReturn(application);
         given(randomMatchingProvider.match(eq(requester), eq(3))).willReturn(matchedMembers);
 
         // when
         matchingAdminService.updateApplicationStatus(1L, MatchingStatus.COMPLETED);
 
         // then
-        then(matchingRepository).should().saveAll(matchingListCaptor.capture());
+        then(matchingAdminRepository).should().saveAll(matchingListCaptor.capture());
         List<Matching> savedMatchings = matchingListCaptor.getValue();
 
         assertThat(savedMatchings).hasSize(3);
@@ -135,7 +133,7 @@ class MatchingAdminServiceTest {
         MatchingApplication idealApplication = createApplication(
                 2L, requester, MatchingType.IDEAL_MATCHING, 3
         );
-        given(applicationRepository.findById(2L)).willReturn(idealApplication);
+        given(applicationAdminRepository.findById(2L)).willReturn(idealApplication);
         given(idealMatchingProvider.match(eq(requester), eq(3))).willReturn(matchedMembers);
 
         // when
@@ -151,7 +149,7 @@ class MatchingAdminServiceTest {
     void updateApplicationStatusNotFound() {
         // given
         Long invalidId = 999L;
-        given(applicationRepository.findById(invalidId))
+        given(applicationAdminRepository.findById(invalidId))
                 .willThrow(new NotFoundException(ErrorStatus.NOT_FOUND_MATCHING_APPLICATION));
 
         // when & then
