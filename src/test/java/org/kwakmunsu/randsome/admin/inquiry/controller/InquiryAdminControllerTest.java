@@ -13,9 +13,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
 import org.kwakmunsu.randsome.admin.inquiry.controller.dto.AnswerRegisterRequest;
+import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryListAdminResponse;
+import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryReadAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
-import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
-import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryReadAdminResponse;
 import org.kwakmunsu.randsome.global.security.annotation.TestAdmin;
 import org.springframework.http.MediaType;
 

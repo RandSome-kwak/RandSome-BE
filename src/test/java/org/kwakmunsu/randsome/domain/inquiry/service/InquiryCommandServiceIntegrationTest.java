@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
+import org.kwakmunsu.randsome.domain.inquiry.repository.InquiryJpaRepository;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @SpringBootTest
 record InquiryCommandServiceIntegrationTest(
-        InquiryRepository inquiryRepository,
+        InquiryJpaRepository inquiryRepository,
         MemberRepository memberRepository,
         InquiryCommandService inquiryCommandService,
         EntityManager entityManager
@@ -39,7 +40,7 @@ record InquiryCommandServiceIntegrationTest(
         entityManager.flush();
 
         // then
-        var updated = inquiryRepository.findById(inquiry.getId());
+        var updated = inquiryRepository.findById(inquiry.getId()).get();
 
         assertThat(updated).extracting(Inquiry::getTitle, Inquiry::getContent, Inquiry::getStatus)
                 .containsExactly(request.title(), request.content(), InquiryStatus.PENDING);
@@ -88,7 +89,7 @@ record InquiryCommandServiceIntegrationTest(
         entityManager.flush();
 
         // then
-        var deleted = inquiryRepository.findById(inquiry.getId());
+        var deleted = inquiryRepository.findById(inquiry.getId()).get();
         assertThat(deleted.isDeleted()).isTrue();
     }
 

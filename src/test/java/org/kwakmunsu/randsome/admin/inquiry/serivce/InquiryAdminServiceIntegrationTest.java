@@ -6,9 +6,9 @@ import static org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus.PENDING;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
-import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.service.InquiryRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
@@ -22,6 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @SpringBootTest
 class InquiryAdminServiceIntegrationTest {
+
+    @Autowired
+    private InquiryAdminRepository inquiryAdminRepository;
 
     @Autowired
     private InquiryRepository inquiryRepository;
@@ -48,7 +51,7 @@ class InquiryAdminServiceIntegrationTest {
         inquiryAdminService.registerAnswer(inquiry.getId(), answer);
 
         // then
-        var result = inquiryRepository.findById(inquiry.getId());
+        var result = inquiryAdminRepository.findById(inquiry.getId());
 
         assertThat(result).extracting(
                         Inquiry::getAnswer,

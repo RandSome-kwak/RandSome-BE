@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.inquiry.repository;
+package org.kwakmunsu.randsome.admin.inquiry.repository;
 
 import static com.querydsl.core.types.Projections.constructor;
 import static org.kwakmunsu.randsome.domain.inquiry.entity.QInquiry.inquiry;
@@ -8,14 +8,14 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryListAdminResponse;
+import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryReadAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
-import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryListAdminResponse;
-import org.kwakmunsu.randsome.domain.inquiry.repository.dto.InquiryReadAdminResponse;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class InquiryQueryDslRepository {
+public class InquiryAdminQueryDslRepository {
 
     private static final int PAGE_SIZE = 20;
     private static final int NEXT_PAGE_CHECK_SIZE = 1;
