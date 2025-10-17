@@ -7,9 +7,10 @@ import static org.mockito.BDDMockito.given;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kwakmunsu.randsome.admin.member.service.MemberAdminRepository;
+import org.kwakmunsu.randsome.admin.member.service.MemberAdminService;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
-import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -18,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class MemberAdminServiceTest {
 
     @Mock
-    private MemberRepository memberRepository;
+    private MemberAdminRepository memberRepository;
 
     @InjectMocks
     private MemberAdminService memberAdminService;

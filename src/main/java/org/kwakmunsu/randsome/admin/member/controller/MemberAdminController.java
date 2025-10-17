@@ -2,9 +2,9 @@ package org.kwakmunsu.randsome.admin.member.controller;
 
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.admin.member.MemberAdminService;
+import org.kwakmunsu.randsome.admin.member.repository.dto.MemberListResponse;
+import org.kwakmunsu.randsome.admin.member.service.MemberAdminService;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
-import org.kwakmunsu.randsome.domain.member.repository.dto.MemberListResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

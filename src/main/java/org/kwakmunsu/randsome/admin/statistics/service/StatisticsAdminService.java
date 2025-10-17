@@ -2,18 +2,18 @@ package org.kwakmunsu.randsome.admin.statistics.service;
 
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.admin.candidate.serivce.CandidateAdminRepository;
+import org.kwakmunsu.randsome.admin.member.service.MemberAdminRepository;
 import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsAdminResponse;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingApplicationRepository;
-import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class StatisticsAdminService {
 
-    private final MemberRepository memberRepository;
+    private final MemberAdminRepository memberRepository;
     private final CandidateAdminRepository candidateAdminRepository;
     private final MatchingApplicationRepository matchingApplicationRepository;
     private final StatisticsRepository statisticsRepository;

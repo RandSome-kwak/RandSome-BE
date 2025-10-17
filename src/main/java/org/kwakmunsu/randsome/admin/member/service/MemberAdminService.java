@@ -1,17 +1,16 @@
-package org.kwakmunsu.randsome.admin.member;
+package org.kwakmunsu.randsome.admin.member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.admin.member.repository.dto.MemberListResponse;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
-import org.kwakmunsu.randsome.domain.member.repository.dto.MemberListResponse;
-import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class MemberAdminService {
 
-    private final MemberRepository memberRepository;
+    private final MemberAdminRepository memberRepository;
 
     public MemberDetailResponse getMember(Long memberId) {
         Member member = memberRepository.findById(memberId);
