@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.kwakmunsu.randsome.admin.matching.service.MatchingAdminRepository;
 import org.kwakmunsu.randsome.domain.matching.entity.Matching;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
@@ -26,7 +25,7 @@ record MatchingQueryServiceIntegrationTest(
         MatchingQueryService matchingQueryService,
         MemberRepository memberRepository,
         MatchingApplicationRepository matchingApplicationRepository,
-        MatchingRepository matchingRepository
+        MatchingAdminRepository matchingAdminRepository
 ) {
 
     @DisplayName("자신의 매칭 결과를 조회한다.")
@@ -45,7 +44,7 @@ record MatchingQueryServiceIntegrationTest(
         List<Matching> matchings = selectedMembers.stream()
                 .map(selectedMember -> Matching.create(application, selectedMember))
                 .toList();
-        matchingRepository.saveAll(matchings);
+        matchingAdminRepository.saveAll(matchings);
 
         // when
         var matchingReadResponse = matchingQueryService.getMatching(requester.getId(), application.getId());

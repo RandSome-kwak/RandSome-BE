@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.candidate.repository.dto;
+package org.kwakmunsu.randsome.admin.candidate.repository.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;

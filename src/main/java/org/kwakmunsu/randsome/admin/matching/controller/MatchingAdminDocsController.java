@@ -18,8 +18,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationStatusUpdateRequest;
+import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationListResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +44,7 @@ public abstract class MatchingAdminDocsController {
             description = "매칭 신청 목록 조회 성공",
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = AdminMatchingApplicationListResponse.class)
+                    schema = @Schema(implementation = MatchingApplicationAdminListResponse.class)
             )
     )
     @ApiExceptions(values = {
@@ -53,7 +53,7 @@ public abstract class MatchingAdminDocsController {
             FORBIDDEN_ERROR,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<AdminMatchingApplicationListResponse> getApplications(
+    public abstract ResponseEntity<MatchingApplicationAdminListResponse> getApplications(
             @Parameter(
                     name = "status",
                     description = "조회할 매칭 신청 상태 (PENDING: 대기중, COMPLETED: 완료, FAILED: 실패)",

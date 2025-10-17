@@ -15,7 +15,6 @@ import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationPre
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingEventResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingMemberResponse;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.global.exception.ForbiddenException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Service;

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.enums.Role;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
@@ -23,11 +22,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class CandidateAdminServiceTest {
 
     @Mock
-    private CandidateRepository candidateRepository;
+    private CandidateAdminRepository candidateAdminRepository;
 
     @InjectMocks
     private CandidateAdminService candidateAdminService;
-
 
     @DisplayName("관리자가 후보자 요청을 승인한다.")
     @Test
@@ -36,7 +34,7 @@ class CandidateAdminServiceTest {
         var member = MemberFixture.createMember();
         var candidate = Candidate.create(member);
 
-        given(candidateRepository.findByIdWithMember(any(Long.class))).willReturn(candidate);
+        given(candidateAdminRepository.findByIdWithMember(any(Long.class))).willReturn(candidate);
 
         assertThat(candidate.getStatus()).isEqualTo(CandidateStatus.PENDING);
 
@@ -55,7 +53,7 @@ class CandidateAdminServiceTest {
         var member = MemberFixture.createMember();
         var candidate = Candidate.create(member);
 
-        given(candidateRepository.findByIdWithMember(any(Long.class))).willReturn(candidate);
+        given(candidateAdminRepository.findByIdWithMember(any(Long.class))).willReturn(candidate);
 
         assertThat(candidate.getStatus()).isEqualTo(CandidateStatus.PENDING);
 
@@ -71,7 +69,7 @@ class CandidateAdminServiceTest {
     @Test
     void failUpdateStatus() {
         // given
-        given(candidateRepository.findByIdWithMember(any(Long.class))).willThrow(
+        given(candidateAdminRepository.findByIdWithMember(any(Long.class))).willThrow(
                 new NotFoundException(ErrorStatus.NOT_FOUND_CANDIDATE));
 
         // when & then

@@ -13,7 +13,7 @@ import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.service.InquiryRepository;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
+import org.kwakmunsu.randsome.domain.matching.service.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;

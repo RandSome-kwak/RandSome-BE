@@ -7,9 +7,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidateListResponse;
 import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
-import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Repository;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Repository;
 public class CandidateRepositoryImpl implements CandidateRepository {
 
     private final CandidateJpaRepository candidateJpaRepository;
-    private final CandidateQueryDslRepository candidateQueryDslRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -36,14 +33,13 @@ public class CandidateRepositoryImpl implements CandidateRepository {
     }
 
     @Override
-    public Candidate findByIdWithMember(Long id) {
-        return candidateJpaRepository.findByIdWithMember(id)
-                .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_CANDIDATE));
+    public Optional<Candidate> findByMemberId(Long memberId) {
+        return candidateJpaRepository.findByMemberId(memberId);
     }
 
     @Override
-    public Optional<Candidate> findByMemberId(Long memberId) {
-        return candidateJpaRepository.findByMemberId(memberId);
+    public long countByStatus(CandidateStatus candidateStatus) {
+        return candidateJpaRepository.countByStatus(candidateStatus);
     }
 
     @Override
@@ -53,22 +49,6 @@ public class CandidateRepositoryImpl implements CandidateRepository {
         return entityManager.createQuery(jpql, Candidate.class)
                 .setMaxResults(limit)
                 .getResultList();
-    }
-
-    // Admin 전용 메서드
-    @Override
-    public CandidateListResponse findAllByStatus(CandidateStatus status, int page) {
-        return candidateQueryDslRepository.findAllByStatus(status, page);
-    }
-
-    @Override
-    public List<Candidate> findByGenderAndStatus(Gender gender, CandidateStatus status) {
-        return candidateJpaRepository.findByGenderAndStatus(gender, status);
-    }
-
-    @Override
-    public long countByStatus(CandidateStatus candidateStatus) {
-        return candidateJpaRepository.countByStatus(candidateStatus);
     }
 
 }

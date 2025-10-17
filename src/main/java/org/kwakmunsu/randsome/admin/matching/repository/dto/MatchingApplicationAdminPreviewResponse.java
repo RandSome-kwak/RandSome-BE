@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.matching.repository.dto;
+package org.kwakmunsu.randsome.admin.matching.repository.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
@@ -8,7 +8,7 @@ import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 
 @Schema(description = "매칭 신청 목록 정보 DTO")
-public record AdminMatchingApplicationPreviewResponse(
+public record MatchingApplicationAdminPreviewResponse(
         @Schema(description = "매칭 신청 ID", example = "1")
         Long applicationId,
 
@@ -41,7 +41,7 @@ public record AdminMatchingApplicationPreviewResponse(
 ) {
 
     // QueryDSL용 enum을 받는 생성자 (새로 추가)
-    public AdminMatchingApplicationPreviewResponse(
+    public MatchingApplicationAdminPreviewResponse(
             Long applicationId,
             Long memberId,
             String legalName,

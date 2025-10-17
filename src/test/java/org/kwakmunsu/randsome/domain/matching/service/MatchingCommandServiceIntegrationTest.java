@@ -9,7 +9,6 @@ import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationServiceRequest;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;

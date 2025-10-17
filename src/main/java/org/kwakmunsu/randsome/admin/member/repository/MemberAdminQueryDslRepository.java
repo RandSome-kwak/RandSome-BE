@@ -1,4 +1,4 @@
-package org.kwakmunsu.randsome.domain.member.repository;
+package org.kwakmunsu.randsome.admin.member.repository;
 
 import static com.querydsl.core.types.Projections.constructor;
 import static org.kwakmunsu.randsome.domain.member.entity.QMember.member;
@@ -6,13 +6,13 @@ import static org.kwakmunsu.randsome.domain.member.entity.QMember.member;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.domain.member.repository.dto.MemberListResponse;
-import org.kwakmunsu.randsome.domain.member.repository.dto.MemberPreviewResponse;
+import org.kwakmunsu.randsome.admin.member.repository.dto.MemberListResponse;
+import org.kwakmunsu.randsome.admin.member.repository.dto.MemberPreviewResponse;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class MemberQueryDslRepository {
+public class MemberAdminQueryDslRepository {
 
     private static final int PAGE_SIZE = 20;
     private static final int NEXT_PAGE_CHECK_SIZE = 1;

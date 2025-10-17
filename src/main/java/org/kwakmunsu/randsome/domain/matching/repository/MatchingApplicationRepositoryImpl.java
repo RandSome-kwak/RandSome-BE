@@ -7,8 +7,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
-import org.kwakmunsu.randsome.domain.matching.repository.dto.AdminMatchingApplicationListResponse;
-import org.kwakmunsu.randsome.domain.matching.service.repository.MatchingApplicationRepository;
+import org.kwakmunsu.randsome.domain.matching.service.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Repository;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Repository;
 public class MatchingApplicationRepositoryImpl implements MatchingApplicationRepository {
 
     private final MatchingApplicationJpaRepository matchingApplicationJpaRepository;
-    private final MatchingApplicationQueryDslRepository matchingApplicationQueryDslRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -61,12 +59,6 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
 
     public long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end) {
         return matchingApplicationJpaRepository.countByCreatedAtBetween(start, end);
-    }
-
-    // Admin 전용 메서드
-    @Override
-    public AdminMatchingApplicationListResponse findAllByStatus(MatchingStatus status, int page) {
-        return matchingApplicationQueryDslRepository.findAllByStatus(status, page);
     }
 
     @Override
