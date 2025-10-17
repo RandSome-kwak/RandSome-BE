@@ -1,13 +1,12 @@
 package org.kwakmunsu.randsome.admin.candidate.serivce;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
 import org.kwakmunsu.randsome.admin.candidate.serivce.dto.CandidateListReadServiceRequest;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,13 +1,12 @@
 package org.kwakmunsu.randsome.admin.candidate.repository;
 
+import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
 import org.kwakmunsu.randsome.admin.candidate.serivce.CandidateAdminRepository;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
