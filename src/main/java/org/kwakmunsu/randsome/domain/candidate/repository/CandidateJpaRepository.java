@@ -11,16 +11,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface CandidateJpaRepository extends JpaRepository<Candidate, Long> {
 
-    Optional<Candidate> findByMemberId(Long memberId);
-
-    @Query("SELECT c FROM Candidate c JOIN FETCH c.member WHERE c.id = :id")
-    Optional<Candidate> findByIdWithMember(@Param("id") Long id);
-
     @Query(value = """
-                SELECT c
-                FROM Candidate c
-                JOIN FETCH c.member m
-                WHERE m.gender != :gender AND c.status = :status
+                SELECT c FROM Candidate c JOIN FETCH c.member m WHERE m.gender != :gender AND c.status = :status
             """
     )
     List<Candidate> findByGenderAndStatus(
@@ -28,5 +20,8 @@ public interface CandidateJpaRepository extends JpaRepository<Candidate, Long> {
             @Param("status") CandidateStatus status
     );
 
+    Optional<Candidate> findByMemberId(Long memberId);
+
     long countByStatus(CandidateStatus status);
+
 }

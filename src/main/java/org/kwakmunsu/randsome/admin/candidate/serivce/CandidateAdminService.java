@@ -1,16 +1,13 @@
 package org.kwakmunsu.randsome.admin.candidate.serivce;
 
-import static org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus.APPROVED;
-import static org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus.REJECTED;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.admin.candidate.serivce.dto.CandidateListReadServiceRequest;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidateListResponse;
-import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,16 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CandidateAdminService {
 
-    private final CandidateRepository candidateRepository;
+    private final CandidateAdminRepository candidateAdminRepository;
 
     // 관리자용 후보자 승인/거절 기능
     @Transactional
     public void updateCandidateStatus(Long candidateId, CandidateStatus status) {
-        Candidate candidate = candidateRepository.findByIdWithMember(candidateId);
+        Candidate candidate = candidateAdminRepository.findByIdWithMember(candidateId);
 
-        if (status == APPROVED) {
+        if (status == CandidateStatus.APPROVED) {
             approveCandidate(candidate);
-        } else if (status == REJECTED) {
+        } else if (status == CandidateStatus.REJECTED) {
             candidate.reject();
         }
 
@@ -37,7 +34,7 @@ public class CandidateAdminService {
 
     @Transactional(readOnly = true)
     public CandidateListResponse getCandidates(CandidateListReadServiceRequest request) {
-        return candidateRepository.findAllByStatus(request.status(), request.page());
+        return candidateAdminRepository.findAllByStatus(request.status(), request.page());
     }
 
     private void approveCandidate(Candidate candidate) {

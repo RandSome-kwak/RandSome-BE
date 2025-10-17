@@ -1,15 +1,16 @@
-package org.kwakmunsu.randsome.domain.candidate.repository;
+package org.kwakmunsu.randsome.admin.candidate.repository;
 
 import static com.querydsl.core.types.Projections.constructor;
 import static org.kwakmunsu.randsome.domain.candidate.entity.QCandidate.candidate;
+
+import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidatePreviewResponse;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidateListResponse;
-import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidatePreviewResponse;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
@@ -69,4 +70,5 @@ public class CandidateQueryDslRepository {
         if (hasNext) return responses.subList(0, PAGE_SIZE); // 실제로는 limit 만큼만 반환
         return responses;
     }
+
 }

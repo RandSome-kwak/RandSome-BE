@@ -6,7 +6,7 @@ import org.kwakmunsu.randsome.admin.candidate.controller.dto.CandidateStatusUpda
 import org.kwakmunsu.randsome.admin.candidate.serivce.CandidateAdminService;
 import org.kwakmunsu.randsome.admin.candidate.serivce.dto.CandidateListReadServiceRequest;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidateListResponse;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

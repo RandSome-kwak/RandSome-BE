@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.admin.candidate.serivce.dto.CandidateListReadServiceRequest;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidateListResponse;
-import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidatePreviewResponse;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidatePreviewResponse;
 import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
@@ -28,6 +28,9 @@ class CandidateAdminServiceIntegrationTest {
 
     @Autowired
     private CandidateAdminService candidateAdminService;
+
+    @Autowired
+    private CandidateAdminRepository candidateAdminRepository;
 
     @Autowired
     private CandidateRepository candidateRepository;

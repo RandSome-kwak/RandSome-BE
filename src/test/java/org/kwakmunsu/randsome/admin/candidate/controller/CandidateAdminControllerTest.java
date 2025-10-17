@@ -14,7 +14,7 @@ import org.kwakmunsu.randsome.ControllerTestSupport;
 import org.kwakmunsu.randsome.admin.candidate.controller.dto.CandidateStatusUpdateRequest;
 import org.kwakmunsu.randsome.admin.candidate.serivce.dto.CandidateListReadServiceRequest;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.repository.dto.CandidateListResponse;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
 import org.kwakmunsu.randsome.global.security.annotation.TestAdmin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
