@@ -20,7 +20,6 @@ import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 
 @Table(name = "inquiries")
 @Getter
-@SQLRestriction("is_deleted = false")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Inquiry extends BaseEntity {
@@ -36,7 +35,8 @@ public class Inquiry extends BaseEntity {
     private String content;
 
     @Enumerated(EnumType.STRING)
-    private InquiryStatus status;
+    @Column(name = "inquiry_status", nullable = false)
+    private InquiryStatus inquiryStatus;
 
     @Column(length = 5000)
     private String answer;
@@ -47,14 +47,14 @@ public class Inquiry extends BaseEntity {
         inquiry.author = author;
         inquiry.title = title;
         inquiry.content = content;
-        inquiry.status = InquiryStatus.PENDING;
+        inquiry.inquiryStatus = InquiryStatus.PENDING;
         inquiry.answer = null;
 
         return inquiry;
     }
 
     public void updateQuestion(String newTitle, String newContent) {
-        if (this.status == InquiryStatus.COMPLETED) {
+        if (this.inquiryStatus == InquiryStatus.COMPLETED) {
             throw new ConflictException(ErrorStatus.CANNOT_MODIFY_ANSWERED_INQUIRY);
         }
 
@@ -63,7 +63,7 @@ public class Inquiry extends BaseEntity {
     }
 
     public void registerAnswer(String newAnswer) {
-        if (this.status == InquiryStatus.COMPLETED) {
+        if (this.inquiryStatus == InquiryStatus.COMPLETED) {
             throw new ConflictException(ErrorStatus.CANNOT_MODIFY_ANSWER);
         }
 
@@ -72,12 +72,12 @@ public class Inquiry extends BaseEntity {
     }
 
     public boolean isAnswered() {
-        return this.status == InquiryStatus.COMPLETED;
+        return this.inquiryStatus == InquiryStatus.COMPLETED;
     }
 
 
     private void completeAnswer() {
-        this.status = InquiryStatus.COMPLETED;
+        this.inquiryStatus = InquiryStatus.COMPLETED;
     }
 
 }

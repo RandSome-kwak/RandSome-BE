@@ -19,7 +19,7 @@ public class CandidateAdminRepositoryImpl implements CandidateAdminRepository {
     private final CandidateQueryDslRepository candidateQueryDslRepository;
 
     @Override
-    public CandidateListResponse findAllByStatus(CandidateStatus status, int page) {
+    public CandidateListResponse findAllByCandidateStatus(CandidateStatus status, int page) {
         return candidateQueryDslRepository.findAllByStatus(status, page);
     }
 
@@ -30,14 +30,14 @@ public class CandidateAdminRepositoryImpl implements CandidateAdminRepository {
     }
 
     @Override
-    public List<Candidate> findByGenderAndStatus(Gender gender, CandidateStatus status) {
+    public List<Candidate> findByGenderAndCandidateStatus(Gender gender, CandidateStatus status) {
         return candidateJpaRepository.findByGenderAndStatus(gender, status);
     }
 
 
     @Override
-    public long countByStatus(CandidateStatus candidateStatus) {
-        return candidateJpaRepository.countByStatus(candidateStatus);
+    public long countByCandidateStatus(CandidateStatus candidateStatus) {
+        return candidateJpaRepository.countByCandidateStatus(candidateStatus);
     }
 
 }

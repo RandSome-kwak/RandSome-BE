@@ -40,7 +40,7 @@ public class MatchingAdminService {
      */
     @Transactional(readOnly = true)
     public MatchingApplicationAdminListResponse findApplicationsByStatus(MatchingApplicationListServiceRequest request) {
-        return applicationRepository.findAllByStatus(request.status(), request.page());
+        return applicationRepository.findAllByMatchingStatus(request.status(), request.page());
     }
 
     /**
@@ -48,7 +48,7 @@ public class MatchingAdminService {
      */
     @Transactional
     public void updateApplicationStatus(Long applicationId, MatchingStatus status) {
-        log.info("Updating application status - ID: {}, newStatus: {}", applicationId, status);
+        log.info("Updating application matchingStatus - ID: {}, newStatus: {}", applicationId, status);
 
         MatchingApplication application = applicationRepository.findById(applicationId);
         switch (status) {

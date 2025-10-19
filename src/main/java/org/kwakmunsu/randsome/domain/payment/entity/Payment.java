@@ -34,9 +34,9 @@ public class Payment extends BaseEntity {
     @Column(nullable = false)
     private BigDecimal amount;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PaymentStatus status;
+    @Column(name = "payment_status", nullable = false)
+    private PaymentStatus paymentStatus;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -48,7 +48,7 @@ public class Payment extends BaseEntity {
         return Payment.builder()
                 .member(member)
                 .amount(BigDecimal.valueOf(totalPrice))
-                .status(PaymentStatus.PENDING)
+                .paymentStatus(PaymentStatus.PENDING)
                 .type(type)
                 .build();
     }
@@ -66,11 +66,11 @@ public class Payment extends BaseEntity {
     }
 
     public void complete() {
-        this.status = PaymentStatus.COMPLETED;
+        this.paymentStatus = PaymentStatus.COMPLETED;
     }
 
     public void fail() {
-        this.status = PaymentStatus.FAILED;
+        this.paymentStatus = PaymentStatus.FAILED;
     }
 
 }

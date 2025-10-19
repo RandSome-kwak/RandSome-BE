@@ -8,12 +8,12 @@ import org.kwakmunsu.randsome.domain.member.enums.Gender;
 
 public interface CandidateAdminRepository {
 
-    CandidateListResponse findAllByStatus(CandidateStatus status, int page);
+    CandidateListResponse findAllByCandidateStatus(CandidateStatus status, int page);
 
     Candidate findByIdWithMember(Long id);
 
-    List<Candidate> findByGenderAndStatus(Gender gender, CandidateStatus status);
+    List<Candidate> findByGenderAndCandidateStatus(Gender gender, CandidateStatus status);
 
-    long countByStatus(CandidateStatus candidateStatus);
+    long countByCandidateStatus(CandidateStatus candidateStatus);
 
 }

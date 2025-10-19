@@ -188,7 +188,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     }
 
     @TestAdmin
-    @DisplayName("status 파라미터가 누락된 경우 실패한다.")
+    @DisplayName("matchingStatus 파라미터가 누락된 경우 실패한다.")
     @Test
     void failGetApplicationsMissingStatus() {
         // when & then
@@ -200,12 +200,12 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     }
 
     @TestAdmin
-    @DisplayName("잘못된 status 값으로 요청하면 실패한다.")
+    @DisplayName("잘못된 matchingStatus 값으로 요청하면 실패한다.")
     @Test
     void failGetApplicationsInvalidStatus() {
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
-                .param("status", "INVALID_STATUS")
+                .param("matchingStatus", "INVALID_STATUS")
                 .param("page", "1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .apply(print())
@@ -218,7 +218,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     void failGetApplicationsInvalidPage() {
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
-                .param("status", MatchingStatus.PENDING.name())
+                .param("matchingStatus", MatchingStatus.PENDING.name())
                 .param("page", "-1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .apply(print())
@@ -231,7 +231,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     void failGetApplicationsNonNumericPage() {
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
-                .param("status", MatchingStatus.PENDING.name())
+                .param("matchingStatus", MatchingStatus.PENDING.name())
                 .param("page", "invalid")
                 .contentType(MediaType.APPLICATION_JSON))
                 .apply(print())

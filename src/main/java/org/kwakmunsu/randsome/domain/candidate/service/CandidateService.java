@@ -40,7 +40,7 @@ public class CandidateService {
     }
 
     private void validateCandidateRegistration(Candidate candidate) {
-        switch (candidate.getStatus()) {
+        switch (candidate.getCandidateStatus()) {
             case APPROVED -> throw new ConflictException(ErrorStatus.ALREADY_APPROVED);
             case PENDING -> throw new ConflictException(ErrorStatus.PENDING_MEMBER);
             case REJECTED -> {} // 거절 상태는 다시 등록 가능하므로 통과

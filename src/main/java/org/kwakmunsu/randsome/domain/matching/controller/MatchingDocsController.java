@@ -83,7 +83,7 @@ public abstract class MatchingDocsController {
             security = {@SecurityRequirement(name = "Bearer ")}
     )
     @Parameter(
-            name = "status",
+            name = "matchingStatus",
             description = """
                     조회할 매칭 신청 상태
                     - PENDING: 대기 | FAILED: 실패

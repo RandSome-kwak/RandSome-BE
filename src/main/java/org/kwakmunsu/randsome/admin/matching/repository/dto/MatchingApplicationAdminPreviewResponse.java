@@ -37,7 +37,7 @@ public record MatchingApplicationAdminPreviewResponse(
         LocalDateTime appliedAt,
 
         @Schema(description = "승인 상태", example = "대기 | 승인 | 거절")
-        String status
+        String matchingStatus
 ) {
 
     // QueryDSL용 enum을 받는 생성자 (새로 추가)

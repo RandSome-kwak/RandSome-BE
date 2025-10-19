@@ -33,7 +33,7 @@ public class CandidateQueryDslRepository {
                                 candidate.member.nickname,
                                 candidate.member.gender,
                                 candidate.createdAt,
-                                candidate.status
+                                candidate.candidateStatus
                         ))
                 .from(candidate)
                 .where(
@@ -62,7 +62,7 @@ public class CandidateQueryDslRepository {
     private BooleanExpression statusEq(CandidateStatus status) {
         // 기본값 : PENDING
         CandidateStatus candidateStatus = status != null ? status : CandidateStatus.PENDING;
-        return candidate.status.eq(candidateStatus);
+        return candidate.candidateStatus.eq(candidateStatus);
     }
 
     private List<CandidatePreviewResponse> getLimitedPage(List<CandidatePreviewResponse> responses, boolean hasNext) {

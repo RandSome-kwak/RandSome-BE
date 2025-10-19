@@ -22,7 +22,7 @@ public class MatchingApplicationQueryDslRepository {
     private static final int NEXT_PAGE_CHECK_SIZE = 1;
     private final JPAQueryFactory queryFactory;
 
-    public MatchingApplicationAdminListResponse findAllByStatus(MatchingStatus status, int page) {
+    public MatchingApplicationAdminListResponse findAllByMatchingStatus(MatchingStatus status, int page) {
         int offset = (page - 1) * PAGE_SIZE;
         int limit = PAGE_SIZE + NEXT_PAGE_CHECK_SIZE; // 다음 페이지 존재 여부 체크용
 
@@ -38,7 +38,7 @@ public class MatchingApplicationQueryDslRepository {
                                 matchingApplication.requestedCount.as("matchingCount"),
                                 payment.amount.as("price"),
                                 matchingApplication.createdAt.as("appliedAt"),
-                                matchingApplication.status.as("status")
+                                matchingApplication.matchingStatus.as("matchingStatus")
                         ))
                 .from(matchingApplication)
                 .join(payment).on(matchingApplication.requester.id.eq(payment.member.id))
@@ -73,7 +73,7 @@ public class MatchingApplicationQueryDslRepository {
     private BooleanExpression statusEq(MatchingStatus status) {
         // 기본값 : PENDING
         MatchingStatus matchingStatus = status != null ? status : MatchingStatus.PENDING;
-        return matchingApplication.status.eq(matchingStatus);
+        return matchingApplication.matchingStatus.eq(matchingStatus);
     }
 
     private List<MatchingApplicationAdminPreviewResponse> getLimitedPage(List<MatchingApplicationAdminPreviewResponse> responses,

@@ -55,7 +55,7 @@ class CandidateAdminControllerTest extends ControllerTestSupport {
     @Test
     void failApprove() {
         // given
-        String invalidRequestJson = "{\"status\":\"INVALID_STATUS\"}";
+        String invalidRequestJson = "{\"matchingStatus\":\"INVALID_STATUS\"}";
 
         // when
         assertThat(mvcTester.put().uri("/api/v1/admin/matching/candidates/{candidateId}/status", 1L)
@@ -92,7 +92,7 @@ class CandidateAdminControllerTest extends ControllerTestSupport {
     void failGetCandidates() {
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/matching/candidates")
-                .param("status", "invaild")
+                .param("matchingStatus", "invaild")
                 .contentType(MediaType.APPLICATION_JSON))
                 .apply(print())
                 .hasStatus(HttpStatus.BAD_REQUEST);

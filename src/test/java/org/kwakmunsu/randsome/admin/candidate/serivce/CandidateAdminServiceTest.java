@@ -36,13 +36,13 @@ class CandidateAdminServiceTest {
 
         given(candidateAdminRepository.findByIdWithMember(any(Long.class))).willReturn(candidate);
 
-        assertThat(candidate.getStatus()).isEqualTo(CandidateStatus.PENDING);
+        assertThat(candidate.getCandidateStatus()).isEqualTo(CandidateStatus.PENDING);
 
         // when
         candidateAdminService.updateCandidateStatus(1L, CandidateStatus.APPROVED);
 
         // then
-        assertThat(candidate.getStatus()).isEqualTo(CandidateStatus.APPROVED);
+        assertThat(candidate.getCandidateStatus()).isEqualTo(CandidateStatus.APPROVED);
         assertThat(candidate.getMember().getRole()).isEqualTo(Role.ROLE_CANDIDATE);
     }
 
@@ -55,13 +55,13 @@ class CandidateAdminServiceTest {
 
         given(candidateAdminRepository.findByIdWithMember(any(Long.class))).willReturn(candidate);
 
-        assertThat(candidate.getStatus()).isEqualTo(CandidateStatus.PENDING);
+        assertThat(candidate.getCandidateStatus()).isEqualTo(CandidateStatus.PENDING);
 
         // when
         candidateAdminService.updateCandidateStatus(1L, CandidateStatus.REJECTED);
 
         // then
-        assertThat(candidate.getStatus()).isEqualTo(CandidateStatus.REJECTED);
+        assertThat(candidate.getCandidateStatus()).isEqualTo(CandidateStatus.REJECTED);
         assertThat(candidate.getMember().getRole()).isEqualTo(Role.ROLE_MEMBER);
     }
 

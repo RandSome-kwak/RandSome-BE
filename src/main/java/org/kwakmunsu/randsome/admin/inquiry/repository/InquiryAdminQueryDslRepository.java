@@ -33,7 +33,7 @@ public class InquiryAdminQueryDslRepository {
                                 inquiry.title,
                                 inquiry.content,
                                 inquiry.answer,
-                                inquiry.status,
+                                inquiry.inquiryStatus.as("inquiryStatus"),
                                 inquiry.createdAt
                         ))
                 .from(inquiry)
@@ -53,8 +53,8 @@ public class InquiryAdminQueryDslRepository {
         return new InquiryListAdminResponse(limitedPage, hasNext, totalCount);
     }
 
-    private BooleanExpression statusEq(InquiryStatus state) {
-        return state == null ? inquiry.status.eq(InquiryStatus.PENDING) : inquiry.status.eq(state);
+    private BooleanExpression statusEq(InquiryStatus status) {
+        return status == null ? inquiry.inquiryStatus.eq(InquiryStatus.PENDING) : inquiry.inquiryStatus.eq(status);
     }
 
     private Long countByState(InquiryStatus state) {

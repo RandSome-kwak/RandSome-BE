@@ -52,7 +52,7 @@ class MatchingQueryServiceTest {
         var requester = MemberFixture.createMember(1L);
         var matchingApplications = createMatchingApplication(requester);
         var completedApplications = matchingApplications.stream()
-                .filter(app -> app.getStatus() == MatchingStatus.COMPLETED)
+                .filter(app -> app.getMatchingStatus() == MatchingStatus.COMPLETED)
                 .toList();
 
         given(matchingApplicationRepository.findAllByRequesterIdAndStatus(requester.getId(), MatchingStatus.COMPLETED))
@@ -76,7 +76,7 @@ class MatchingQueryServiceTest {
         var requester = MemberFixture.createMember(1L);
         var matchingApplications = createMatchingApplication(requester);
         var pendingAndFailApplications = matchingApplications.stream()
-                .filter(app -> app.getStatus() != MatchingStatus.COMPLETED)
+                .filter(app -> app.getMatchingStatus() != MatchingStatus.COMPLETED)
                 .toList();
 
         given(matchingApplicationRepository.findAllByRequesterIdAndStatusIn(requester.getId(), List.of(MatchingStatus.PENDING, MatchingStatus.FAILED)))

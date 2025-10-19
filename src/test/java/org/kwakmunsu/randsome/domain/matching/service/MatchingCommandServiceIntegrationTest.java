@@ -40,7 +40,7 @@ record MatchingCommandServiceIntegrationTest(
                         MatchingApplication::getId,
                         MatchingApplication::getRequester,
                         MatchingApplication::getMatchingType,
-                        MatchingApplication::getStatus,
+                        MatchingApplication::getMatchingStatus,
                         MatchingApplication::getRequestedCount
                 )
                 .containsExactly(

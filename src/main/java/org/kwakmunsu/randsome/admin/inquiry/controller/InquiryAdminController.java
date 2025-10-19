@@ -33,10 +33,10 @@ public class InquiryAdminController extends InquiryAdminDocsController {
     @Override
     @GetMapping
     public ResponseEntity<InquiryListAdminResponse> getInquires(
-            @RequestParam InquiryStatus state,
+            @RequestParam InquiryStatus status,
             @RequestParam(defaultValue = "1") int page
     ) {
-        InquiryListAdminResponse response = inquiryAdminService.getInquires(state, page);
+        InquiryListAdminResponse response = inquiryAdminService.getInquires(status, page);
 
         return ResponseEntity.ok(response);
     }

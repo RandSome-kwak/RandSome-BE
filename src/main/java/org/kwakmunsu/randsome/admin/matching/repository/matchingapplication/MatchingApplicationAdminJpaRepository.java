@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MatchingApplicationAdminJpaRepository extends JpaRepository<MatchingApplication, Long> {
 
-    long countByStatus(MatchingStatus matchingStatus);
+    long countByMatchingStatus(MatchingStatus matchingStatus);
 
 }
