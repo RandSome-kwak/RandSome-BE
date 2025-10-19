@@ -38,7 +38,7 @@ public abstract class CandidateAdminDocsController {
     @RequestBody(
             description = """
                     지원자 상태 변경 요청 본문
-                    - status: 변경할 상태 (APPROVED, REJECTED)
+                    - matchingStatus: 변경할 상태 (APPROVED, REJECTED)
                     """,
             required = true,
             content = @Content(
@@ -97,7 +97,7 @@ public abstract class CandidateAdminDocsController {
     })
     public abstract ResponseEntity<CandidateListResponse> getCandidateApplications(
             @Parameter(
-                    name = "status",
+                    name = "matchingStatus",
                     description = "조회할 지원자 상태 (PENDING, APPROVED, REJECTED)",
                     in = ParameterIn.QUERY,
                     required = true,

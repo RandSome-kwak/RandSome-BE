@@ -37,7 +37,7 @@ public class Inquiry extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "inquiry_status", nullable = false)
-    private InquiryStatus status;
+    private InquiryStatus inquiryStatus;
 
     @Column(length = 5000)
     private String answer;
@@ -48,14 +48,14 @@ public class Inquiry extends BaseEntity {
         inquiry.author = author;
         inquiry.title = title;
         inquiry.content = content;
-        inquiry.status = InquiryStatus.PENDING;
+        inquiry.inquiryStatus = InquiryStatus.PENDING;
         inquiry.answer = null;
 
         return inquiry;
     }
 
     public void updateQuestion(String newTitle, String newContent) {
-        if (this.status == InquiryStatus.COMPLETED) {
+        if (this.inquiryStatus == InquiryStatus.COMPLETED) {
             throw new ConflictException(ErrorStatus.CANNOT_MODIFY_ANSWERED_INQUIRY);
         }
 
@@ -64,7 +64,7 @@ public class Inquiry extends BaseEntity {
     }
 
     public void registerAnswer(String newAnswer) {
-        if (this.status == InquiryStatus.COMPLETED) {
+        if (this.inquiryStatus == InquiryStatus.COMPLETED) {
             throw new ConflictException(ErrorStatus.CANNOT_MODIFY_ANSWER);
         }
 
@@ -73,12 +73,12 @@ public class Inquiry extends BaseEntity {
     }
 
     public boolean isAnswered() {
-        return this.status == InquiryStatus.COMPLETED;
+        return this.inquiryStatus == InquiryStatus.COMPLETED;
     }
 
 
     private void completeAnswer() {
-        this.status = InquiryStatus.COMPLETED;
+        this.inquiryStatus = InquiryStatus.COMPLETED;
     }
 
 }

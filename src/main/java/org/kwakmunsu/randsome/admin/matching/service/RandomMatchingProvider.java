@@ -26,7 +26,7 @@ public class RandomMatchingProvider implements MatchingProvider {
     // 추후 인원이 많아지면, DB 에서 랜덤 추출하는 방식으로 변경 필요
     @Override
     public List<Member> match(Member requester, int count) {
-        List<Candidate> all = candidateRepository.findByGenderAndStatus(requester.getGender(), CandidateStatus.APPROVED);
+        List<Candidate> all = candidateRepository.findByGenderAndCandidateStatus(requester.getGender(), CandidateStatus.APPROVED);
         List<Member> members = new ArrayList<>(all.stream()
                 .map(Candidate::getMember)
                 .toList());

@@ -56,7 +56,7 @@ class InquiryAdminServiceIntegrationTest {
         assertThat(result).extracting(
                         Inquiry::getAnswer,
                         Inquiry::isAnswered,
-                        Inquiry::getStatus
+                        Inquiry::getInquiryStatus
                 )
                 .containsExactly(
                         answer,
@@ -115,7 +115,7 @@ class InquiryAdminServiceIntegrationTest {
 
         // 모든 문의가 PENDING 상태인지 확인
         assertThat(response.responses())
-                .allMatch(inquiry -> inquiry.state().equals(PENDING.getDescription()))
+                .allMatch(inquiry -> inquiry.inquiryStatus().equals(PENDING.getDescription()))
                 .allMatch(inquiry -> inquiry.answer() == null);
     }
 
@@ -138,7 +138,7 @@ class InquiryAdminServiceIntegrationTest {
 
         // 모든 문의가 COMPLETED 상태이고 답변이 있는지 확인
         assertThat(response.responses())
-                .allMatch(inquiry -> inquiry.state().equals(InquiryStatus.COMPLETED.getDescription()))
+                .allMatch(inquiry -> inquiry.inquiryStatus().equals(InquiryStatus.COMPLETED.getDescription()))
                 .allMatch(inquiry -> inquiry.answer() != null);
     }
 

@@ -55,7 +55,7 @@ public abstract class MatchingAdminDocsController {
     })
     public abstract ResponseEntity<MatchingApplicationAdminListResponse> getApplications(
             @Parameter(
-                    name = "status",
+                    name = "matchingStatus",
                     description = "조회할 매칭 신청 상태 (PENDING: 대기중, COMPLETED: 완료, FAILED: 실패)",
                     in = ParameterIn.QUERY,
                     required = true,
@@ -87,7 +87,7 @@ public abstract class MatchingAdminDocsController {
     @RequestBody(
             description = """
                     상태 변경 요청 본문
-                    - status: 변경할 상태 (COMPLETED, FAILED)
+                    - matchingStatus: 변경할 상태 (COMPLETED, FAILED)
                     """,
             required = true,
             content = @Content(

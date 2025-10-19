@@ -48,7 +48,7 @@ public class MatchingAdminService {
      */
     @Transactional
     public void updateApplicationStatus(Long applicationId, MatchingStatus status) {
-        log.info("Updating application status - ID: {}, newStatus: {}", applicationId, status);
+        log.info("Updating application matchingStatus - ID: {}, newStatus: {}", applicationId, status);
 
         MatchingApplication application = applicationRepository.findById(applicationId);
         switch (status) {

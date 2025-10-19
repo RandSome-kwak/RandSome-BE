@@ -33,7 +33,7 @@ public class MatchingApplication extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "matching_status", nullable = false)
-    private MatchingStatus status;
+    private MatchingStatus matchingStatus;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -49,21 +49,21 @@ public class MatchingApplication extends BaseEntity {
         application.requester = requester;
         application.matchingType = matchingType;
         application.requestedCount = requestedCount;
-        application.status = MatchingStatus.PENDING;
+        application.matchingStatus = MatchingStatus.PENDING;
 
         return application;
     }
 
     public void complete() {
-        this.status = MatchingStatus.COMPLETED;
+        this.matchingStatus = MatchingStatus.COMPLETED;
     }
 
     public void fail() {
-        this.status = MatchingStatus.FAILED;
+        this.matchingStatus = MatchingStatus.FAILED;
     }
 
     public boolean isComplete() {
-        return this.status == MatchingStatus.COMPLETED;
+        return this.matchingStatus == MatchingStatus.COMPLETED;
     }
 
     public boolean isOwnedBy(Long requesterId) {

@@ -27,7 +27,7 @@ public record InquiryReadAdminResponse(
         String answer,
 
         @Schema(description = "문의 상태", example = "대기 | 완료")
-        String state,
+        String inquiryStatus,
 
         @Schema(description = "문의 생성 일시", example = "2023-10-01T12:34:56")
         LocalDateTime createdAt

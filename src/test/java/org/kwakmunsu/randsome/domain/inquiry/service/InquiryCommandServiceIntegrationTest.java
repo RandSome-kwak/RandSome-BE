@@ -42,7 +42,7 @@ record InquiryCommandServiceIntegrationTest(
         // then
         var updated = inquiryRepository.findById(inquiry.getId()).get();
 
-        assertThat(updated).extracting(Inquiry::getTitle, Inquiry::getContent, Inquiry::getStatus)
+        assertThat(updated).extracting(Inquiry::getTitle, Inquiry::getContent, Inquiry::getInquiryStatus)
                 .containsExactly(request.title(), request.content(), InquiryStatus.PENDING);
     }
 

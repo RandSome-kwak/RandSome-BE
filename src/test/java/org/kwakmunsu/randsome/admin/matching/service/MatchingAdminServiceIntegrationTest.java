@@ -67,7 +67,7 @@ class MatchingAdminServiceIntegrationTest {
 
         // 모든 응답이 대기 상태인지 확인
         response.responses().forEach(application ->
-                assertThat(application.status()).isEqualTo(MatchingStatus.PENDING.getDescription()));
+                assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.PENDING.getDescription()));
     }
 
     @DisplayName("관리자가 대기 상태 후보자 목록 두번째 페이지를 조회한다.")
@@ -86,7 +86,7 @@ class MatchingAdminServiceIntegrationTest {
 
         // 모든 응답이 대기 상태인지 확인
         response.responses().forEach(application ->
-                assertThat(application.status()).isEqualTo(MatchingStatus.PENDING.getDescription()));
+                assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.PENDING.getDescription()));
     }
 
     @DisplayName("관리자가 완료 상태의 매칭 신청 목록 첫번째 페이지를 조회한다.")
@@ -105,7 +105,7 @@ class MatchingAdminServiceIntegrationTest {
 
         // 모든 응답이 승인 상태인지 확인
         response.responses().forEach(application ->
-                assertThat(application.status()).isEqualTo(MatchingStatus.COMPLETED.getDescription()));
+                assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.COMPLETED.getDescription()));
     }
 
     @DisplayName("관리자가 완료 상태의 매칭 신청 목록 두번째 페이지를 조회한다.")
@@ -124,7 +124,7 @@ class MatchingAdminServiceIntegrationTest {
 
         // 모든 응답이 승인 상태인지 확인
         response.responses().forEach(application ->
-                assertThat(application.status()).isEqualTo(MatchingStatus.COMPLETED.getDescription()));
+                assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.COMPLETED.getDescription()));
     }
 
     @DisplayName("관리자가 실패 상태 매칭 신청 목록을 조회한다.")
@@ -142,7 +142,7 @@ class MatchingAdminServiceIntegrationTest {
         assertThat(response.totalCount()).isEqualTo(APPLICATION_PER_STATUS);
 
         response.responses().forEach(application ->
-                assertThat(application.status()).isEqualTo(MatchingStatus.FAILED.getDescription()));
+                assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.FAILED.getDescription()));
     }
 
     @DisplayName("관리자가 거절 상태 후보자 목록 두번째 페이지를 조회한다.")
@@ -160,7 +160,7 @@ class MatchingAdminServiceIntegrationTest {
         assertThat(response.totalCount()).isEqualTo(APPLICATION_PER_STATUS);
 
         response.responses().forEach(application ->
-                assertThat(application.status()).isEqualTo(MatchingStatus.FAILED.getDescription()));
+                assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.FAILED.getDescription()));
     }
 
     @DisplayName("각 상태별로 정확히 25개씩 매칭 신청이 존재한다.")

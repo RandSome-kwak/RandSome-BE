@@ -31,7 +31,7 @@ class InquiryTest {
                         Inquiry::getAuthor,
                         Inquiry::getTitle,
                         Inquiry::getContent,
-                        Inquiry::getStatus,
+                        Inquiry::getInquiryStatus,
                         Inquiry::getAnswer
                 )
                 .containsExactly(
@@ -65,13 +65,13 @@ class InquiryTest {
         // given
         var newAnswer = "답변 내용";
 
-        assertThat(inquiry).extracting(Inquiry::getStatus, Inquiry::getAnswer)
+        assertThat(inquiry).extracting(Inquiry::getInquiryStatus, Inquiry::getAnswer)
                 .containsExactly(InquiryStatus.PENDING, null);
         // when
         inquiry.registerAnswer(newAnswer);
 
         // then
-        assertThat(inquiry).extracting(Inquiry::getStatus, Inquiry::getAnswer)
+        assertThat(inquiry).extracting(Inquiry::getInquiryStatus, Inquiry::getAnswer)
                 .containsExactly(InquiryStatus.COMPLETED, newAnswer);
     }
 

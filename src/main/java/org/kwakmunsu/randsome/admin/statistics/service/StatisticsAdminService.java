@@ -20,7 +20,7 @@ public class StatisticsAdminService {
 
     public MatchingStatisticsAdminResponse getMatchingStatistics() {
         long totalMemberCount = memberRepository.count();
-        long totalCandidateCount = candidateAdminRepository.countByStatus(CandidateStatus.APPROVED);
+        long totalCandidateCount = candidateAdminRepository.countByCandidateStatus(CandidateStatus.APPROVED);
         long totalMatchingCount = matchingApplicationRepository.countByStatus(MatchingStatus.COMPLETED);
 
         // 승인 대기 수 (후보, 매칭, 문의 승인 대기 수)

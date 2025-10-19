@@ -58,7 +58,7 @@ class InquiryAdminControllerTest extends ControllerTestSupport {
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/inquiries")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("state", InquiryStatus.PENDING.name()))
+                .param("status", InquiryStatus.PENDING.name()))
                 .hasStatusOk()
                 .apply(print())
                 .bodyJson()
@@ -68,7 +68,7 @@ class InquiryAdminControllerTest extends ControllerTestSupport {
                 .hasPathSatisfying("$.responses[0].title", v -> v.assertThat().isEqualTo(responses.getFirst().title()))
                 .hasPathSatisfying("$.responses[0].content", v -> v.assertThat().isEqualTo(responses.getFirst().content()))
                 .hasPathSatisfying("$.responses[0].answer", v -> v.assertThat().isEqualTo(responses.getFirst().answer()))
-                .hasPathSatisfying("$.responses[0].state", v -> v.assertThat().isEqualTo(responses.getFirst().state()))
+                .hasPathSatisfying("$.responses[0].inquiryStatus", v -> v.assertThat().isEqualTo(responses.getFirst().inquiryStatus()))
                 .hasPathSatisfying("$.responses[0].createdAt", v -> v.assertThat().isEqualTo(responses.getFirst().createdAt().toString()))
                 .hasPathSatisfying("$.hasNext", v -> v.assertThat().isEqualTo(false))
                 .hasPathSatisfying("$.totalCount", v -> v.assertThat().isEqualTo(response.totalCount().intValue()));
@@ -82,7 +82,7 @@ class InquiryAdminControllerTest extends ControllerTestSupport {
                         .authorNickname("nickname")
                         .title("title")
                         .content("content")
-                        .state(InquiryStatus.PENDING.getDescription())
+                        .inquiryStatus(InquiryStatus.PENDING.getDescription())
                         .createdAt(LocalDateTime.now())
                         .build(),
 
@@ -93,7 +93,7 @@ class InquiryAdminControllerTest extends ControllerTestSupport {
                         .title("title")
                         .content("content")
                         .answer("answer")
-                        .state(InquiryStatus.COMPLETED.getDescription())
+                        .inquiryStatus(InquiryStatus.COMPLETED.getDescription())
                         .createdAt(LocalDateTime.now())
                         .build()
         );

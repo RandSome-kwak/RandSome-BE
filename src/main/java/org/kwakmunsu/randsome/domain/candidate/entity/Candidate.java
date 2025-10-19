@@ -27,23 +27,23 @@ public class Candidate extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "candidate_status", nullable = false)
-    private CandidateStatus status;
+    private CandidateStatus candidateStatus;
 
     public static Candidate create(Member member) {
         Candidate candidate = new Candidate();
 
         candidate.member = member;
-        candidate.status = CandidateStatus.PENDING;
+        candidate.candidateStatus = CandidateStatus.PENDING;
 
         return candidate;
     }
 
     public void approve() {
-        this.status = CandidateStatus.APPROVED;
+        this.candidateStatus = CandidateStatus.APPROVED;
     }
 
     public void reject() {
-        this.status = CandidateStatus.REJECTED;
+        this.candidateStatus = CandidateStatus.REJECTED;
     }
 
 }

@@ -28,7 +28,7 @@ public record MatchingApplicationPreviewResponse(
         return MatchingApplicationPreviewResponse.builder()
                 .applicationId(application.getId())
                 .requestedCount(application.getRequestedCount())
-                .matchingStatus(application.getStatus().getDescription())
+                .matchingStatus(application.getMatchingStatus().getDescription())
                 .matchingType(application.getMatchingType().getDescription())
                 .appliedAt(application.getCreatedAt())
                 .build();

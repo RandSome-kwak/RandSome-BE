@@ -86,7 +86,7 @@ class MatchingAdminServiceTest {
         matchingAdminService.updateApplicationStatus(1L, MatchingStatus.COMPLETED);
 
         // then
-        assertThat(application.getStatus()).isEqualTo(MatchingStatus.COMPLETED);
+        assertThat(application.getMatchingStatus()).isEqualTo(MatchingStatus.COMPLETED);
         then(randomMatchingProvider).should(times(1)).match(eq(requester), eq(3));
         then(matchingAdminRepository).should(times(1)).saveAll(anyList());
     }
@@ -101,7 +101,7 @@ class MatchingAdminServiceTest {
         matchingAdminService.updateApplicationStatus(1L, MatchingStatus.FAILED);
 
         // then
-        assertThat(application.getStatus()).isEqualTo(MatchingStatus.FAILED);
+        assertThat(application.getMatchingStatus()).isEqualTo(MatchingStatus.FAILED);
         then(randomMatchingProvider).should(never()).match(any(Member.class), anyInt());
         then(matchingAdminRepository).should(never()).saveAll(anyList());
     }

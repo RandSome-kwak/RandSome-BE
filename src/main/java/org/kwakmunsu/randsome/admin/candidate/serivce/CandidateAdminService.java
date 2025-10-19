@@ -33,7 +33,7 @@ public class CandidateAdminService {
 
     @Transactional(readOnly = true)
     public CandidateListResponse getCandidates(CandidateListReadServiceRequest request) {
-        return candidateAdminRepository.findAllByStatus(request.status(), request.page());
+        return candidateAdminRepository.findAllByCandidateStatus(request.status(), request.page());
     }
 
     private void approveCandidate(Candidate candidate) {
