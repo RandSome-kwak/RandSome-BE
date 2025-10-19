@@ -26,7 +26,7 @@ public class Candidate extends BaseEntity {
     private Member member;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "candidate_status", nullable = false)
     private CandidateStatus status;
 
     public static Candidate create(Member member) {

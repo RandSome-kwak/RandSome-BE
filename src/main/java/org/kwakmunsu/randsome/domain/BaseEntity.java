@@ -2,6 +2,8 @@ package org.kwakmunsu.randsome.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +15,7 @@ import org.hibernate.proxy.HibernateProxy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.objenesis.instantiator.perc.PercInstantiator;
 
 @Getter
 @EntityListeners(AuditingEntityListener.class)
@@ -30,10 +33,8 @@ public abstract class BaseEntity {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    private LocalDateTime deletedAt;
-
-    @Column(nullable = false)
-    private boolean isDeleted;
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.ACTIVE;
 
     @Override
     public final boolean equals(Object o) {
@@ -59,13 +60,20 @@ public abstract class BaseEntity {
                 .hashCode() : getClass().hashCode();
     }
 
-    public void activate() {
-        this.isDeleted = false;
+    public void active() {
+        status = EntityStatus.ACTIVE;
+    }
+
+    public boolean isActive() {
+        return status == EntityStatus.ACTIVE;
     }
 
     public void delete() {
-        this.isDeleted = true;
-        this.deletedAt = LocalDateTime.now();
+        status = EntityStatus.DELETED;
+    }
+
+    public boolean isDeleted() {
+        return status == EntityStatus.ACTIVE;
     }
 
 }

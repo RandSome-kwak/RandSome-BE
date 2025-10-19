@@ -36,6 +36,7 @@ public class Inquiry extends BaseEntity {
     private String content;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "inquiry_status", nullable = false)
     private InquiryStatus status;
 
     @Column(length = 5000)

@@ -32,7 +32,7 @@ public class MatchingApplication extends BaseEntity {
     private int requestedCount; // 요청한 인원 수
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "matching_status", nullable = false)
     private MatchingStatus status;
 
     @Enumerated(EnumType.STRING)
