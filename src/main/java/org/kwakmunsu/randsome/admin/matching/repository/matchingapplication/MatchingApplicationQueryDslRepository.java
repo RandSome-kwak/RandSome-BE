@@ -22,7 +22,7 @@ public class MatchingApplicationQueryDslRepository {
     private static final int NEXT_PAGE_CHECK_SIZE = 1;
     private final JPAQueryFactory queryFactory;
 
-    public MatchingApplicationAdminListResponse findAllByStatus(MatchingStatus status, int page) {
+    public MatchingApplicationAdminListResponse findAllByMatchingStatus(MatchingStatus status, int page) {
         int offset = (page - 1) * PAGE_SIZE;
         int limit = PAGE_SIZE + NEXT_PAGE_CHECK_SIZE; // 다음 페이지 존재 여부 체크용
 

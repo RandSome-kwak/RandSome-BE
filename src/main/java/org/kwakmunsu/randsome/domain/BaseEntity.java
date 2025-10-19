@@ -73,7 +73,7 @@ public abstract class BaseEntity {
     }
 
     public boolean isDeleted() {
-        return status == EntityStatus.ACTIVE;
+        return status == EntityStatus.DELETED;
     }
 
 }

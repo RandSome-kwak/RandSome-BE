@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 public interface CandidateAdminJpaRepository extends JpaRepository<Candidate, Long> {
 
     @Query(value = """
-                SELECT c FROM Candidate c JOIN FETCH c.member m WHERE m.gender != :gender AND c.candidateStatus = :status
+                SELECT c FROM Candidate c JOIN FETCH c.member m WHERE m.gender != :gender AND c.candidateStatus = :candidateStatus
             """
     )
     List<Candidate> findByGenderAndStatus(

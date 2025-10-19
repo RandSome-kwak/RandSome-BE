@@ -20,7 +20,6 @@ import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 
 @Table(name = "inquiries")
 @Getter
-@SQLRestriction("is_deleted = false")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Inquiry extends BaseEntity {

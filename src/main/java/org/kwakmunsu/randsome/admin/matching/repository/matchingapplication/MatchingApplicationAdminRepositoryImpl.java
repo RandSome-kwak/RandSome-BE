@@ -23,13 +23,13 @@ public class MatchingApplicationAdminRepositoryImpl implements MatchingApplicati
     }
 
     @Override
-    public MatchingApplicationAdminListResponse findAllByStatus(MatchingStatus status, int page) {
-        return matchingApplicationQueryDslRepository.findAllByStatus(status, page);
+    public MatchingApplicationAdminListResponse findAllByMatchingStatus(MatchingStatus status, int page) {
+        return matchingApplicationQueryDslRepository.findAllByMatchingStatus(status, page);
     }
 
     @Override
-    public long countByStatus(MatchingStatus matchingStatus) {
-        return matchingApplicationAdminJpaRepository.countByStatus(matchingStatus);
+    public long countByMatchingStatus(MatchingStatus matchingStatus) {
+        return matchingApplicationAdminJpaRepository.countByMatchingStatus(matchingStatus);
     }
 
 }

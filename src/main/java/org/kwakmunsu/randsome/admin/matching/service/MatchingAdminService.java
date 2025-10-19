@@ -40,7 +40,7 @@ public class MatchingAdminService {
      */
     @Transactional(readOnly = true)
     public MatchingApplicationAdminListResponse findApplicationsByStatus(MatchingApplicationListServiceRequest request) {
-        return applicationRepository.findAllByStatus(request.status(), request.page());
+        return applicationRepository.findAllByMatchingStatus(request.status(), request.page());
     }
 
     /**

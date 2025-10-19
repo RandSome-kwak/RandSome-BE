@@ -8,7 +8,7 @@ public interface MatchingApplicationAdminRepository {
 
     MatchingApplication findById(Long id);
 
-    MatchingApplicationAdminListResponse findAllByStatus(MatchingStatus status, int page);
+    MatchingApplicationAdminListResponse findAllByMatchingStatus(MatchingStatus status, int page);
 
-    long countByStatus(MatchingStatus matchingStatus);
+    long countByMatchingStatus(MatchingStatus matchingStatus);
 }

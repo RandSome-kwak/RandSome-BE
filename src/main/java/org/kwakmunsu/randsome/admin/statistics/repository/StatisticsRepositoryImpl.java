@@ -15,9 +15,9 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     public long findPendingApprovals(String pendingStatus) {
         String sql = """
             SELECT
-              (SELECT COUNT(*) FROM candidates WHERE status = :pendingStatus)
-            + (SELECT COUNT(*) FROM matching_applications WHERE status = :pendingStatus)
-            + (SELECT COUNT(*) FROM inquiries WHERE status = :pendingStatus AND is_deleted = false) 
+              (SELECT COUNT(*) FROM candidates WHERE candidate_status = :pendingStatus)
+            + (SELECT COUNT(*) FROM matching_applications WHERE matching_status = :pendingStatus)
+            + (SELECT COUNT(*) FROM inquiries WHERE inquiry_status = :pendingStatus AND status = 'ACTIVE' ) 
         """;
         Object result = entityManager.createNativeQuery(sql)
                 .setParameter("pendingStatus", pendingStatus)

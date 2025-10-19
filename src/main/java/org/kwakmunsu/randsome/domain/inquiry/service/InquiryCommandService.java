@@ -2,6 +2,7 @@ package org.kwakmunsu.randsome.domain.inquiry.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryRegisterServiceRequest;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryUpdateServiceRequest;
@@ -33,7 +34,7 @@ public class InquiryCommandService {
 
     @Transactional
     public void update(InquiryUpdateServiceRequest request) {
-        Inquiry inquiry = inquiryRepository.findByIdAndAuthorId(request.inquiryId(), request.authorId());
+        Inquiry inquiry = inquiryRepository.findByIdAndAuthorIdAndStatus(request.inquiryId(), request.authorId(), EntityStatus.ACTIVE);
 
         // 답변이 완료된 문의글은 수정 불가
         inquiry.updateQuestion(request.title(), request.content());
@@ -41,7 +42,7 @@ public class InquiryCommandService {
 
     @Transactional
     public void delete(Long inquiryId, Long authorId) {
-        Inquiry inquiry = inquiryRepository.findByIdAndAuthorId(inquiryId, authorId);
+        Inquiry inquiry = inquiryRepository.findByIdAndAuthorIdAndStatus(inquiryId, authorId, EntityStatus.ACTIVE);
 
         if (inquiry.isAnswered()) {
             throw new ConflictException(ErrorStatus.CANNOT_DELETE_ANSWERED_INQUIRY);

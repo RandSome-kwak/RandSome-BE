@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
@@ -38,7 +39,7 @@ class InquiryQueryServiceTest {
         var inquiryCount = 10;
         var inquiries = createInquiries(author, inquiryCount);
 
-        given(inquiryRepository.findAllByAuthorId(author.getId())).willReturn(inquiries);
+        given(inquiryRepository.findAllByAuthorIdAndStatus(any(Long.class), any(EntityStatus.class))).willReturn(inquiries);
 
         // when
         var inquiryListResponse = inquiryQueryService.getInquires(author.getId());
@@ -52,7 +53,7 @@ class InquiryQueryServiceTest {
     @Test
     void getEmpty() {
         // given
-        given(inquiryRepository.findAllByAuthorId(any(Long.class))).willReturn(List.of());
+        given(inquiryRepository.findAllByAuthorIdAndStatus(any(Long.class), any(EntityStatus.class))).willReturn(List.of());
 
         // when
         var inquiryListResponse = inquiryQueryService.getInquires(1L);
