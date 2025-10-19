@@ -37,6 +37,7 @@ public class MemberQueryService {
 
         return new CheckResponse(available);
     }
+
     public CheckResponse isNicknameAvailable(String nickname) {
         boolean available = !memberRepository.existsByNickname(nickname);
 

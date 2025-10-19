@@ -7,7 +7,7 @@ import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 
 @Builder
 @Schema(description = "매칭 신청 상태 업데이트 요청 DTO")
-public record MatchingApplicationStatusUpdateRequest(
+public record MatchingApplicationUpdateRequest(
         @Schema(description = "매칭 상태", example = "COMPLETED | FAILED")
         @NotNull(message = "매칭 상태는 필수입니다.")
         MatchingStatus status

@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationStatusUpdateRequest;
+import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationUpdateRequest;
 import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
@@ -92,7 +92,7 @@ public abstract class MatchingAdminDocsController {
             required = true,
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = MatchingApplicationStatusUpdateRequest.class)
+                    schema = @Schema(implementation = MatchingApplicationUpdateRequest.class)
             )
     )
     @ApiResponse(
@@ -107,7 +107,7 @@ public abstract class MatchingAdminDocsController {
             NOT_FOUND,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<Void> updateApplicationStatus(
+    public abstract ResponseEntity<Void> updateApplication(
             @Parameter(
                     name = "applicationId",
                     description = "상태를 변경할 매칭 신청 ID",
@@ -117,7 +117,7 @@ public abstract class MatchingAdminDocsController {
             )
             Long applicationId,
 
-            @Valid MatchingApplicationStatusUpdateRequest request
+            @Valid MatchingApplicationUpdateRequest request
     );
 
 }

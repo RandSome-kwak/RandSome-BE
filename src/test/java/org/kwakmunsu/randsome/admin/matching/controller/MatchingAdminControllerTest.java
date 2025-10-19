@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
-import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationStatusUpdateRequest;
+import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationUpdateRequest;
 import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
 import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminPreviewResponse;
 import org.kwakmunsu.randsome.admin.matching.service.dto.MatchingApplicationListServiceRequest;
@@ -67,7 +67,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     @Test
     void getApplications() {
         // given
-        given(matchingAdminService.findApplicationsByStatus(any(MatchingApplicationListServiceRequest.class)))
+        given(matchingAdminService.getApplications(any(MatchingApplicationListServiceRequest.class)))
                 .willReturn(matchingApplicationAdminListResponse);
 
         // when & then
@@ -86,7 +86,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                 .hasPathSatisfying("$.responses[0].legalName", v -> v.assertThat().isEqualTo("김철수"))
                 .hasPathSatisfying("$.responses[1].memberId", v -> v.assertThat().asNumber().isEqualTo(2));
 
-        verify(matchingAdminService).findApplicationsByStatus(any(MatchingApplicationListServiceRequest.class));
+        verify(matchingAdminService).getApplications(any(MatchingApplicationListServiceRequest.class));
     }
 
     @TestAdmin
@@ -94,7 +94,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     @Test
     void getCompletedApplications() {
         // given
-        given(matchingAdminService.findApplicationsByStatus(any(MatchingApplicationListServiceRequest.class)))
+        given(matchingAdminService.getApplications(any(MatchingApplicationListServiceRequest.class)))
                 .willReturn(matchingApplicationAdminListResponse);
 
         // when & then
@@ -115,7 +115,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     @Test
     void getApplicationsWithDefaultPage() {
         // given
-        given(matchingAdminService.findApplicationsByStatus(any(MatchingApplicationListServiceRequest.class)))
+        given(matchingAdminService.getApplications(any(MatchingApplicationListServiceRequest.class)))
                 .willReturn(matchingApplicationAdminListResponse);
 
         ArgumentCaptor<MatchingApplicationListServiceRequest> captor =
@@ -128,7 +128,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                 .apply(print())
                 .hasStatusOk();
 
-        verify(matchingAdminService).findApplicationsByStatus(captor.capture());
+        verify(matchingAdminService).getApplications(captor.capture());
 
         MatchingApplicationListServiceRequest capturedRequest = captor.getValue();
         assertThat(capturedRequest.status()).isEqualTo(MatchingStatus.PENDING);
@@ -146,7 +146,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                 .totalCount(25L)
                 .build();
 
-        given(matchingAdminService.findApplicationsByStatus(any(MatchingApplicationListServiceRequest.class)))
+        given(matchingAdminService.getApplications(any(MatchingApplicationListServiceRequest.class)))
                 .willReturn(secondPageResponse);
 
         // when & then
@@ -171,7 +171,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                 .totalCount(0L)
                 .build();
 
-        given(matchingAdminService.findApplicationsByStatus(any(MatchingApplicationListServiceRequest.class)))
+        given(matchingAdminService.getApplications(any(MatchingApplicationListServiceRequest.class)))
                 .willReturn(emptyResponse);
 
         // when & then
@@ -241,9 +241,9 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     @TestAdmin
     @DisplayName("매칭 신청 상태를 업데이트한다.")
     @Test
-    void updateApplicationStatus() throws JsonProcessingException {
+    void updateApplication() throws JsonProcessingException {
         // given
-        var request = new MatchingApplicationStatusUpdateRequest(MatchingStatus.COMPLETED);
+        var request = new MatchingApplicationUpdateRequest(MatchingStatus.COMPLETED);
         String requestJson = objectMapper.writeValueAsString(request);
 
         // when
@@ -254,7 +254,7 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                 .hasStatusOk();
 
         // then
-        verify(matchingAdminService).updateApplicationStatus(any(), any(MatchingStatus.class));
+        verify(matchingAdminService).updateApplication(any(), any(MatchingStatus.class));
     }
 
 }

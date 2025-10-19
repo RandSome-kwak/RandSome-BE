@@ -45,7 +45,7 @@ public class InquiryController extends InquiryDocsController {
 
     @Override
     @PatchMapping("/{inquiryId}")
-    public ResponseEntity<Void> updateInquiry(
+    public ResponseEntity<Void> update(
             @PathVariable Long inquiryId,
             @AuthMember Long memberId,
             @Valid @RequestBody InquiryUpdateRequest request
@@ -57,7 +57,7 @@ public class InquiryController extends InquiryDocsController {
 
     @Override
     @DeleteMapping("/{inquiryId}")
-    public ResponseEntity<Void> deleteInquiry(@PathVariable Long inquiryId, @AuthMember Long memberId) {
+    public ResponseEntity<Void> delete(@PathVariable Long inquiryId, @AuthMember Long memberId) {
         inquiryCommandService.delete(inquiryId, memberId);
 
         return ResponseEntity.noContent().build();

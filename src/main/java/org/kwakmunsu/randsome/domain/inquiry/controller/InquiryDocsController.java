@@ -114,7 +114,7 @@ public abstract class InquiryDocsController {
             NOT_FOUND,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<Void> updateInquiry(Long inquiryId, Long memberId, InquiryUpdateRequest request);
+    public abstract ResponseEntity<Void> update(Long inquiryId, Long memberId, InquiryUpdateRequest request);
 
     @Operation(
             summary = "문의 삭제 - [JWT O]",
@@ -137,6 +137,6 @@ public abstract class InquiryDocsController {
             NOT_FOUND,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<Void> deleteInquiry(Long inquiryId, Long memberId);
+    public abstract ResponseEntity<Void> delete(Long inquiryId, Long memberId);
 
 }

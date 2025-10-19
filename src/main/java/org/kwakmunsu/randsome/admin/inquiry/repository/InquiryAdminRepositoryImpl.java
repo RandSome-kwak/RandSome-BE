@@ -23,8 +23,8 @@ public class InquiryAdminRepositoryImpl implements InquiryAdminRepository {
     }
 
     @Override
-    public InquiryListAdminResponse findAllByState(InquiryStatus state, int page) {
-        return inquiryAdminQueryDslRepository.findAllByState(state, page);
+    public InquiryListAdminResponse findAllByInquiryStatus(InquiryStatus state, int page) {
+        return inquiryAdminQueryDslRepository.findAllByInquiryStatus(state, page);
     }
 
 }

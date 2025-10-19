@@ -69,7 +69,7 @@ class InquiryControllerTest extends ControllerTestSupport {
     @TestMember
     @DisplayName("자신의 문의를 수정한다.")
     @Test
-    void updateInquiry() throws JsonProcessingException {
+    void update() throws JsonProcessingException {
         // given
         var request = InquiryUpdateRequest.builder()
                 .title("수정된 문의 제목")

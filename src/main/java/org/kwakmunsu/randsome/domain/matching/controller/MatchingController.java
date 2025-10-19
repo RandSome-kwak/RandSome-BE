@@ -32,7 +32,7 @@ public class MatchingController extends MatchingDocsController {
     @Override
     @PostMapping("/apply")
     public ResponseEntity<Long> apply(@Valid @RequestBody MatchingApplicationRequest request, @AuthMember Long memberId) {
-        Long matchingApplicationId = matchingCommandService.applyMatching(request.toServiceRequest(memberId));
+        Long matchingApplicationId = matchingCommandService.apply(request.toServiceRequest(memberId));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(matchingApplicationId);
     }

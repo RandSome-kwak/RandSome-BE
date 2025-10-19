@@ -21,8 +21,8 @@ public class InquiryAdminService {
         inquiry.registerAnswer(answer);
     }
 
-    public InquiryListAdminResponse getInquires(InquiryStatus state, int page) {
-        return inquiryAdminRepository.findAllByState(state, page);
+    public InquiryListAdminResponse getInquires(InquiryStatus status, int page) {
+        return inquiryAdminRepository.findAllByInquiryStatus(status, page);
     }
 
 }

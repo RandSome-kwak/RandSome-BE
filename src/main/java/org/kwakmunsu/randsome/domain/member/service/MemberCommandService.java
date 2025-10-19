@@ -47,7 +47,6 @@ public class MemberCommandService {
         );
     }
 
-
     private void checkedAlreadyLoginId(String loginId) {
         if (memberRepository.existsByLoginId(loginId)) {
             throw new ConflictException(ErrorStatus.DUPLICATE_LOGIN_ID);
