@@ -8,6 +8,6 @@ public interface InquiryAdminRepository {
 
     Inquiry findById(Long id);
 
-    InquiryListAdminResponse findAllByState(InquiryStatus state, int page);
+    InquiryListAdminResponse findAllByInquiryStatus(InquiryStatus state, int page);
 
 }

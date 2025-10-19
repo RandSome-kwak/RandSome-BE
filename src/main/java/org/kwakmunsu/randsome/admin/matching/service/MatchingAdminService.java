@@ -39,7 +39,7 @@ public class MatchingAdminService {
      * 매칭 신청 목록 조회
      */
     @Transactional(readOnly = true)
-    public MatchingApplicationAdminListResponse findApplicationsByStatus(MatchingApplicationListServiceRequest request) {
+    public MatchingApplicationAdminListResponse getApplications(MatchingApplicationListServiceRequest request) {
         return applicationRepository.findAllByMatchingStatus(request.status(), request.page());
     }
 
@@ -47,7 +47,7 @@ public class MatchingAdminService {
      * 매칭 신청 상태 변경 (승인/거절)
      */
     @Transactional
-    public void updateApplicationStatus(Long applicationId, MatchingStatus status) {
+    public void updateApplication(Long applicationId, MatchingStatus status) {
         log.info("Updating application matchingStatus - ID: {}, newStatus: {}", applicationId, status);
 
         MatchingApplication application = applicationRepository.findById(applicationId);

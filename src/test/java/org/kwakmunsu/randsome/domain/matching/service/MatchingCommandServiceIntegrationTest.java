@@ -25,14 +25,14 @@ record MatchingCommandServiceIntegrationTest(
 
     @DisplayName("매칭 신청을 한다.")
     @Test
-    void applyMatchingApplication() {
+    void applyApplication() {
         // given
         var requester = MemberFixture.createMember();
         memberRepository.save(requester);
         var request = new MatchingApplicationServiceRequest(requester.getId(), MatchingType.RANDOM_MATCHING, 3);
 
         // when
-        Long matchingApplicationId = matchingCommandService.applyMatching(request);
+        Long matchingApplicationId = matchingCommandService.apply(request);
 
         // then
         var matchingApplication = matchingApplicationRepository.findById(matchingApplicationId);

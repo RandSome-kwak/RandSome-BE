@@ -20,7 +20,7 @@ public class CandidateQueryDslRepository {
     private static final int NEXT_PAGE_CHECK_SIZE = 1;
     private final JPAQueryFactory queryFactory;
 
-    public CandidateListResponse findAllByStatus(CandidateStatus status, int page) {
+    public CandidateListResponse findAllByCandidateStatus(CandidateStatus status, int page) {
         int offset = (page - 1) * PAGE_SIZE;
         int limit = PAGE_SIZE + NEXT_PAGE_CHECK_SIZE; // 다음 페이지 존재 여부 체크용
 

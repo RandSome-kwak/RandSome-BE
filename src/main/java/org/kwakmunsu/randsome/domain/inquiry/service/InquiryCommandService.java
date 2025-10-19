@@ -48,7 +48,7 @@ public class InquiryCommandService {
             throw new ConflictException(ErrorStatus.CANNOT_DELETE_ANSWERED_INQUIRY);
         }
 
-        // 논리적 delete
+        // soft delete
         inquiry.delete();
     }
 

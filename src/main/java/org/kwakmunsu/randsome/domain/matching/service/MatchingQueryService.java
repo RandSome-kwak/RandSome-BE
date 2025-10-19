@@ -37,7 +37,8 @@ public class MatchingQueryService {
         validateCompletionStatus(application);
 
         List<MatchingMemberResponse> responses = application.getMatchings().stream()
-                .map(matching -> MatchingMemberResponse.from(matching.getSelectedMember())).toList();
+                .map(matching -> MatchingMemberResponse.from(matching.getSelectedMember()))
+                .toList();
 
         return MatchingReadResponse.of(application, responses);
     }
@@ -46,8 +47,7 @@ public class MatchingQueryService {
      * 자신의 매칭 신청 목록 조회
      **/
     public MatchingApplicationListResponse getMatchingApplication(Long requesterId, MatchingStatus status) {
-        List<MatchingApplication> applications = status.isCompleted() ?
-                findCompletedApplications(requesterId) : findPendingOrFailedApplications(requesterId);
+        List<MatchingApplication> applications = status.isCompleted() ? findCompletedApplications(requesterId) : findPendingOrFailedApplications(requesterId);
 
         List<MatchingApplicationPreviewResponse> previewResponses = applications.stream()
                 .map(MatchingApplicationPreviewResponse::of)

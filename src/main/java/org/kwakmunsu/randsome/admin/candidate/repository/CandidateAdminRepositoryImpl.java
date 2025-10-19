@@ -20,7 +20,7 @@ public class CandidateAdminRepositoryImpl implements CandidateAdminRepository {
 
     @Override
     public CandidateListResponse findAllByCandidateStatus(CandidateStatus status, int page) {
-        return candidateQueryDslRepository.findAllByStatus(status, page);
+        return candidateQueryDslRepository.findAllByCandidateStatus(status, page);
     }
 
     @Override

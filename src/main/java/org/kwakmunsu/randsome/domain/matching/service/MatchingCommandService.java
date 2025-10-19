@@ -22,7 +22,7 @@ public class MatchingCommandService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    public Long applyMatching(MatchingApplicationServiceRequest request) {
+    public Long apply(MatchingApplicationServiceRequest request) {
         MatchingType matchingType = request.type();
         Member member = memberRepository.findById(request.memberId());
 
@@ -37,6 +37,7 @@ public class MatchingCommandService {
 
     private MatchingApplication createAndSaveApplication(Member member, MatchingType matchingType, int matchingCount) {
         MatchingApplication matchingApplication = MatchingApplication.create(member, matchingType, matchingCount);
+
         return matchingApplicationRepository.save(matchingApplication);
     }
 

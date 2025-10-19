@@ -32,7 +32,7 @@ class MatchingControllerTest extends ControllerTestSupport {
     @Test
     void apply() throws JsonProcessingException {
         // given
-        given(matchingCommandService.applyMatching(any())).willReturn(1L);
+        given(matchingCommandService.apply(any())).willReturn(1L);
         var request = new MatchingApplicationRequest(MatchingType.RANDOM_MATCHING, 3);
         String requestJson = objectMapper.writeValueAsString(request);
 

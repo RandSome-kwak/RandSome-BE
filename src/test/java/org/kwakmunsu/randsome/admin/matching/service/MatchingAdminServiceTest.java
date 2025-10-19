@@ -77,13 +77,13 @@ class MatchingAdminServiceTest {
 
     @DisplayName("매칭 신청을 승인하면 매칭을 실행하고 상태를 COMPLETED로 변경한다")
     @Test
-    void updateApplicationStatusApprove() {
+    void updateApplicationApprove() {
         // given
         given(applicationAdminRepository.findById(1L)).willReturn(application);
         given(randomMatchingProvider.match(eq(requester), eq(3))).willReturn(matchedMembers);
 
         // when
-        matchingAdminService.updateApplicationStatus(1L, MatchingStatus.COMPLETED);
+        matchingAdminService.updateApplication(1L, MatchingStatus.COMPLETED);
 
         // then
         assertThat(application.getMatchingStatus()).isEqualTo(MatchingStatus.COMPLETED);
@@ -93,12 +93,12 @@ class MatchingAdminServiceTest {
 
     @DisplayName("매칭 신청을 거절하면 상태를 FAILED로 변경하고 매칭을 실행하지 않는다")
     @Test
-    void updateApplicationStatusReject() {
+    void updateApplicationReject() {
         // given
         given(applicationAdminRepository.findById(1L)).willReturn(application);
 
         // when
-        matchingAdminService.updateApplicationStatus(1L, MatchingStatus.FAILED);
+        matchingAdminService.updateApplication(1L, MatchingStatus.FAILED);
 
         // then
         assertThat(application.getMatchingStatus()).isEqualTo(MatchingStatus.FAILED);
@@ -114,7 +114,7 @@ class MatchingAdminServiceTest {
         given(randomMatchingProvider.match(eq(requester), eq(3))).willReturn(matchedMembers);
 
         // when
-        matchingAdminService.updateApplicationStatus(1L, MatchingStatus.COMPLETED);
+        matchingAdminService.updateApplication(1L, MatchingStatus.COMPLETED);
 
         // then
         then(matchingAdminRepository).should().saveAll(matchingListCaptor.capture());
@@ -137,7 +137,7 @@ class MatchingAdminServiceTest {
         given(idealMatchingProvider.match(eq(requester), eq(3))).willReturn(matchedMembers);
 
         // when
-        matchingAdminService.updateApplicationStatus(2L, MatchingStatus.COMPLETED);
+        matchingAdminService.updateApplication(2L, MatchingStatus.COMPLETED);
 
         // then
         then(idealMatchingProvider).should(times(1)).match(eq(requester), eq(3));
@@ -146,7 +146,7 @@ class MatchingAdminServiceTest {
 
     @DisplayName("존재하지 않는 신청 ID로 상태 변경 시 예외가 발생한다")
     @Test
-    void updateApplicationStatusNotFound() {
+    void updateApplicationNotFound() {
         // given
         Long invalidId = 999L;
         given(applicationAdminRepository.findById(invalidId))
@@ -154,7 +154,7 @@ class MatchingAdminServiceTest {
 
         // when & then
         assertThatThrownBy(() ->
-                matchingAdminService.updateApplicationStatus(invalidId, MatchingStatus.COMPLETED)
+                matchingAdminService.updateApplication(invalidId, MatchingStatus.COMPLETED)
         ).isInstanceOf(NotFoundException.class);
     }
 

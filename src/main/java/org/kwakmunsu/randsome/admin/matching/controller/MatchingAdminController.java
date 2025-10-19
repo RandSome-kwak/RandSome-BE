@@ -3,7 +3,7 @@ package org.kwakmunsu.randsome.admin.matching.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationStatusUpdateRequest;
+import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationUpdateRequest;
 import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
 import org.kwakmunsu.randsome.admin.matching.service.MatchingAdminService;
 import org.kwakmunsu.randsome.admin.matching.service.dto.MatchingApplicationListServiceRequest;
@@ -31,18 +31,18 @@ public class MatchingAdminController extends MatchingAdminDocsController {
             @RequestParam(defaultValue = "1") @Min(1) int page
     ) {
         MatchingApplicationListServiceRequest request = new MatchingApplicationListServiceRequest(status, page);
-        MatchingApplicationAdminListResponse response = matchingAdminService.findApplicationsByStatus(request);
+        MatchingApplicationAdminListResponse response = matchingAdminService.getApplications(request);
 
         return ResponseEntity.ok(response);
     }
 
     @Override
     @PutMapping("/applications/{applicationId}/status")
-    public ResponseEntity<Void> updateApplicationStatus(
+    public ResponseEntity<Void> updateApplication(
             @PathVariable Long applicationId,
-            @Valid @RequestBody MatchingApplicationStatusUpdateRequest request
+            @Valid @RequestBody MatchingApplicationUpdateRequest request
     ) {
-        matchingAdminService.updateApplicationStatus(applicationId, request.status());
+        matchingAdminService.updateApplication(applicationId, request.status());
 
         return ResponseEntity.ok().build();
     }
