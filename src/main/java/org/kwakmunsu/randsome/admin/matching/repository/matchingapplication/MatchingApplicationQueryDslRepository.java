@@ -8,8 +8,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
 import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminPreviewResponse;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.payment.enums.PaymentType;
 import org.springframework.stereotype.Repository;
@@ -18,15 +18,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MatchingApplicationQueryDslRepository {
 
-    private static final int PAGE_SIZE = 20;
-    private static final int NEXT_PAGE_CHECK_SIZE = 1;
     private final JPAQueryFactory queryFactory;
 
-    public MatchingApplicationAdminListResponse findAllByMatchingStatus(MatchingStatus status, int page) {
-        int offset = (page - 1) * PAGE_SIZE;
-        int limit = PAGE_SIZE + NEXT_PAGE_CHECK_SIZE; // 다음 페이지 존재 여부 체크용
+    public List<MatchingApplicationAdminPreviewResponse> findAllByMatchingStatusAndStatus(MatchingStatus matchingStatus, int offset, int limit,
+            EntityStatus status) {
 
-        List<MatchingApplicationAdminPreviewResponse> responses = queryFactory.select(
+        return queryFactory.select(
                         constructor(
                                 MatchingApplicationAdminPreviewResponse.class,
                                 matchingApplication.id,
@@ -44,44 +41,25 @@ public class MatchingApplicationQueryDslRepository {
                 .join(payment).on(matchingApplication.requester.id.eq(payment.member.id))
                 .where(
                         payment.type.in(PaymentType.IDEAL_MATCHING, PaymentType.RANDOM_MATCHING),
+                        matchingStatusEq(matchingStatus),
                         statusEq(status)
                 )
-                .orderBy(matchingApplication.createdAt.desc())
+                .orderBy(matchingApplication.id.desc())
                 .offset(offset)
                 .limit(limit)
                 .fetch();
 
-        boolean hasNext = responses.size() > PAGE_SIZE;
-        List<MatchingApplicationAdminPreviewResponse> limitedPage = getLimitedPage(responses, hasNext);
-        Long totalCount = countByStatus(status);
-
-        return new MatchingApplicationAdminListResponse(limitedPage, hasNext, totalCount);
     }
 
-    public Long countByStatus(MatchingStatus status) {
-        return queryFactory
-                .select(matchingApplication.countDistinct())
-                .from(matchingApplication)
-                .join(payment).on(matchingApplication.requester.id.eq(payment.member.id))
-                .where(
-                        payment.type.in(PaymentType.IDEAL_MATCHING, PaymentType.RANDOM_MATCHING),
-                        statusEq(status)
-                )
-                .fetchOne();
+    private BooleanExpression statusEq(EntityStatus status) {
+        return matchingApplication.status.eq(status);
     }
 
-    private BooleanExpression statusEq(MatchingStatus status) {
+
+    private BooleanExpression matchingStatusEq(MatchingStatus status) {
         // 기본값 : PENDING
         MatchingStatus matchingStatus = status != null ? status : MatchingStatus.PENDING;
         return matchingApplication.matchingStatus.eq(matchingStatus);
-    }
-
-    private List<MatchingApplicationAdminPreviewResponse> getLimitedPage(List<MatchingApplicationAdminPreviewResponse> responses,
-            boolean hasNext) {
-        if (hasNext) {
-            return responses.subList(0, PAGE_SIZE); // 실제로는 limit 만큼만 반환
-        }
-        return responses;
     }
 
 }

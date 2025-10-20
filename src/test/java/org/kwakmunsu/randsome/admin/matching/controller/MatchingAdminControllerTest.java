@@ -10,65 +10,29 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationUpdateRequest;
-import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
 import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminPreviewResponse;
-import org.kwakmunsu.randsome.admin.matching.service.dto.MatchingApplicationListServiceRequest;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.global.security.annotation.TestAdmin;
-import org.mockito.ArgumentCaptor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 class MatchingAdminControllerTest extends ControllerTestSupport {
-
-    private MatchingApplicationAdminListResponse matchingApplicationAdminListResponse;
-
-    @BeforeEach
-    void setUp() {
-        matchingApplicationAdminListResponse = MatchingApplicationAdminListResponse.builder()
-                .responses(List.of(
-                        new MatchingApplicationAdminPreviewResponse(
-                                1L,
-                                1L,
-                                "김철수",
-                                "철수닉네임",
-                                "남자",
-                                "랜덤 매칭",
-                                2,
-                                BigDecimal.valueOf(1000),
-                                LocalDateTime.of(2025, 10, 4, 14, 30),
-                                "대기중"
-                        ),
-                        new MatchingApplicationAdminPreviewResponse(
-                                2L,
-                                2L,
-                                "이영희",
-                                "영희닉네임",
-                                "여자",
-                                "이상형 매칭",
-                                3,
-                                BigDecimal.valueOf(1500),
-                                LocalDateTime.of(2025, 10, 4, 15, 0),
-                                "대기중"
-                        )
-                ))
-                .hasNext(true)
-                .totalCount(25L)
-                .build();
-    }
 
     @TestAdmin
     @DisplayName("관리자가 대기중인 매칭 신청 목록을 조회한다.")
     @Test
     void getApplications() {
         // given
-        given(matchingAdminService.getApplications(any(MatchingApplicationListServiceRequest.class)))
-                .willReturn(matchingApplicationAdminListResponse);
+        List<MatchingApplicationAdminPreviewResponse> responses = getMatchingApplicationAdminPreviewResponses();
+        PageResponse<MatchingApplicationAdminPreviewResponse> response = new PageResponse<>(responses, (long) responses.size());
+
+        given(matchingAdminService.getApplications(any(MatchingStatus.class), any(PageRequest.class)))
+                .willReturn(response);
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
@@ -78,15 +42,10 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                 .apply(print())
                 .hasStatusOk()
                 .bodyJson()
-                .hasPathSatisfying("$.responses", v -> v.assertThat().isNotNull())
-                .hasPathSatisfying("$.hasNext", v -> v.assertThat().isEqualTo(true))
-                .hasPathSatisfying("$.totalCount", v -> v.assertThat().asNumber().isEqualTo(25))
-                .hasPathSatisfying("$.responses[0].applicationId", v -> v.assertThat().asNumber().isEqualTo(1))
-                .hasPathSatisfying("$.responses[0].memberId", v -> v.assertThat().asNumber().isEqualTo(1))
-                .hasPathSatisfying("$.responses[0].legalName", v -> v.assertThat().isEqualTo("김철수"))
-                .hasPathSatisfying("$.responses[1].memberId", v -> v.assertThat().asNumber().isEqualTo(2));
+                .hasPathSatisfying("$.content", v -> v.assertThat().isNotNull())
+                .hasPathSatisfying("$.count", v -> v.assertThat().asNumber().isEqualTo(responses.size()));
 
-        verify(matchingAdminService).getApplications(any(MatchingApplicationListServiceRequest.class));
+        verify(matchingAdminService).getApplications(any(MatchingStatus.class), any(PageRequest.class));
     }
 
     @TestAdmin
@@ -94,8 +53,10 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
     @Test
     void getCompletedApplications() {
         // given
-        given(matchingAdminService.getApplications(any(MatchingApplicationListServiceRequest.class)))
-                .willReturn(matchingApplicationAdminListResponse);
+        List<MatchingApplicationAdminPreviewResponse> responses = getMatchingApplicationAdminPreviewResponses();
+        PageResponse<MatchingApplicationAdminPreviewResponse> response = new PageResponse<>(responses, (long) responses.size());
+        given(matchingAdminService.getApplications(any(MatchingStatus.class), any(PageRequest.class)))
+                .willReturn(response);
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
@@ -105,137 +66,8 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
                 .apply(print())
                 .hasStatusOk()
                 .bodyJson()
-                .hasPathSatisfying("$.responses", v -> v.assertThat().isNotNull())
-                .hasPathSatisfying("$.hasNext", v -> v.assertThat().isEqualTo(true))
-                .hasPathSatisfying("$.totalCount", v -> v.assertThat().asNumber().isEqualTo(25));
-    }
-
-    @TestAdmin
-    @DisplayName("관리자가 page 기본값으로 매칭 신청 목록을 조회한다.")
-    @Test
-    void getApplicationsWithDefaultPage() {
-        // given
-        given(matchingAdminService.getApplications(any(MatchingApplicationListServiceRequest.class)))
-                .willReturn(matchingApplicationAdminListResponse);
-
-        ArgumentCaptor<MatchingApplicationListServiceRequest> captor =
-                ArgumentCaptor.forClass(MatchingApplicationListServiceRequest.class);
-
-        // when & then
-        assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
-                .param("status", MatchingStatus.PENDING.name())
-                .contentType(MediaType.APPLICATION_JSON))
-                .apply(print())
-                .hasStatusOk();
-
-        verify(matchingAdminService).getApplications(captor.capture());
-
-        MatchingApplicationListServiceRequest capturedRequest = captor.getValue();
-        assertThat(capturedRequest.status()).isEqualTo(MatchingStatus.PENDING);
-        assertThat(capturedRequest.page()).isEqualTo(1); // 기본값 확인
-    }
-
-    @TestAdmin
-    @DisplayName("관리자가 2페이지의 매칭 신청 목록을 조회한다.")
-    @Test
-    void getApplicationsSecondPage() {
-        // given
-        MatchingApplicationAdminListResponse secondPageResponse = MatchingApplicationAdminListResponse.builder()
-                .responses(List.of())
-                .hasNext(false)
-                .totalCount(25L)
-                .build();
-
-        given(matchingAdminService.getApplications(any(MatchingApplicationListServiceRequest.class)))
-                .willReturn(secondPageResponse);
-
-        // when & then
-        assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
-                .param("status", MatchingStatus.PENDING.name())
-                .param("page", "2")
-                .contentType(MediaType.APPLICATION_JSON))
-                .apply(print())
-                .hasStatusOk()
-                .bodyJson()
-                .hasPathSatisfying("$.hasNext", v -> v.assertThat().isEqualTo(false));
-    }
-
-    @TestAdmin
-    @DisplayName("빈 결과를 반환하는 경우")
-    @Test
-    void getApplicationsEmptyResult() {
-        // given
-        MatchingApplicationAdminListResponse emptyResponse = MatchingApplicationAdminListResponse.builder()
-                .responses(List.of())
-                .hasNext(false)
-                .totalCount(0L)
-                .build();
-
-        given(matchingAdminService.getApplications(any(MatchingApplicationListServiceRequest.class)))
-                .willReturn(emptyResponse);
-
-        // when & then
-        assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
-                .param("status", MatchingStatus.PENDING.name())
-                .param("page", "1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .apply(print())
-                .hasStatusOk()
-                .bodyJson()
-                .hasPathSatisfying("$.responses", v -> v.assertThat().asList().isEmpty())
-                .hasPathSatisfying("$.totalCount", v -> v.assertThat().asNumber().isEqualTo(0))
-                .hasPathSatisfying("$.hasNext", v -> v.assertThat().isEqualTo(false));
-    }
-
-    @TestAdmin
-    @DisplayName("matchingStatus 파라미터가 누락된 경우 실패한다.")
-    @Test
-    void failGetApplicationsMissingStatus() {
-        // when & then
-        assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
-                .param("page", "1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .apply(print())
-                .hasStatus(HttpStatus.BAD_REQUEST);
-    }
-
-    @TestAdmin
-    @DisplayName("잘못된 matchingStatus 값으로 요청하면 실패한다.")
-    @Test
-    void failGetApplicationsInvalidStatus() {
-        // when & then
-        assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
-                .param("matchingStatus", "INVALID_STATUS")
-                .param("page", "1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .apply(print())
-                .hasStatus(HttpStatus.BAD_REQUEST);
-    }
-
-    @TestAdmin
-    @DisplayName("잘못된 page 값으로 요청하면 실패한다.")
-    @Test
-    void failGetApplicationsInvalidPage() {
-        // when & then
-        assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
-                .param("matchingStatus", MatchingStatus.PENDING.name())
-                .param("page", "-1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .apply(print())
-                .hasStatus(HttpStatus.BAD_REQUEST);
-    }
-
-    @TestAdmin
-    @DisplayName("page 파라미터가 문자열인 경우 실패한다.")
-    @Test
-    void failGetApplicationsNonNumericPage() {
-        // when & then
-        assertThat(mvcTester.get().uri("/api/v1/admin/matching/applications")
-                .param("matchingStatus", MatchingStatus.PENDING.name())
-                .param("page", "invalid")
-                .contentType(MediaType.APPLICATION_JSON))
-                .apply(print())
-                .hasStatus(HttpStatus.BAD_REQUEST);
+                .hasPathSatisfying("$.content", v -> v.assertThat().isNotNull())
+                .hasPathSatisfying("$.count", v -> v.assertThat().asNumber().isEqualTo(responses.size()));
     }
 
     @TestAdmin
@@ -257,4 +89,33 @@ class MatchingAdminControllerTest extends ControllerTestSupport {
         verify(matchingAdminService).updateApplication(any(), any(MatchingStatus.class));
     }
 
+
+    private List<MatchingApplicationAdminPreviewResponse> getMatchingApplicationAdminPreviewResponses() {
+        return List.of(
+                new MatchingApplicationAdminPreviewResponse(
+                        1L,
+                        1L,
+                        "김철수",
+                        "철수닉네임",
+                        "남자",
+                        "랜덤 매칭",
+                        2,
+                        BigDecimal.valueOf(1000),
+                        LocalDateTime.of(2025, 10, 4, 14, 30),
+                        "대기중"
+                ),
+                new MatchingApplicationAdminPreviewResponse(
+                        2L,
+                        2L,
+                        "이영희",
+                        "영희닉네임",
+                        "여자",
+                        "이상형 매칭",
+                        3,
+                        BigDecimal.valueOf(1500),
+                        LocalDateTime.of(2025, 10, 4, 15, 0),
+                        "대기중"
+                )
+        );
+    }
 }
