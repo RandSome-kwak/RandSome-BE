@@ -15,8 +15,10 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.candidate.controller.dto.CandidateStatusUpdateRequest;
 import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidatePreviewResponse;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
@@ -81,21 +83,13 @@ public abstract class CandidateAdminDocsController {
                     """,
             security = {@SecurityRequirement(name = "Bearer ")}
     )
-    @ApiResponse(
-            responseCode = "200",
-            description = "지원자 목록 조회 성공",
-            content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = CandidateListResponse.class)
-            )
-    )
     @ApiExceptions(values = {
             BAD_REQUEST,
             UNAUTHORIZED_ERROR,
             FORBIDDEN_ERROR,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<CandidateListResponse> getCandidateApplications(
+    public abstract ResponseEntity<PageResponse<CandidatePreviewResponse>> getCandidateApplications(
             @Parameter(
                     name = "matchingStatus",
                     description = "조회할 지원자 상태 (PENDING, APPROVED, REJECTED)",

@@ -2,8 +2,8 @@ package org.kwakmunsu.randsome.admin.candidate.repository;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
 import org.kwakmunsu.randsome.admin.candidate.serivce.CandidateAdminRepository;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
@@ -19,8 +19,8 @@ public class CandidateAdminRepositoryImpl implements CandidateAdminRepository {
     private final CandidateQueryDslRepository candidateQueryDslRepository;
 
     @Override
-    public CandidateListResponse findAllByCandidateStatus(CandidateStatus status, int page) {
-        return candidateQueryDslRepository.findAllByCandidateStatus(status, page);
+    public List<Candidate> findAllByCandidateStatus(CandidateStatus status, int offset, int limit) {
+        return candidateQueryDslRepository.findAllByCandidateStatus(status, offset, limit);
     }
 
     @Override
@@ -36,8 +36,8 @@ public class CandidateAdminRepositoryImpl implements CandidateAdminRepository {
 
 
     @Override
-    public long countByCandidateStatus(CandidateStatus candidateStatus) {
-        return candidateJpaRepository.countByCandidateStatus(candidateStatus);
+    public long countByCandidateStatusAndStatus(CandidateStatus candidateStatus, EntityStatus status) {
+        return candidateJpaRepository.countByCandidateStatusAndStatus(candidateStatus, status);
     }
 
 }

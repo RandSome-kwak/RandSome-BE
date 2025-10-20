@@ -1,37 +1,30 @@
 package org.kwakmunsu.randsome.admin.candidate.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.candidate.controller.dto.CandidateStatusUpdateRequest;
-import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
-import org.kwakmunsu.randsome.admin.candidate.serivce.dto.CandidateListReadServiceRequest;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidatePreviewResponse;
+import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
+import org.kwakmunsu.randsome.domain.member.MemberFixture;
+import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.global.security.annotation.TestAdmin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 class CandidateAdminControllerTest extends ControllerTestSupport {
 
-    private CandidateListResponse candidateListResponse;
-
-    @BeforeEach
-    void setUp() {
-        candidateListResponse = CandidateListResponse.builder()
-                .responses(List.of())
-                .hasNext(false)
-                .totalCount(15L)
-                .build();
-    }
-    // 어드민 전용 어노테이션 만드렁야함
     @TestAdmin
     @DisplayName("관리자가 후보자 요청을 승인한다.")
     @Test
@@ -70,9 +63,15 @@ class CandidateAdminControllerTest extends ControllerTestSupport {
     @Test
     void getCandidates() {
         // given
-        var request = new CandidateListReadServiceRequest(CandidateStatus.PENDING, 1);
-
-        given(candidateAdminService.getCandidates(request)).willReturn(candidateListResponse);
+        Member member = MemberFixture.createMember();
+        List<Candidate> candidates = List.of(Candidate.create(member));
+        PageResponse<CandidatePreviewResponse> candidateListResponse = new PageResponse<>(
+                candidates.stream()
+                        .map(CandidatePreviewResponse::from)
+                        .toList(),
+                1L
+        );
+        given(candidateAdminService.getCandidates(any(CandidateStatus.class), any(PageRequest.class))).willReturn(candidateListResponse);
 
         // when & then
             assertThat(mvcTester.get().uri("/api/v1/admin/matching/candidates")
@@ -81,9 +80,8 @@ class CandidateAdminControllerTest extends ControllerTestSupport {
                     .apply(print())
                     .hasStatusOk()
                     .bodyJson()
-                    .hasPathSatisfying("$.responses", v -> v.assertThat().isNotNull())
-                    .hasPathSatisfying("$.hasNext", v -> v.assertThat().isEqualTo(false))
-                    .hasPathSatisfying("$.totalCount", v -> v.assertThat().asNumber().isEqualTo(15));
+                    .hasPathSatisfying("$.content", v -> v.assertThat().isNotNull())
+                    .hasPathSatisfying("$.count", v -> v.assertThat().asNumber().isEqualTo(1));
     }
 
     @TestAdmin

@@ -2,10 +2,11 @@ package org.kwakmunsu.randsome.admin.candidate.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.candidate.controller.dto.CandidateStatusUpdateRequest;
-import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidatePreviewResponse;
 import org.kwakmunsu.randsome.admin.candidate.serivce.CandidateAdminService;
-import org.kwakmunsu.randsome.admin.candidate.serivce.dto.CandidateListReadServiceRequest;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,12 +37,11 @@ public class CandidateAdminController extends CandidateAdminDocsController {
 
     @Override
     @GetMapping("/matching/candidates")
-    public ResponseEntity<CandidateListResponse> getCandidateApplications(
+    public ResponseEntity<PageResponse<CandidatePreviewResponse>> getCandidateApplications(
             @RequestParam CandidateStatus status,
             @RequestParam(defaultValue = "1") int page
     ) {
-        CandidateListReadServiceRequest request = new CandidateListReadServiceRequest(status, page);
-        CandidateListResponse response = candidateAdminService.getCandidates(request);
+        PageResponse<CandidatePreviewResponse> response = candidateAdminService.getCandidates(status, new PageRequest(page));
 
         return ResponseEntity.ok(response);
     }
