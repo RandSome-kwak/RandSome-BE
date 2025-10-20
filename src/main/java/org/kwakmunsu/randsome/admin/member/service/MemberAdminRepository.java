@@ -1,14 +1,15 @@
 package org.kwakmunsu.randsome.admin.member.service;
 
-import org.kwakmunsu.randsome.admin.member.repository.dto.MemberListResponse;
+import java.util.List;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 
 public interface MemberAdminRepository {
 
     Member findById(Long id);
 
-    MemberListResponse findAllByPagination(int page);
+    List<Member> findAllByStatus(int offset, int limit, EntityStatus status);
 
-    long count();
+    long countByStatus(EntityStatus active);
 
 }

@@ -1,8 +1,11 @@
 package org.kwakmunsu.randsome.admin.member.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.admin.member.repository.dto.MemberListResponse;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +22,16 @@ public class MemberAdminService {
     }
 
     // TODO: 추후 정렬, 검색 기능 추가
-    public MemberListResponse getMemberList(int page) {
-        return memberRepository.findAllByPagination(page);
+    public PageResponse<MemberDetailResponse> getMembers(PageRequest request) {
+        List<Member> members = memberRepository.findAllByStatus(request.offset(), request.limit(), EntityStatus.ACTIVE);
+        long count = memberRepository.countByStatus(EntityStatus.ACTIVE);
+
+        return new PageResponse<>(
+                members.stream()
+                        .map(MemberDetailResponse::from)
+                        .toList(),
+                count
+        );
     }
 
 }

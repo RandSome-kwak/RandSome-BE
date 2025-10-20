@@ -2,7 +2,8 @@ package org.kwakmunsu.randsome.admin.member.controller;
 
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.admin.member.repository.dto.MemberListResponse;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.member.service.MemberAdminService;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,8 @@ public class MemberAdminController extends MemberAdminDocsController {
 
     @Override
     @GetMapping
-    public ResponseEntity<MemberListResponse> getMembers(@RequestParam (defaultValue = "1") @Min(1) int page) {
-        MemberListResponse response = memberAdminService.getMemberList(page);
+    public ResponseEntity<PageResponse<MemberDetailResponse>> getMembers(@RequestParam (defaultValue = "1") @Min(1) int page) {
+        PageResponse<MemberDetailResponse> response = memberAdminService.getMembers(new PageRequest(page));
 
         return ResponseEntity.ok(response);
     }
