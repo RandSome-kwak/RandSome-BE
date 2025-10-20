@@ -2,8 +2,10 @@ package org.kwakmunsu.randsome.admin.inquiry.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.inquiry.controller.dto.AnswerRegisterRequest;
-import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryListAdminResponse;
+import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryReadAdminResponse;
 import org.kwakmunsu.randsome.admin.inquiry.serivce.InquiryAdminService;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +34,11 @@ public class InquiryAdminController extends InquiryAdminDocsController {
 
     @Override
     @GetMapping
-    public ResponseEntity<InquiryListAdminResponse> getInquires(
+    public ResponseEntity<PageResponse<InquiryReadAdminResponse>> getInquires(
             @RequestParam InquiryStatus status,
             @RequestParam(defaultValue = "1") int page
     ) {
-        InquiryListAdminResponse response = inquiryAdminService.getInquires(status, page);
+        PageResponse<InquiryReadAdminResponse> response = inquiryAdminService.getInquires(status, new PageRequest(page));
 
         return ResponseEntity.ok(response);
     }

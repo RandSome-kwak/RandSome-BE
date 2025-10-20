@@ -3,7 +3,7 @@ package org.kwakmunsu.randsome.admin.inquiry.repository.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.Builder;
-import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
+import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 
 @Builder
 @Schema(description = "관리자용 문의 상세 응답 DTO")
@@ -33,26 +33,17 @@ public record InquiryReadAdminResponse(
         LocalDateTime createdAt
 ) {
 
-    public InquiryReadAdminResponse(
-            Long inquiryId,
-            Long authorId,
-            String authorNickname,
-            String title,
-            String content,
-            String answer,
-            InquiryStatus stateEnum,
-            LocalDateTime createdAt
-    ) {
-        this(
-                inquiryId,
-                authorId,
-                authorNickname,
-                title,
-                content,
-                answer,
-                stateEnum.getDescription(),
-                createdAt
-        );
+    public static InquiryReadAdminResponse from(Inquiry inquiry) {
+        return InquiryReadAdminResponse.builder()
+                .inquiryId(inquiry.getId())
+                .authorId(inquiry.getAuthor().getId())
+                .authorNickname(inquiry.getAuthor().getNickname())
+                .title(inquiry.getTitle())
+                .content(inquiry.getContent())
+                .answer(inquiry.getAnswer())
+                .inquiryStatus(inquiry.getInquiryStatus().getDescription())
+                .createdAt(inquiry.getCreatedAt())
+                .build();
     }
 
 }
