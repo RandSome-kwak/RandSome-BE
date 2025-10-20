@@ -19,7 +19,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationUpdateRequest;
-import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
 import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminPreviewResponse;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
@@ -40,14 +39,6 @@ public abstract class MatchingAdminDocsController {
                     - 200 OK 상태 코드와 함께 신청 목록을 반환합니다.
                     """,
             security = {@SecurityRequirement(name = "Bearer ")}
-    )
-    @ApiResponse(
-            responseCode = "200",
-            description = "매칭 신청 목록 조회 성공",
-            content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = MatchingApplicationAdminListResponse.class)
-            )
     )
     @ApiExceptions(values = {
             BAD_REQUEST,
