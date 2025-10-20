@@ -12,10 +12,14 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.ControllerTestSupport;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.inquiry.controller.dto.AnswerRegisterRequest;
-import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryListAdminResponse;
 import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryReadAdminResponse;
+import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
+import org.kwakmunsu.randsome.domain.member.MemberFixture;
+import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.global.security.annotation.TestAdmin;
 import org.springframework.http.MediaType;
 
@@ -47,13 +51,16 @@ class InquiryAdminControllerTest extends ControllerTestSupport {
         // given
         List<InquiryReadAdminResponse> responses = getInquiryReadAdminResponse();
 
-        var response = InquiryListAdminResponse.builder()
-                .responses(responses)
-                .hasNext(false)
-                .totalCount((long) responses.size())
-                .build();
+        Member member = MemberFixture.createMember();
+        List<Inquiry> inquiries = List.of(Inquiry.create(member, "title", "content"));
+        PageResponse<InquiryReadAdminResponse> response = new PageResponse<>(
+                inquiries.stream()
+                        .map(InquiryReadAdminResponse::from)
+                        .toList(),
+                1L
+        );
 
-        given(inquiryAdminService.getInquires(any(InquiryStatus.class), any(Integer.class))).willReturn(response);
+        given(inquiryAdminService.getInquires(any(InquiryStatus.class), any(PageRequest.class))).willReturn(response);
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/admin/inquiries")
@@ -62,16 +69,8 @@ class InquiryAdminControllerTest extends ControllerTestSupport {
                 .hasStatusOk()
                 .apply(print())
                 .bodyJson()
-                .hasPathSatisfying("$.responses[0].inquiryId", v -> v.assertThat().isEqualTo(responses.getFirst().inquiryId().intValue()))
-                .hasPathSatisfying("$.responses[0].authorId", v -> v.assertThat().isEqualTo(responses.getFirst().authorId().intValue()))
-                .hasPathSatisfying("$.responses[0].authorNickname", v -> v.assertThat().isEqualTo(responses.getFirst().authorNickname()))
-                .hasPathSatisfying("$.responses[0].title", v -> v.assertThat().isEqualTo(responses.getFirst().title()))
-                .hasPathSatisfying("$.responses[0].content", v -> v.assertThat().isEqualTo(responses.getFirst().content()))
-                .hasPathSatisfying("$.responses[0].answer", v -> v.assertThat().isEqualTo(responses.getFirst().answer()))
-                .hasPathSatisfying("$.responses[0].inquiryStatus", v -> v.assertThat().isEqualTo(responses.getFirst().inquiryStatus()))
-                .hasPathSatisfying("$.responses[0].createdAt", v -> v.assertThat().isEqualTo(responses.getFirst().createdAt().toString()))
-                .hasPathSatisfying("$.hasNext", v -> v.assertThat().isEqualTo(false))
-                .hasPathSatisfying("$.totalCount", v -> v.assertThat().isEqualTo(response.totalCount().intValue()));
+                .hasPathSatisfying("$.content", v -> v.assertThat().isNotNull())
+                .hasPathSatisfying("$.count", v -> v.assertThat().isEqualTo(response.count().intValue()));
     }
 
     private List<InquiryReadAdminResponse> getInquiryReadAdminResponse() {

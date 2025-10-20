@@ -1,6 +1,5 @@
 package org.kwakmunsu.randsome.admin.inquiry.repository;
 
-import static com.querydsl.core.types.Projections.constructor;
 import static org.kwakmunsu.randsome.domain.inquiry.entity.QInquiry.inquiry;
 import static org.kwakmunsu.randsome.domain.member.entity.QMember.member;
 
@@ -8,8 +7,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryListAdminResponse;
-import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryReadAdminResponse;
+import org.kwakmunsu.randsome.domain.EntityStatus;
+import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.springframework.stereotype.Repository;
 
@@ -17,59 +16,28 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class InquiryAdminQueryDslRepository {
 
-    private static final int PAGE_SIZE = 20;
-    private static final int NEXT_PAGE_CHECK_SIZE = 1;
     private final JPAQueryFactory queryFactory;
 
-    public InquiryListAdminResponse findAllByInquiryStatus(InquiryStatus status, int page) {
-        int offset = (page - 1) * PAGE_SIZE;
-        int limit = PAGE_SIZE + NEXT_PAGE_CHECK_SIZE; // 다음 페이지 존재 여부 체크용
+    public List<Inquiry> findAllByInquiryStatusAndStatus(InquiryStatus inquiryStatus, int offset, int limit, EntityStatus status) {
 
-        List<InquiryReadAdminResponse> responses = queryFactory.select(
-                        constructor(InquiryReadAdminResponse.class,
-                                inquiry.id.as("inquiryId"),
-                                inquiry.author.id.as("authorId"),
-                                inquiry.author.nickname.as("authorNickname"),
-                                inquiry.title,
-                                inquiry.content,
-                                inquiry.answer,
-                                inquiry.inquiryStatus.as("inquiryStatus"),
-                                inquiry.createdAt
-                        ))
-                .from(inquiry)
+        return queryFactory.selectFrom(inquiry)
                 .join(inquiry.author, member)
                 .where(
-                        statusEq(status)
+                        inquiryStatusEq(inquiryStatus),
+                        isActive(status)
                 )
-                .orderBy(inquiry.createdAt.desc())
+                .orderBy(inquiry.id.desc())
                 .offset(offset)
                 .limit(limit) // 다음 페이지 존재 여부 체크용
                 .fetch();
-
-        boolean hasNext = responses.size() > PAGE_SIZE;
-        List<InquiryReadAdminResponse> limitedPage = getLimitedPage(responses, hasNext);
-        Long totalCount = countByState(status);
-
-        return new InquiryListAdminResponse(limitedPage, hasNext, totalCount);
     }
 
-    private BooleanExpression statusEq(InquiryStatus status) {
+    private BooleanExpression isActive(EntityStatus status) {
+        return inquiry.status.eq(status);
+    }
+
+    private BooleanExpression inquiryStatusEq(InquiryStatus status) {
         return status == null ? inquiry.inquiryStatus.eq(InquiryStatus.PENDING) : inquiry.inquiryStatus.eq(status);
-    }
-
-    private Long countByState(InquiryStatus state) {
-        return queryFactory
-                .select(inquiry.countDistinct())
-                .from(inquiry)
-                .where(statusEq(state))
-                .fetchOne();
-    }
-
-    private List<InquiryReadAdminResponse> getLimitedPage(List<InquiryReadAdminResponse> responses, boolean hasNext) {
-        if (hasNext) {
-            return responses.subList(0, PAGE_SIZE); // 실제로는 limit 만큼만 반환
-        }
-        return responses;
     }
 
 }

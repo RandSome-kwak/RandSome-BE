@@ -1,9 +1,12 @@
 package org.kwakmunsu.randsome.admin.candidate.serivce;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidateListResponse;
-import org.kwakmunsu.randsome.admin.candidate.serivce.dto.CandidateListReadServiceRequest;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
+import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidatePreviewResponse;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
@@ -32,8 +35,15 @@ public class CandidateAdminService {
     }
 
     @Transactional(readOnly = true)
-    public CandidateListResponse getCandidates(CandidateListReadServiceRequest request) {
-        return candidateAdminRepository.findAllByCandidateStatus(request.status(), request.page());
+    public PageResponse<CandidatePreviewResponse> getCandidates(CandidateStatus status, PageRequest request) {
+        List<Candidate> candidates = candidateAdminRepository.findAllByCandidateStatus(status, request.offset(), request.limit());
+        long count = candidateAdminRepository.countByCandidateStatusAndStatus(status, EntityStatus.ACTIVE);
+
+        return new PageResponse<>(candidates.stream()
+                .map(CandidatePreviewResponse::from)
+                .toList(),
+                count
+        );
     }
 
     private void approveCandidate(Candidate candidate) {

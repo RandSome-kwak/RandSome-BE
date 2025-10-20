@@ -2,6 +2,7 @@ package org.kwakmunsu.randsome.admin.candidate.repository;
 
 import java.util.List;
 import java.util.Optional;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
@@ -23,6 +24,6 @@ public interface CandidateAdminJpaRepository extends JpaRepository<Candidate, Lo
     @Query("SELECT c FROM Candidate c JOIN FETCH c.member WHERE c.id = :id")
     Optional<Candidate> findByIdWithMember(@Param("id") Long id);
 
-    long countByCandidateStatus(CandidateStatus status);
+    long countByCandidateStatusAndStatus(CandidateStatus candidateStatus, EntityStatus status);
 
 }

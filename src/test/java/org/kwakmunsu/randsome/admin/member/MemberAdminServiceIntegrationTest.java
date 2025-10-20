@@ -5,8 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.member.repository.dto.MemberListResponse;
 import org.kwakmunsu.randsome.admin.member.service.MemberAdminService;
+import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
@@ -25,6 +28,7 @@ class MemberAdminServiceIntegrationTest {
     @Autowired
     private MemberAdminService memberAdminService;
 
+    private static final int TOTAL_COUNT = 15;
     @BeforeEach
     void setUp() {
         saveMember();
@@ -34,36 +38,27 @@ class MemberAdminServiceIntegrationTest {
     @Test
     void getMembers() {
         // when
-        MemberListResponse response = memberAdminService.getMemberList(1);
+        PageResponse<MemberDetailResponse> response = memberAdminService.getMembers(new PageRequest(1));
 
         // then
-        assertThat(response.responses()).hasSize(20);
-        assertThat(response.hasNext()).isTrue();
+        assertThat(response.content()).hasSize(10);
+        assertThat(response.count()).isEqualTo(TOTAL_COUNT);
     }
 
     @DisplayName("관리자가 두번째 페이지 회원 목록 조회를 한다.")
     @Test
     void getMembersFromSec() {
         // when
-        MemberListResponse response = memberAdminService.getMemberList(2);
+        PageResponse<MemberDetailResponse> response = memberAdminService.getMembers(new PageRequest(2));
 
         // then
-        assertThat(response.responses()).hasSize(20);
+        assertThat(response.content()).hasSize(5);
+        assertThat(response.count()).isEqualTo(TOTAL_COUNT);
     }
 
-    @DisplayName("마지막 페이지 조회 시 hasNext가 false이다.")
-    @Test
-    void getLastPage() {
-        // when
-        MemberListResponse response = memberAdminService.getMemberList(5);
-
-        // then
-        assertThat(response.responses()).hasSize(20);
-        assertThat(response.hasNext()).isFalse();
-    }
 
     private void saveMember() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < TOTAL_COUNT; i++) {
             Gender gender;
             if (i % 2 == 0) gender = Gender.M;
             else gender = Gender.F;

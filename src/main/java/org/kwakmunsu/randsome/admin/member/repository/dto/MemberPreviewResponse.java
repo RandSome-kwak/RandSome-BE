@@ -2,9 +2,10 @@ package org.kwakmunsu.randsome.admin.member.repository.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
-import org.kwakmunsu.randsome.domain.member.enums.Gender;
-import org.kwakmunsu.randsome.domain.member.enums.Role;
+import lombok.Builder;
+import org.kwakmunsu.randsome.domain.member.entity.Member;
 
+@Builder
 @Schema(description = "회원 미리보기 응답 DTO")
 public record MemberPreviewResponse(
         @Schema(description = "회원 고유 ID", example = "1")
@@ -29,25 +30,16 @@ public record MemberPreviewResponse(
         LocalDateTime createdAt
 ) {
 
-    // QueryDSL용 enum을 받는 생성자 (새로 추가)
-    public MemberPreviewResponse(
-            Long memberId,
-            String loginId,
-            String legalName,
-            String nickname,
-            Gender genderEnum,
-            Role roleEnum,
-            LocalDateTime createdAt
-    ) {
-        this(
-                memberId,
-                loginId,
-                legalName,
-                nickname,
-                genderEnum.getValue(),
-                roleEnum.getValue(),
-                createdAt
-        );
+    public static MemberPreviewResponse from(Member member) {
+        return MemberPreviewResponse.builder()
+                .memberId(member.getId())
+                .loginId(member.getLoginId())
+                .legalName(member.getLegalName())
+                .nickname(member.getNickname())
+                .gender(member.getGender().getValue())
+                .role(member.getRole().getValue())
+                .createdAt(member.getCreatedAt())
+                .build();
     }
 
 }

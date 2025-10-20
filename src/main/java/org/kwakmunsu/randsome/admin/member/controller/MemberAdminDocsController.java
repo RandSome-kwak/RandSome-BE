@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.member.repository.dto.MemberListResponse;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
@@ -35,21 +36,13 @@ public abstract class MemberAdminDocsController {
                     """,
             security = {@SecurityRequirement(name = "Bearer ")}
     )
-    @ApiResponse(
-            responseCode = "200",
-            description = "회원 목록 조회 성공",
-            content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = MemberListResponse.class)
-            )
-    )
     @ApiExceptions(values = {
             BAD_REQUEST,
             UNAUTHORIZED_ERROR,
             FORBIDDEN_ERROR,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<MemberListResponse> getMembers(
+    public abstract ResponseEntity<PageResponse<MemberDetailResponse>> getMembers(
             @Parameter(
                     name = "page",
                     description = "페이지 번호 (최소값: 1, 기본값: 1)",

@@ -14,8 +14,9 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.inquiry.controller.dto.AnswerRegisterRequest;
-import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryListAdminResponse;
+import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryReadAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
@@ -66,18 +67,10 @@ public abstract class InquiryAdminDocsController {
                     ### 회원의 문의 목록을 조회합니다.
                     - 관리자 권한이 필요합니다.
                     - 문의 상태(대기, 완료)로 필터링할 수 있습니다.
-                    - 페이지네이션을 지원합니다. (페이지당 20개)
+                    - 페이지네이션을 지원합니다. (페이지당 10개)
                     - 200 OK 상태 코드를 반환합니다.
                     """,
             security = {@SecurityRequirement(name = "Bearer ")}
-    )
-    @ApiResponse(
-            responseCode = "200",
-            description = "문의 목록 조회 성공",
-            content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = InquiryListAdminResponse.class)
-            )
     )
     @ApiExceptions(values = {
             BAD_REQUEST,
@@ -85,7 +78,7 @@ public abstract class InquiryAdminDocsController {
             FORBIDDEN_ERROR,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<InquiryListAdminResponse> getInquires(
+    public abstract ResponseEntity<PageResponse<InquiryReadAdminResponse>> getInquires(
             InquiryStatus state,
             int page
     );

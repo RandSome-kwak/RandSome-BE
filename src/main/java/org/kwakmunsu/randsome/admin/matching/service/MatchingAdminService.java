@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
-import org.kwakmunsu.randsome.admin.matching.service.dto.MatchingApplicationListServiceRequest;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
+import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminPreviewResponse;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.matching.entity.Matching;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
@@ -35,12 +37,20 @@ public class MatchingAdminService {
                         provider -> provider
                 ));
     }
+
     /**
      * 매칭 신청 목록 조회
      */
     @Transactional(readOnly = true)
-    public MatchingApplicationAdminListResponse getApplications(MatchingApplicationListServiceRequest request) {
-        return applicationRepository.findAllByMatchingStatus(request.status(), request.page());
+    public PageResponse<MatchingApplicationAdminPreviewResponse> getApplications(MatchingStatus matchingStatus, PageRequest request) {
+        List<MatchingApplicationAdminPreviewResponse> previewResponses = applicationRepository.findAllByMatchingStatusAndStatus(
+                matchingStatus, request.offset(), request.limit(), EntityStatus.ACTIVE);
+        long count = applicationRepository.countByMatchingStatusAndStatus(matchingStatus, EntityStatus.ACTIVE);
+
+        return new PageResponse<>(
+                previewResponses,
+                count
+        );
     }
 
     /**
@@ -86,5 +96,4 @@ public class MatchingAdminService {
                 .toList();
         matchingAdminRepository.saveAll(results);
     }
-
 }

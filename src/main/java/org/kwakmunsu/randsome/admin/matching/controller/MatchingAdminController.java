@@ -3,10 +3,11 @@ package org.kwakmunsu.randsome.admin.matching.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.matching.controller.dto.MatchingApplicationUpdateRequest;
-import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
+import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminPreviewResponse;
 import org.kwakmunsu.randsome.admin.matching.service.MatchingAdminService;
-import org.kwakmunsu.randsome.admin.matching.service.dto.MatchingApplicationListServiceRequest;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +27,12 @@ public class MatchingAdminController extends MatchingAdminDocsController {
 
     @Override
     @GetMapping("/applications")
-    public ResponseEntity<MatchingApplicationAdminListResponse> getApplications(
+    public ResponseEntity<PageResponse<MatchingApplicationAdminPreviewResponse>> getApplications(
             @RequestParam MatchingStatus status,
             @RequestParam(defaultValue = "1") @Min(1) int page
     ) {
-        MatchingApplicationListServiceRequest request = new MatchingApplicationListServiceRequest(status, page);
-        MatchingApplicationAdminListResponse response = matchingAdminService.getApplications(request);
+        PageResponse<MatchingApplicationAdminPreviewResponse> response = matchingAdminService.getApplications(status,
+                new PageRequest(page));
 
         return ResponseEntity.ok(response);
     }

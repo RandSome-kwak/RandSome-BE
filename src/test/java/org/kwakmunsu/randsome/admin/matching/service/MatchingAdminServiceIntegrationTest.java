@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminListResponse;
+import org.kwakmunsu.randsome.admin.PageRequest;
+import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminPreviewResponse;
-import org.kwakmunsu.randsome.admin.matching.service.dto.MatchingApplicationListServiceRequest;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
@@ -44,7 +44,7 @@ class MatchingAdminServiceIntegrationTest {
 
     private static final int APPLICATION_PER_STATUS = 25;
     private static final int TOTAL_APPLICATION_COUNT = APPLICATION_PER_STATUS * 3; // 75개
-    private static final int DEFAULT_PAGE_SIZE = 20;
+    private static final int DEFAULT_PAGE_SIZE = 10;
 
     @BeforeEach
     void setUp() {
@@ -54,112 +54,97 @@ class MatchingAdminServiceIntegrationTest {
     @DisplayName("관리자가 대기 상태의 매칭 신청 목록 첫번째 페이지를 조회한다.")
     @Test
     void getPendingCandidatesFirstPage() {
-        // given
-        var request = new MatchingApplicationListServiceRequest(MatchingStatus.PENDING, 1);
-
         // when
-        MatchingApplicationAdminListResponse response = matchingAdminService.getApplications(request);
+        PageResponse<MatchingApplicationAdminPreviewResponse> response = matchingAdminService.getApplications(
+                MatchingStatus.PENDING, new PageRequest(1));
 
         // then
-        assertThat(response.responses().size()).isEqualTo(DEFAULT_PAGE_SIZE); // 20개
-        assertThat(response.hasNext()).isTrue(); // 다음 페이지 존재
-        assertThat(response.totalCount()).isEqualTo(APPLICATION_PER_STATUS); // 총 25개
+        assertThat(response.content().size()).isEqualTo(DEFAULT_PAGE_SIZE); // 20개
+        assertThat(response.count()).isEqualTo(APPLICATION_PER_STATUS); // 총 25개
 
         // 모든 응답이 대기 상태인지 확인
-        response.responses().forEach(application ->
+        response.content().forEach(application ->
                 assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.PENDING.getDescription()));
     }
 
-    @DisplayName("관리자가 대기 상태 후보자 목록 두번째 페이지를 조회한다.")
+    @DisplayName("관리자가 대기 상태 후보자 목록 세번째 페이지를 조회한다.")
     @Test
     void getPendingCandidatesSecondPage() {
-        // given
-        var request = new MatchingApplicationListServiceRequest(MatchingStatus.PENDING, 2);
-
         // when
-        MatchingApplicationAdminListResponse response = matchingAdminService.getApplications(request);
+        PageResponse<MatchingApplicationAdminPreviewResponse> response = matchingAdminService.getApplications(
+                MatchingStatus.PENDING, new PageRequest(3));
 
         // then
-        assertThat(response.responses().size()).isEqualTo(5); // 25 - 20 = 5개
-        assertThat(response.hasNext()).isFalse(); // 마지막 페이지
-        assertThat(response.totalCount()).isEqualTo(APPLICATION_PER_STATUS); // 총 25개
+        assertThat(response.content().size()).isEqualTo(5); // 25 - 20 = 5개
+        assertThat(response.count()).isEqualTo(APPLICATION_PER_STATUS); // 총 25개
 
         // 모든 응답이 대기 상태인지 확인
-        response.responses().forEach(application ->
+        response.content().forEach(application ->
                 assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.PENDING.getDescription()));
     }
 
     @DisplayName("관리자가 완료 상태의 매칭 신청 목록 첫번째 페이지를 조회한다.")
     @Test
     void getApprovedCandidatesFirstPage() {
-        // given
-        var request = new MatchingApplicationListServiceRequest(MatchingStatus.COMPLETED, 1);
 
         // when
-        MatchingApplicationAdminListResponse response = matchingAdminService.getApplications(request);
+        PageResponse<MatchingApplicationAdminPreviewResponse> response = matchingAdminService.getApplications(
+                MatchingStatus.COMPLETED, new PageRequest(1));
+
 
         // then
-        assertThat(response.responses().size()).isEqualTo(DEFAULT_PAGE_SIZE);
-        assertThat(response.hasNext()).isTrue();
-        assertThat(response.totalCount()).isEqualTo(APPLICATION_PER_STATUS);
+        assertThat(response.content().size()).isEqualTo(DEFAULT_PAGE_SIZE);
+        assertThat(response.count()).isEqualTo(APPLICATION_PER_STATUS);
 
         // 모든 응답이 승인 상태인지 확인
-        response.responses().forEach(application ->
+        response.content().forEach(application ->
                 assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.COMPLETED.getDescription()));
     }
 
     @DisplayName("관리자가 완료 상태의 매칭 신청 목록 두번째 페이지를 조회한다.")
     @Test
     void getApprovedCandidatesSecondPage() {
-        // given
-        var request = new MatchingApplicationListServiceRequest(MatchingStatus.COMPLETED, 2);
 
         // when
-        MatchingApplicationAdminListResponse response = matchingAdminService.getApplications(request);
+        PageResponse<MatchingApplicationAdminPreviewResponse> response = matchingAdminService.getApplications(
+                MatchingStatus.COMPLETED, new PageRequest(2));
 
         // then
-        assertThat(response.responses().size()).isEqualTo(5);
-        assertThat(response.hasNext()).isFalse();
-        assertThat(response.totalCount()).isEqualTo(APPLICATION_PER_STATUS);
+        assertThat(response.content().size()).isEqualTo(10);
+        assertThat(response.count()).isEqualTo(APPLICATION_PER_STATUS);
 
         // 모든 응답이 승인 상태인지 확인
-        response.responses().forEach(application ->
+        response.content().forEach(application ->
                 assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.COMPLETED.getDescription()));
     }
 
     @DisplayName("관리자가 실패 상태 매칭 신청 목록을 조회한다.")
     @Test
     void getRejectedCandidates() {
-        // given
-        var request = new MatchingApplicationListServiceRequest(MatchingStatus.FAILED, 1);
-
         // when
-        MatchingApplicationAdminListResponse response = matchingAdminService.getApplications(request);
+        PageResponse<MatchingApplicationAdminPreviewResponse> response = matchingAdminService.getApplications(
+                MatchingStatus.FAILED, new PageRequest(1));
 
         // then
-        assertThat(response.responses().size()).isEqualTo(DEFAULT_PAGE_SIZE);
-        assertThat(response.hasNext()).isTrue();
-        assertThat(response.totalCount()).isEqualTo(APPLICATION_PER_STATUS);
+        assertThat(response.content().size()).isEqualTo(DEFAULT_PAGE_SIZE);
+        assertThat(response.count()).isEqualTo(APPLICATION_PER_STATUS);
 
-        response.responses().forEach(application ->
+        response.content().forEach(application ->
                 assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.FAILED.getDescription()));
     }
 
-    @DisplayName("관리자가 거절 상태 후보자 목록 두번째 페이지를 조회한다.")
+    @DisplayName("관리자가 거절 상태 후보자 목록 세번째 페이지를 조회한다.")
     @Test
     void getRejectedCandidatesSecondPage() {
-        // given
-        var request = new MatchingApplicationListServiceRequest(MatchingStatus.FAILED, 2);
-
         // when
-        MatchingApplicationAdminListResponse response = matchingAdminService.getApplications(request);
+        PageResponse<MatchingApplicationAdminPreviewResponse> response = matchingAdminService.getApplications(
+                MatchingStatus.FAILED, new PageRequest(3));
 
         // then
-        assertThat(response.responses().size()).isEqualTo(5);
-        assertThat(response.hasNext()).isFalse();
-        assertThat(response.totalCount()).isEqualTo(APPLICATION_PER_STATUS);
+        assertThat(response.content().size()).isEqualTo(5);
+        assertThat(response.count()).isEqualTo(APPLICATION_PER_STATUS);
 
-        response.responses().forEach(application ->
+        response.content().forEach(application ->
                 assertThat(application.matchingStatus()).isEqualTo(MatchingStatus.FAILED.getDescription()));
     }
 
@@ -167,43 +152,36 @@ class MatchingAdminServiceIntegrationTest {
     @Test
     void verifyStatusDistribution() {
         // given & when
-        var pendingRequest = new MatchingApplicationListServiceRequest(MatchingStatus.PENDING, 1);
-        var completedRequest = new MatchingApplicationListServiceRequest(MatchingStatus.COMPLETED, 1);
-        var failedRequest = new MatchingApplicationListServiceRequest(MatchingStatus.FAILED, 1);
 
-        var pendingResponse = matchingAdminService.getApplications(pendingRequest);
-        var completedResponse = matchingAdminService.getApplications(completedRequest);
-        var failedResponse = matchingAdminService.getApplications(failedRequest);
+        var pendingResponse = matchingAdminService.getApplications(MatchingStatus.PENDING, new PageRequest(1));
+        var completedResponse = matchingAdminService.getApplications(MatchingStatus.COMPLETED, new PageRequest(1));
+        var failedResponse = matchingAdminService.getApplications(MatchingStatus.FAILED, new PageRequest(1));
 
         // then
-        assertThat(pendingResponse.totalCount()).isEqualTo(APPLICATION_PER_STATUS);
-        assertThat(completedResponse.totalCount()).isEqualTo(APPLICATION_PER_STATUS);
-        assertThat(failedResponse.totalCount()).isEqualTo(APPLICATION_PER_STATUS);
+        assertThat(pendingResponse.count()).isEqualTo(APPLICATION_PER_STATUS);
+        assertThat(completedResponse.count()).isEqualTo(APPLICATION_PER_STATUS);
+        assertThat(failedResponse.count()).isEqualTo(APPLICATION_PER_STATUS);
 
         // 전체 합계 확인
-        long totalCount = pendingResponse.totalCount() +
-                completedResponse.totalCount() +
-                failedResponse.totalCount();
+        long totalCount = pendingResponse.count() +
+                completedResponse.count() +
+                failedResponse.count();
         assertThat(totalCount).isEqualTo(TOTAL_APPLICATION_COUNT);
     }
 
     @DisplayName("대기 상태 후보자의 첫 번째와 두 번째 페이지가 겹치지 않는다.")
     @Test
     void pendingCandidatesPagesDoNotOverlap() {
-        // given
-        var firstPageRequest = new MatchingApplicationListServiceRequest(MatchingStatus.PENDING, 1);
-        var secondPageRequest = new MatchingApplicationListServiceRequest(MatchingStatus.PENDING, 2);
-
         // when
-        var firstPageResponse = matchingAdminService.getApplications(firstPageRequest);
-        var secondPageResponse = matchingAdminService.getApplications(secondPageRequest);
+        var firstPageResponse = matchingAdminService.getApplications(MatchingStatus.PENDING, new PageRequest(1));
+        var secondPageResponse = matchingAdminService.getApplications(MatchingStatus.PENDING, new PageRequest(2));
 
         // then
-        var firstPageIds = firstPageResponse.responses().stream()
+        var firstPageIds = firstPageResponse.content().stream()
                 .map(MatchingApplicationAdminPreviewResponse::memberId)
                 .collect(Collectors.toSet());
 
-        var secondPageIds = secondPageResponse.responses().stream()
+        var secondPageIds = secondPageResponse.content().stream()
                 .map(MatchingApplicationAdminPreviewResponse::memberId)
                 .collect(Collectors.toSet());
 
@@ -212,23 +190,20 @@ class MatchingAdminServiceIntegrationTest {
 
         // 전체 개수 확인
         assertThat(firstPageIds.size() + secondPageIds.size())
-                .isEqualTo(APPLICATION_PER_STATUS);
+                .isEqualTo(DEFAULT_PAGE_SIZE * 2);
     }
 
     @DisplayName("최신순 정렬이 페이지 간에도 유지된다.")
     @Test
     void orderingMaintainedAcrossPages() {
-        // given
-        var firstPageRequest = new MatchingApplicationListServiceRequest(MatchingStatus.PENDING, 1);
-        var secondPageRequest = new MatchingApplicationListServiceRequest(MatchingStatus.PENDING, 2);
 
         // when
-        var firstPageResponse = matchingAdminService.getApplications(firstPageRequest);
-        var secondPageResponse = matchingAdminService.getApplications(secondPageRequest);
+        var firstPageResponse = matchingAdminService.getApplications(MatchingStatus.PENDING, new PageRequest(1));
+        var secondPageResponse = matchingAdminService.getApplications(MatchingStatus.PENDING, new PageRequest(2));
 
         // then
-        var firstPageApplication = firstPageResponse.responses();
-        var secondPageApplication = secondPageResponse.responses();
+        var firstPageApplication = firstPageResponse.content();
+        var secondPageApplication = secondPageResponse.content();
 
         // 첫 번째 페이지의 마지막 항목이 두 번째 페이지의 첫 번째 항목보다 최신이어야 함
         if (!firstPageApplication.isEmpty() && !secondPageApplication.isEmpty()) {
