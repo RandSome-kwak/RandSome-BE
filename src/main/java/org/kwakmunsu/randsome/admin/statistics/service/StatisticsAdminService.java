@@ -20,7 +20,7 @@ public class StatisticsAdminService {
     private final StatisticsRepository statisticsRepository;
 
     public MatchingStatisticsAdminResponse getMatchingStatistics() {
-        long totalMemberCount = memberRepository.count();
+        long totalMemberCount = memberRepository.countByStatus(EntityStatus.ACTIVE);
         long totalCandidateCount = candidateAdminRepository.countByCandidateStatusAndStatus(CandidateStatus.APPROVED, EntityStatus.ACTIVE);
         long totalMatchingCount = matchingApplicationRepository.countByMatchingStatusAndStatus(MatchingStatus.COMPLETED,
                 EntityStatus.ACTIVE);
