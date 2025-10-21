@@ -36,7 +36,7 @@ public class MatchingApplication extends BaseEntity {
     private MatchingStatus matchingStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private MatchingType matchingType;
 
     // 조회용 양방향

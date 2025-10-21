@@ -38,8 +38,8 @@ public class Payment extends BaseEntity {
     @Column(name = "payment_status", nullable = false)
     private PaymentStatus paymentStatus;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
     private PaymentType type;
 
     private static Payment createPayment(Member member, PaymentType type, int matchingCount) {
