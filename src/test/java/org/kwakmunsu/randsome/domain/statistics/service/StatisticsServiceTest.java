@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
@@ -33,7 +34,7 @@ class StatisticsServiceTest {
     @Test
     void getStatistics() {
         // given
-        given(candidateRepository.countByStatus(any(CandidateStatus.class))).willReturn(150L);
+        given(candidateRepository.countByCandidateStatusAndStatus(any(CandidateStatus.class), EntityStatus.ACTIVE)).willReturn(150L);
         given(matchingApplicationRepository.countByCreatedAtBetween(any(LocalDateTime.class), any(LocalDateTime.class))
         ).willReturn(10L);
         given(matchingApplicationRepository.countByMatchingStatus(any(MatchingStatus.class))).willReturn(25L);

@@ -10,9 +10,9 @@ public interface CandidateAdminRepository {
 
     List<Candidate> findAllByCandidateStatus(CandidateStatus status, int offset, int limit);
 
-    Candidate findByIdWithMember(Long id);
+    Candidate findByIdWithMemberAndStatus(Long id, EntityStatus status);
 
-    List<Candidate> findByGenderAndCandidateStatus(Gender gender, CandidateStatus status);
+    List<Candidate> findByGenderAndCandidateStatusAndStatus(Gender gender, CandidateStatus candidateStatus, EntityStatus status);
 
     long countByCandidateStatusAndStatus(CandidateStatus candidateStatus, EntityStatus status);
 

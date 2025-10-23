@@ -2,6 +2,7 @@ package org.kwakmunsu.randsome.domain.candidate.service;
 
 import java.util.List;
 import java.util.Optional;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 
@@ -15,6 +16,6 @@ public interface CandidateRepository {
 
     List<Candidate> findRecentApplicationByOrderByCreatedAtDesc(int limit);
 
-    long countByStatus(CandidateStatus candidateStatus);
+    long countByCandidateStatusAndStatus(CandidateStatus candidateStatus, EntityStatus status);
 
 }
