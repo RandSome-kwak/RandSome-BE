@@ -34,7 +34,7 @@ class CandidateAdminServiceTest {
         var member = MemberFixture.createMember();
         var candidate = Candidate.create(member);
 
-        given(candidateAdminRepository.findByIdWithMember(any(Long.class))).willReturn(candidate);
+        given(candidateAdminRepository.findByIdWithMemberAndStatus(any(Long.class))).willReturn(candidate);
 
         assertThat(candidate.getCandidateStatus()).isEqualTo(CandidateStatus.PENDING);
 
@@ -53,7 +53,7 @@ class CandidateAdminServiceTest {
         var member = MemberFixture.createMember();
         var candidate = Candidate.create(member);
 
-        given(candidateAdminRepository.findByIdWithMember(any(Long.class))).willReturn(candidate);
+        given(candidateAdminRepository.findByIdWithMemberAndStatus(any(Long.class))).willReturn(candidate);
 
         assertThat(candidate.getCandidateStatus()).isEqualTo(CandidateStatus.PENDING);
 
@@ -69,7 +69,7 @@ class CandidateAdminServiceTest {
     @Test
     void failUpdateStatus() {
         // given
-        given(candidateAdminRepository.findByIdWithMember(any(Long.class))).willThrow(
+        given(candidateAdminRepository.findByIdWithMemberAndStatus(any(Long.class))).willThrow(
                 new NotFoundException(ErrorStatus.NOT_FOUND_CANDIDATE));
 
         // when & then

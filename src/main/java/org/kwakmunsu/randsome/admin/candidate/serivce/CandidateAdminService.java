@@ -23,7 +23,7 @@ public class CandidateAdminService {
     // 관리자용 후보자 승인/거절 기능
     @Transactional
     public void updateCandidateStatus(Long candidateId, CandidateStatus status) {
-        Candidate candidate = candidateAdminRepository.findByIdWithMember(candidateId);
+        Candidate candidate = candidateAdminRepository.findByIdWithMemberAndStatus(candidateId, EntityStatus.ACTIVE);
 
         if (status == CandidateStatus.APPROVED) {
             approveCandidate(candidate);

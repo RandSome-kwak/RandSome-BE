@@ -13,16 +13,17 @@ import org.springframework.data.repository.query.Param;
 public interface CandidateAdminJpaRepository extends JpaRepository<Candidate, Long> {
 
     @Query(value = """
-                SELECT c FROM Candidate c JOIN FETCH c.member m WHERE m.gender != :gender AND c.candidateStatus = :candidateStatus
+                SELECT c FROM Candidate c JOIN FETCH c.member m WHERE m.gender != :gender AND c.candidateStatus = :candidateStatus AND c.status = :status
             """
     )
-    List<Candidate> findByGenderAndStatus(
+    List<Candidate> findByGenderAndCandidateStatusAndStatus(
             @Param("gender") Gender gender,
-            @Param("candidateStatus") CandidateStatus status
+            @Param("candidateStatus") CandidateStatus candidateStatus,
+            @Param("status") EntityStatus status
     );
 
-    @Query("SELECT c FROM Candidate c JOIN FETCH c.member WHERE c.id = :id")
-    Optional<Candidate> findByIdWithMember(@Param("id") Long id);
+    @Query("SELECT c FROM Candidate c JOIN FETCH c.member WHERE c.id = :id AND c.status = :status")
+    Optional<Candidate> findByIdWithMemberAndStatus(@Param("id") Long id, @Param("status") EntityStatus status);
 
     long countByCandidateStatusAndStatus(CandidateStatus candidateStatus, EntityStatus status);
 

@@ -24,14 +24,14 @@ public class CandidateAdminRepositoryImpl implements CandidateAdminRepository {
     }
 
     @Override
-    public Candidate findByIdWithMember(Long id) {
-        return candidateJpaRepository.findByIdWithMember(id)
+    public Candidate findByIdWithMemberAndStatus(Long id, EntityStatus status) {
+        return candidateJpaRepository.findByIdWithMemberAndStatus(id, status)
                 .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_CANDIDATE));
     }
 
     @Override
-    public List<Candidate> findByGenderAndCandidateStatus(Gender gender, CandidateStatus status) {
-        return candidateJpaRepository.findByGenderAndStatus(gender, status);
+    public List<Candidate> findByGenderAndCandidateStatusAndStatus(Gender gender, CandidateStatus candidateStatus, EntityStatus status) {
+        return candidateJpaRepository.findByGenderAndCandidateStatusAndStatus(gender, candidateStatus, status);
     }
 
 

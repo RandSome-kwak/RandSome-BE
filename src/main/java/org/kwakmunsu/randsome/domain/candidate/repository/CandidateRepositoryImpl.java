@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
@@ -38,8 +39,8 @@ public class CandidateRepositoryImpl implements CandidateRepository {
     }
 
     @Override
-    public long countByStatus(CandidateStatus candidateStatus) {
-        return candidateJpaRepository.countByStatus(candidateStatus);
+    public long countByCandidateStatusAndStatus(CandidateStatus candidateStatus, EntityStatus status) {
+        return candidateJpaRepository.countByCandidateStatusAndStatus(candidateStatus, status);
     }
 
     @Override
