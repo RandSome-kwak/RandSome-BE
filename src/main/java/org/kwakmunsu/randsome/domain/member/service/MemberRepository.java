@@ -16,4 +16,6 @@ public interface MemberRepository {
 
     Member findById(Long id);
 
+    boolean existsByInstagramId(String instagramId);
+
 }

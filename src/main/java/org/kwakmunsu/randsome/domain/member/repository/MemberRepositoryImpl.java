@@ -46,4 +46,9 @@ public class MemberRepositoryImpl implements MemberRepository {
                 .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_MEMBER));
     }
 
+    @Override
+    public boolean existsByInstagramId(String instagramId) {
+        return memberJpaRepository.existsByInstagramId(instagramId);
+    }
+
 }
