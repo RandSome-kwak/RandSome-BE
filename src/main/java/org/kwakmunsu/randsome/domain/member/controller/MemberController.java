@@ -7,6 +7,7 @@ import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest
 import org.kwakmunsu.randsome.domain.member.service.MemberCommandService;
 import org.kwakmunsu.randsome.domain.member.service.MemberQueryService;
 import org.kwakmunsu.randsome.domain.member.service.dto.CheckResponse;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberActivityStatsResponse;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileResponse;
 import org.kwakmunsu.randsome.global.annotation.AuthMember;
 import org.springframework.http.HttpStatus;
@@ -73,6 +74,14 @@ public class MemberController extends MemberDocsController {
     @GetMapping("/check-instagram-id")
     public ResponseEntity<CheckResponse> checkInstagramId(@RequestParam String instagramId) {
         CheckResponse response = memberQueryService.isInstagramIdAvailable(instagramId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    @GetMapping("/activity-stats")
+    public ResponseEntity<MemberActivityStatsResponse> getMemberActivityInfo(@AuthMember Long memberId) {
+        MemberActivityStatsResponse response = memberQueryService.getMemberActivityInfo(memberId);
 
         return ResponseEntity.ok(response);
     }

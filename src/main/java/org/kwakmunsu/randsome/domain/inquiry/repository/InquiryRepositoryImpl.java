@@ -31,4 +31,9 @@ public class InquiryRepositoryImpl implements InquiryRepository {
                 .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_INQUIRY));
     }
 
+    @Override
+    public long countByAuthorIdAndStatus(Long authorId, EntityStatus status) {
+        return inquiryJpaRepository.countByAuthorIdAndStatus(authorId, status);
+    }
+
 }

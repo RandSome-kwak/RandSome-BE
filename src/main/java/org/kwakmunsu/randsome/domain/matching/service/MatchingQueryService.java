@@ -73,11 +73,11 @@ public class MatchingQueryService {
     }
 
     private List<MatchingApplication> findCompletedApplications(Long requesterId) {
-        return matchingApplicationRepository.findAllByRequesterIdAndStatus(requesterId, MatchingStatus.COMPLETED);
+        return matchingApplicationRepository.findAllByRequesterIdAndMatchingStatus(requesterId, MatchingStatus.COMPLETED);
     }
 
     private List<MatchingApplication> findPendingOrFailedApplications(Long requesterId) {
-        return matchingApplicationRepository.findAllByRequesterIdAndStatusIn(requesterId,
+        return matchingApplicationRepository.findAllByRequesterIdAndMatchingStatusIn(requesterId,
                 List.of(MatchingStatus.PENDING, MatchingStatus.FAILED));
     }
 

@@ -19,6 +19,7 @@ import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
 import org.kwakmunsu.randsome.domain.member.service.dto.CheckResponse;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberActivityStatsResponse;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileResponse;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberRegisterServiceRequest;
@@ -197,6 +198,25 @@ class MemberControllerTest extends ControllerTestSupport {
 
         // then
         verify(memberCommandService).updateProfile(any(MemberProfileUpdateServiceRequest.class));
+    }
+
+    @TestMember
+    @DisplayName("회원 활동 통계 정보를 조회한다")
+    @Test
+    void getActivity() {
+        // given
+        MemberActivityStatsResponse response = new MemberActivityStatsResponse(5L, 5L, 5L);
+        given(memberQueryService.getMemberActivityInfo(any(Long.class))).willReturn(response);
+
+        // when & then
+        assertThat(mvcTester.get().uri("/api/v1/members/activity-stats")
+                .contentType(MediaType.APPLICATION_JSON))
+                .apply(print())
+                .hasStatusOk()
+                .bodyJson()
+                .hasPathSatisfying("$.appliedCount", v -> v.assertThat().isEqualTo(5))
+                .hasPathSatisfying("$.selectedCount", v -> v.assertThat().isEqualTo(5))
+                .hasPathSatisfying("$.inquiryCount", v -> v.assertThat().isEqualTo(5));
     }
 
 }

@@ -22,6 +22,7 @@ import org.kwakmunsu.randsome.domain.matching.controller.MatchingController;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingCommandService;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingQueryService;
 import org.kwakmunsu.randsome.domain.member.controller.MemberController;
+import org.kwakmunsu.randsome.domain.member.service.MemberActivityStatsService;
 import org.kwakmunsu.randsome.domain.member.service.MemberCommandService;
 import org.kwakmunsu.randsome.domain.member.service.MemberQueryService;
 import org.kwakmunsu.randsome.global.security.TestSecurityConfig;
@@ -55,6 +56,9 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected MemberQueryService memberQueryService;
+
+    @MockitoBean
+    protected MemberActivityStatsService memberActivityStatsService;
 
     @MockitoBean
     protected MemberCommandService memberCommandService;
