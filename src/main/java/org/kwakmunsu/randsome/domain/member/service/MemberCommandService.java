@@ -22,6 +22,7 @@ public class MemberCommandService {
     public Long register(MemberRegisterServiceRequest request) {
         checkedAlreadyLoginId(request.loginId());
         checkedAlreadyNickname(request.nickname());
+        checkedAlreadyInstagramId(request.instagramId());
 
         String encodedPassword = passwordEncoder.encode(request.password());
         Member member = request.toEntity(encodedPassword);
@@ -56,6 +57,12 @@ public class MemberCommandService {
     private void checkedAlreadyNickname(String nickname) {
         if (memberRepository.existsByNickname(nickname)) {
             throw new ConflictException(ErrorStatus.DUPLICATE_NICKNAME);
+        }
+    }
+
+    private void checkedAlreadyInstagramId(String instagramId) {
+        if (memberRepository.existsByInstagramId(instagramId)) {
+            throw new ConflictException(ErrorStatus.DUPLICATE_INSTAGRAM);
         }
     }
 
