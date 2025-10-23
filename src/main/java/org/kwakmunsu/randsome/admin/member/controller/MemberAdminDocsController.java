@@ -16,7 +16,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import org.kwakmunsu.randsome.admin.PageResponse;
-import org.kwakmunsu.randsome.admin.member.repository.dto.MemberListResponse;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.admin.PageRequest;
 import org.kwakmunsu.randsome.admin.PageResponse;
-import org.kwakmunsu.randsome.admin.member.repository.dto.MemberListResponse;
 import org.kwakmunsu.randsome.admin.member.service.MemberAdminService;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
