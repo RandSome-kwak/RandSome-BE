@@ -2,6 +2,7 @@ package org.kwakmunsu.randsome.domain.member.controller;
 
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.BAD_REQUEST;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.DUPLICATE;
+import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.DUPLICATE_INSTAGRAM;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.DUPLICATE_LOGIN_ID;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.DUPLICATE_NICKNAME;
 import static org.kwakmunsu.randsome.global.exception.dto.ErrorStatus.INTERNAL_SERVER_ERROR;
@@ -147,6 +148,33 @@ public abstract class MemberDocsController {
             String nickname
     );
 
+    @Operation(
+            summary = "인스타그램 ID 중복 체크 - [JWT X]",
+            description = "회원 가입 시 입력한 인스타그램 ID가 이미 존재하는지 확인합니다.",
+            security = {@SecurityRequirement(name = "")}
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "인스타그램 ID 사용 가능 여부",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = CheckResponse.class)
+            )
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            DUPLICATE_INSTAGRAM,
+            INTERNAL_SERVER_ERROR
+    })
+    public  abstract ResponseEntity<CheckResponse> checkInstagramId(
+            @Parameter(
+                    name = "instagramId",
+                    description = "중복 확인할 인스타그램 ID",
+                    in = ParameterIn.QUERY,
+                    required = true
+            )
+            String instagramId
+    );
     @Operation(
             summary = "회원 프로필 수정 - [JWT O]",
             description = """

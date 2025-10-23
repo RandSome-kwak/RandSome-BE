@@ -69,4 +69,12 @@ public class MemberController extends MemberDocsController {
         return ResponseEntity.ok(response);
     }
 
+    @Override
+    @GetMapping("/check-instagram-id")
+    public ResponseEntity<CheckResponse> checkInstagramId(@RequestParam String instagramId) {
+        CheckResponse response = memberQueryService.isInstagramIdAvailable(instagramId);
+
+        return ResponseEntity.ok(response);
+    }
+
 }

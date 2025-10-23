@@ -8,6 +8,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, Long> {
 
     boolean existsByLoginId(String loginId);
     boolean existsByNickname(String nickname);
+    boolean existsByInstagramId(String instagramId);
     Optional<Member> findByLoginId(String loginId);
     Optional<Member> findByRefreshToken(String refreshToken);
 

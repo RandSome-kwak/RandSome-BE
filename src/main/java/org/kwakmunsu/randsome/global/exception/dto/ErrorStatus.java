@@ -20,6 +20,7 @@ public enum ErrorStatus {
     NOT_FOUND_MEMBER   (404, "ERROR - 회원을 찾을 수 없습니다."),
     NOT_FOUND_LOGIN_ID (404, "ERROR - 존재하지 않는 아이디입니다."),
     DUPLICATE_NICKNAME (409, "ERROR - 이미 존재하는 닉네임입니다."),
+    DUPLICATE_INSTAGRAM(409, "ERROR - 이미 존재하는 인스타그램 ID 입니다."),
     DUPLICATE_LOGIN_ID (409, "ERROR - 이미 존재하는 로그인 ID 입니다."),
 
     // CANDIDATE

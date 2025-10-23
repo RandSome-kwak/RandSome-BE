@@ -24,7 +24,8 @@ public class TestSecurityConfig {
                                 "/api/v1/auth/**",
                                 "/api/v1/members/sign-up",
                                 "/api/v1/members/check-login-id",
-                                "/api/v1/members/check-nickname"
+                                "/api/v1/members/check-nickname",
+                                "/api/v1/members/check-instagram-id"
                                 ).permitAll()   // 로그인, 회원가입, 토큰 재발급 등은 인증 불필요
                         .requestMatchers("/api/v1/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
                         .anyRequest().authenticated()

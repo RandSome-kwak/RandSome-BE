@@ -44,6 +44,12 @@ public class MemberQueryService {
         return new CheckResponse(available);
     }
 
+    public  CheckResponse isInstagramIdAvailable(String instagramId) {
+        boolean available = !memberRepository.existsByInstagramId(instagramId);
+
+        return new CheckResponse(available);
+    }
+
     private boolean isPasswordMatches(String password, Member member) {
         return passwordEncoder.matches(password, member.getPassword());
     }

@@ -56,6 +56,19 @@ class MemberQueryServiceTest {
         assertThat(response.available()).isTrue();
     }
 
+    @DisplayName("인스타그램 ID 중복 체크를 한다.")
+    @Test
+    void checkInstagramId() {
+        // given
+        given(memberRepository.existsByInstagramId(any(String.class))).willReturn(false);
+
+        // when
+        CheckResponse response = memberQueryService.isInstagramIdAvailable("test");
+
+        // then
+        assertThat(response.available()).isTrue();
+    }
+
     @DisplayName("본인 프로필을 조회한다.")
     @Test
     void getProfile() {

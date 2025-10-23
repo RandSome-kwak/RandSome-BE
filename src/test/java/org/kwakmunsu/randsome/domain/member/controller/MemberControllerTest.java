@@ -132,6 +132,23 @@ class MemberControllerTest extends ControllerTestSupport {
                 .extractingPath("$.available").isEqualTo(true);
     }
 
+    @DisplayName("인스타그램 ID 중복 체크를 한다")
+    @Test
+    void checkInstagramId() {
+        // given
+        var instagramId = "testInstagramId";
+
+        given(memberQueryService.isInstagramIdAvailable(instagramId)).willReturn(new CheckResponse(true));
+
+        // when & then
+        assertThat(mvcTester.get().uri("/api/v1/members/check-instagram-id")
+                .param("instagramId", instagramId))
+                .apply(print())
+                .hasStatusOk()
+                .bodyJson()
+                .extractingPath("$.available").isEqualTo(true);
+    }
+
     @TestMember
     @DisplayName("내 프로필을 조회한다")
     @Test
