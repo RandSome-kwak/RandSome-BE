@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -17,7 +18,10 @@ import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 
-@Table(name = "inquiries")
+@Table(name = "inquiries",
+        indexes = {
+                @Index(name = "idx_inquiry_status_status_id", columnList = "inquiry_status, status, id")
+        })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
