@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberProfileUpdateRequest;
 import org.kwakmunsu.randsome.domain.member.controller.dto.MemberRegisterRequest;
 import org.kwakmunsu.randsome.domain.member.service.dto.CheckResponse;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberActivityStatsResponse;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileResponse;
 import org.kwakmunsu.randsome.global.swagger.ApiExceptions;
 import org.springframework.http.MediaType;
@@ -166,7 +167,7 @@ public abstract class MemberDocsController {
             DUPLICATE_INSTAGRAM,
             INTERNAL_SERVER_ERROR
     })
-    public  abstract ResponseEntity<CheckResponse> checkInstagramId(
+    public abstract ResponseEntity<CheckResponse> checkInstagramId(
             @Parameter(
                     name = "instagramId",
                     description = "중복 확인할 인스타그램 ID",
@@ -175,6 +176,7 @@ public abstract class MemberDocsController {
             )
             String instagramId
     );
+
     @Operation(
             summary = "회원 프로필 수정 - [JWT O]",
             description = """
@@ -208,5 +210,29 @@ public abstract class MemberDocsController {
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<Void> updateProfile(Long memberId, MemberProfileUpdateRequest request);
+
+
+    @Operation(
+            summary = "회원 활동 통계 조회 - [JWT O]",
+            description = """
+                    ### 로그인한 회원의 활동 통계 정보를 조회합니다.
+                    - 매칭 신청 횟수, 후보자로 선택된 횟수, 문의 횟수를  포함합니다.
+                    - 200 OK 상태 코드와 함께 활동 통계 정보를 반환합니다.
+                    """,
+            security = {@SecurityRequirement(name = "Bearer ")}
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "회원 활동 통계 조회 성공",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = MemberActivityStatsResponse.class)
+            )
+    )
+    @ApiExceptions(values = {
+            UNAUTHORIZED_ERROR,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<MemberActivityStatsResponse> getMemberActivityInfo(Long memberId);
 
 }

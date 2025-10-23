@@ -12,4 +12,6 @@ public interface InquiryRepository {
 
     Inquiry findByIdAndAuthorIdAndStatus(Long id, Long authorId, EntityStatus status);
 
+    long countByAuthorIdAndStatus(Long authorId, EntityStatus status);
+
 }

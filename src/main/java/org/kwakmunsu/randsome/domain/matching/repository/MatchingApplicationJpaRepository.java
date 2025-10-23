@@ -3,6 +3,7 @@ package org.kwakmunsu.randsome.domain.matching.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,4 +25,7 @@ public interface MatchingApplicationJpaRepository extends JpaRepository<Matching
     long countByMatchingStatus(MatchingStatus matchingStatus);
 
     long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+
+    long countByRequesterIdAndStatus(Long requestId, EntityStatus status);
+
 }

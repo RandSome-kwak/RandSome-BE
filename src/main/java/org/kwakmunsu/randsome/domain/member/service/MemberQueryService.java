@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.service.dto.CheckResponse;
+import org.kwakmunsu.randsome.domain.member.service.dto.MemberActivityStatsResponse;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileResponse;
 import org.kwakmunsu.randsome.global.exception.UnAuthenticationException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberQueryService {
 
+    private final MemberActivityStatsService memberActivityStatsService;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -30,6 +32,10 @@ public class MemberQueryService {
         Member member = memberRepository.findById(memberId);
 
         return MemberProfileResponse.from(member);
+    }
+
+    public MemberActivityStatsResponse getMemberActivityInfo(Long memberId) {
+        return memberActivityStatsService.getMemberActivityInfo(memberId);
     }
 
     public CheckResponse isLoginIdAvailable(String loginId) {

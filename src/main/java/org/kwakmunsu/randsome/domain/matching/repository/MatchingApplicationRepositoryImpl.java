@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingApplicationRepository;
@@ -39,13 +40,13 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
     }
 
     @Override
-    public List<MatchingApplication> findAllByRequesterIdAndStatus(Long requesterId, MatchingStatus status) {
-        return matchingApplicationJpaRepository.findAllByRequesterIdAndStatus(requesterId, status);
+    public List<MatchingApplication> findAllByRequesterIdAndMatchingStatus(Long requesterId, MatchingStatus status) {
+        return matchingApplicationJpaRepository.findAllByRequesterIdAndMatchingStatus(requesterId, status);
     }
 
     @Override
-    public List<MatchingApplication> findAllByRequesterIdAndStatusIn(Long requesterId, List<MatchingStatus> statuses) {
-        return matchingApplicationJpaRepository.findAllByRequesterIdAndStatusIn(requesterId, statuses);
+    public List<MatchingApplication> findAllByRequesterIdAndMatchingStatusIn(Long requesterId, List<MatchingStatus> statuses) {
+        return matchingApplicationJpaRepository.findAllByRequesterIdAndMatchingStatusIn(requesterId, statuses);
     }
 
     @Override
@@ -62,8 +63,13 @@ public class MatchingApplicationRepositoryImpl implements MatchingApplicationRep
     }
 
     @Override
-    public long countByStatus(MatchingStatus matchingStatus) {
-        return matchingApplicationJpaRepository.countByStatus(matchingStatus);
+    public long countByMatchingStatus(MatchingStatus matchingStatus) {
+        return matchingApplicationJpaRepository.countByMatchingStatus(matchingStatus);
+    }
+
+    @Override
+    public long countByRequesterIdAndStatus(Long requestId, EntityStatus status) {
+        return matchingApplicationJpaRepository.countByRequesterIdAndStatus(requestId, status);
     }
 
 }
