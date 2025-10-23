@@ -55,7 +55,7 @@ class MatchingQueryServiceTest {
                 .filter(app -> app.getMatchingStatus() == MatchingStatus.COMPLETED)
                 .toList();
 
-        given(matchingApplicationRepository.findAllByRequesterIdAndStatus(requester.getId(), MatchingStatus.COMPLETED))
+        given(matchingApplicationRepository.findAllByRequesterIdAndMatchingStatus(requester.getId(), MatchingStatus.COMPLETED))
                 .willReturn(completedApplications);
 
         // when
@@ -79,7 +79,7 @@ class MatchingQueryServiceTest {
                 .filter(app -> app.getMatchingStatus() != MatchingStatus.COMPLETED)
                 .toList();
 
-        given(matchingApplicationRepository.findAllByRequesterIdAndStatusIn(requester.getId(), List.of(MatchingStatus.PENDING, MatchingStatus.FAILED)))
+        given(matchingApplicationRepository.findAllByRequesterIdAndMatchingStatusIn(requester.getId(), List.of(MatchingStatus.PENDING, MatchingStatus.FAILED)))
                 .willReturn(pendingAndFailApplications);
 
         // when
@@ -100,7 +100,7 @@ class MatchingQueryServiceTest {
     @Test
     void returnEmpty() {
         // given
-        given(matchingApplicationRepository.findAllByRequesterIdAndStatus(1L, MatchingStatus.COMPLETED))
+        given(matchingApplicationRepository.findAllByRequesterIdAndMatchingStatus(1L, MatchingStatus.COMPLETED))
                 .willReturn(List.of());
 
         // when

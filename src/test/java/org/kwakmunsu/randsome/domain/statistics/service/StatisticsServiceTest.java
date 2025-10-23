@@ -36,7 +36,7 @@ class StatisticsServiceTest {
         given(candidateRepository.countByStatus(any(CandidateStatus.class))).willReturn(150L);
         given(matchingApplicationRepository.countByCreatedAtBetween(any(LocalDateTime.class), any(LocalDateTime.class))
         ).willReturn(10L);
-        given(matchingApplicationRepository.countByStatus(any(MatchingStatus.class))).willReturn(25L);
+        given(matchingApplicationRepository.countByMatchingStatus(any(MatchingStatus.class))).willReturn(25L);
 
         // when
         MatchingStatisticsResponse response = statisticsService.getMatchingStatistics();

@@ -22,7 +22,7 @@ public class StatisticsService {
 
         long totalCandidateCount = candidateRepository.countByStatus(CandidateStatus.APPROVED);
         long todayMatchingCount = matchingApplicationRepository.countByCreatedAtBetween(startOfToday, endOfToday);
-        long totalMatchingCount = matchingApplicationRepository.countByStatus(MatchingStatus.COMPLETED);
+        long totalMatchingCount = matchingApplicationRepository.countByMatchingStatus(MatchingStatus.COMPLETED);
 
         return MatchingStatisticsResponse.of(totalCandidateCount, todayMatchingCount, totalMatchingCount);
     }
