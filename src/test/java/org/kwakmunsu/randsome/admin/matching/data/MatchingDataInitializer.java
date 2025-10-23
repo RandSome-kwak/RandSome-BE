@@ -6,12 +6,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.PerformanceTestSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+@Disabled
 public class MatchingDataInitializer extends PerformanceTestSupport {
 
     @Autowired
