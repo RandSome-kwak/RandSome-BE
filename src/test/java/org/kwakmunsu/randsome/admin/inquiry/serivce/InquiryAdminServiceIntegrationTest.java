@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.admin.PageRequest;
 import org.kwakmunsu.randsome.admin.PageResponse;
+import org.kwakmunsu.randsome.admin.inquiry.repository.InquiryAdminRepository;
 import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryReadAdminResponse;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
