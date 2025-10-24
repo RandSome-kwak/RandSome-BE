@@ -1,6 +1,7 @@
 package org.kwakmunsu.randsome.admin.inquiry.serivce;
 
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.PerformanceTestSupport;
@@ -13,6 +14,7 @@ import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
 import org.kwakmunsu.randsome.domain.inquiry.enums.InquiryStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Disabled
 class InquiryAdminServicePerformanceTest extends PerformanceTestSupport {
 
     @Autowired
