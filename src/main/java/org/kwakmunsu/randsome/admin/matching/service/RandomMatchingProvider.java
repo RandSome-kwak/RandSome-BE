@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.randsome.admin.candidate.serivce.CandidateAdminRepository;
+import org.kwakmunsu.randsome.admin.candidate.repository.CandidateAdminRepository;
 import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;

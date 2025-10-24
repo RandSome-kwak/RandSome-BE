@@ -34,7 +34,7 @@ class StatisticsServiceTest {
     @Test
     void getStatistics() {
         // given
-        given(candidateRepository.countByCandidateStatusAndStatus(any(CandidateStatus.class), EntityStatus.ACTIVE)).willReturn(150L);
+        given(candidateRepository.countByCandidateStatusAndStatus(any(CandidateStatus.class), any(EntityStatus.class))).willReturn(150L);
         given(matchingApplicationRepository.countByCreatedAtBetween(any(LocalDateTime.class), any(LocalDateTime.class))
         ).willReturn(10L);
         given(matchingApplicationRepository.countByMatchingStatus(any(MatchingStatus.class))).willReturn(25L);

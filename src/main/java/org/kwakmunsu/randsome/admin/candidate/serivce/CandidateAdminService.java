@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.admin.PageRequest;
 import org.kwakmunsu.randsome.admin.PageResponse;
+import org.kwakmunsu.randsome.admin.candidate.repository.CandidateAdminRepository;
 import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidatePreviewResponse;
 import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
