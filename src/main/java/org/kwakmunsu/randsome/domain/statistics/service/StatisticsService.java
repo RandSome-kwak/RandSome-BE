@@ -6,7 +6,7 @@ import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.candidate.repository.CandidateRepository;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
-import org.kwakmunsu.randsome.domain.matching.service.MatchingApplicationRepository;
+import org.kwakmunsu.randsome.domain.matching.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.statistics.service.dto.MatchingStatisticsResponse;
 import org.springframework.stereotype.Service;
 
