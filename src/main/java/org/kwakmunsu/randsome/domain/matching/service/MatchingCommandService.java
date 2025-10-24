@@ -7,7 +7,7 @@ import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationServiceRequest;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
-import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.repository.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.service.dto.PaymentEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

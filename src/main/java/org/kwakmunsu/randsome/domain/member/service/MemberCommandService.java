@@ -3,6 +3,7 @@ package org.kwakmunsu.randsome.domain.member.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
+import org.kwakmunsu.randsome.domain.member.repository.MemberRepository;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberRegisterServiceRequest;
 import org.kwakmunsu.randsome.global.exception.ConflictException;

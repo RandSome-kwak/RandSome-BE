@@ -19,7 +19,7 @@ import org.kwakmunsu.randsome.domain.matching.repository.MatchingApplicationRepo
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
-import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.repository.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;
 import org.kwakmunsu.randsome.domain.payment.service.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
