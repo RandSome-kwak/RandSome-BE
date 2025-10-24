@@ -8,6 +8,8 @@ import static org.mockito.BDDMockito.given;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kwakmunsu.randsome.admin.candidate.repository.CandidateAdminRepository;
+import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
@@ -34,7 +36,7 @@ class CandidateAdminServiceTest {
         var member = MemberFixture.createMember();
         var candidate = Candidate.create(member);
 
-        given(candidateAdminRepository.findByIdWithMemberAndStatus(any(Long.class))).willReturn(candidate);
+        given(candidateAdminRepository.findByIdWithMemberAndStatus(any(Long.class), any(EntityStatus.class))).willReturn(candidate);
 
         assertThat(candidate.getCandidateStatus()).isEqualTo(CandidateStatus.PENDING);
 
@@ -53,7 +55,7 @@ class CandidateAdminServiceTest {
         var member = MemberFixture.createMember();
         var candidate = Candidate.create(member);
 
-        given(candidateAdminRepository.findByIdWithMemberAndStatus(any(Long.class))).willReturn(candidate);
+        given(candidateAdminRepository.findByIdWithMemberAndStatus(any(Long.class), any(EntityStatus.class))).willReturn(candidate);
 
         assertThat(candidate.getCandidateStatus()).isEqualTo(CandidateStatus.PENDING);
 
@@ -69,7 +71,7 @@ class CandidateAdminServiceTest {
     @Test
     void failUpdateStatus() {
         // given
-        given(candidateAdminRepository.findByIdWithMemberAndStatus(any(Long.class))).willThrow(
+        given(candidateAdminRepository.findByIdWithMemberAndStatus(any(Long.class), any(EntityStatus.class))).willThrow(
                 new NotFoundException(ErrorStatus.NOT_FOUND_CANDIDATE));
 
         // when & then
