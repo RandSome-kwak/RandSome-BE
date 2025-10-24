@@ -13,7 +13,7 @@ import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.candidate.repository.dto.CandidatePreviewResponse;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
+import org.kwakmunsu.randsome.domain.candidate.repository.CandidateRepository;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;

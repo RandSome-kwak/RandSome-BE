@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
-import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
+import org.kwakmunsu.randsome.domain.candidate.repository.CandidateRepository;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingEventType;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
@@ -125,8 +125,9 @@ class MatchingQueryServiceTest {
         List<MatchingEventResponse> responses = matchingQueryService.getRecentMatchingNews(limit);
 
         // then
-        assertThat(responses).hasSizeLessThanOrEqualTo(limit);
-        assertThat(responses).allSatisfy(event -> {
+        assertThat(responses)
+                .hasSizeLessThanOrEqualTo(limit)
+                .allSatisfy(event -> {
             assertThat(event).isNotNull();
             assertThat(event.createdAt()).isNotNull();
             assertThat(event.eventType()).isIn(MatchingEventType.MATCHING.getDescription(), MatchingEventType.CANDIDATE.getDescription());
