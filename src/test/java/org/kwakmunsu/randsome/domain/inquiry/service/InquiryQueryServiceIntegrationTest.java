@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
+import org.kwakmunsu.randsome.domain.inquiry.repository.InquiryRepository;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryListResponse;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.service.MemberRepository;

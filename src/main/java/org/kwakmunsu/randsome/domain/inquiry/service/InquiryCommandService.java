@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
+import org.kwakmunsu.randsome.domain.inquiry.repository.InquiryRepository;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryRegisterServiceRequest;
 import org.kwakmunsu.randsome.domain.inquiry.service.dto.InquiryUpdateServiceRequest;
 import org.kwakmunsu.randsome.domain.member.entity.Member;

@@ -10,7 +10,7 @@ import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsAdm
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.repository.CandidateRepository;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
-import org.kwakmunsu.randsome.domain.inquiry.service.InquiryRepository;
+import org.kwakmunsu.randsome.domain.inquiry.repository.InquiryRepository;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingApplicationRepository;

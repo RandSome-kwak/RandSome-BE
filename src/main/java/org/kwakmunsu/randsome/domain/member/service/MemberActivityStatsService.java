@@ -2,7 +2,7 @@ package org.kwakmunsu.randsome.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.EntityStatus;
-import org.kwakmunsu.randsome.domain.inquiry.service.InquiryRepository;
+import org.kwakmunsu.randsome.domain.inquiry.repository.InquiryRepository;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingRepository;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberActivityStatsResponse;
