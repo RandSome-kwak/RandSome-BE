@@ -8,42 +8,36 @@ import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
 import org.kwakmunsu.randsome.global.exception.NotFoundException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class CandidateRepositoryImpl implements CandidateRepository {
+public class CandidateRepository {
 
     private final CandidateJpaRepository candidateJpaRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Override
     public void save(Candidate candidate) {
         candidateJpaRepository.save(candidate);
     }
 
-    @Override
     public Candidate findById(Long id) {
         return candidateJpaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_CANDIDATE));
     }
 
-    @Override
     public Optional<Candidate> findByMemberId(Long memberId) {
         return candidateJpaRepository.findByMemberId(memberId);
     }
 
-    @Override
     public long countByCandidateStatusAndStatus(CandidateStatus candidateStatus, EntityStatus status) {
         return candidateJpaRepository.countByCandidateStatusAndStatus(candidateStatus, status);
     }
 
-    @Override
     public List<Candidate> findRecentApplicationByOrderByCreatedAtDesc(int limit) {
         String jpql = "SELECT c FROM Candidate c JOIN FETCH c.member ORDER BY c.createdAt DESC";
 

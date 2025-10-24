@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
-import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
+import org.kwakmunsu.randsome.domain.candidate.repository.CandidateRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Gender;

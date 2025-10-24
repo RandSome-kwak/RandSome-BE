@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
-import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
+import org.kwakmunsu.randsome.domain.candidate.repository.CandidateRepository;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
 import org.kwakmunsu.randsome.domain.matching.service.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.statistics.service.dto.MatchingStatisticsResponse;

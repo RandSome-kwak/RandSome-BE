@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
-import org.kwakmunsu.randsome.domain.candidate.service.CandidateRepository;
+import org.kwakmunsu.randsome.domain.candidate.repository.CandidateRepository;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingEventType;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingStatus;
