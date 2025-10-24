@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.randsome.domain.candidate.entity.Candidate;
 import org.kwakmunsu.randsome.domain.candidate.repository.CandidateRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
-import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.repository.MemberRepository;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.kwakmunsu.randsome.global.exception.dto.ErrorStatus;
 import org.mockito.InjectMocks;

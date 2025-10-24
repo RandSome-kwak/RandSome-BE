@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
 import org.kwakmunsu.randsome.domain.member.enums.Mbti;
+import org.kwakmunsu.randsome.domain.member.repository.MemberRepository;
 import org.kwakmunsu.randsome.domain.member.service.dto.MemberProfileUpdateServiceRequest;
 import org.kwakmunsu.randsome.global.exception.ConflictException;
 import org.springframework.boot.test.context.SpringBootTest;

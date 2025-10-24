@@ -11,7 +11,7 @@ import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationServiceRequest;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
-import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.repository.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;
 import org.kwakmunsu.randsome.domain.payment.service.PaymentRepository;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -15,7 +15,7 @@ import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
 import org.kwakmunsu.randsome.domain.matching.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
-import org.kwakmunsu.randsome.domain.member.service.MemberRepository;
+import org.kwakmunsu.randsome.domain.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,9 +29,6 @@ class StatisticsAdminServiceIntegrationTest {
 
     @Autowired
     private InquiryRepository inquiryRepository;
-
-    @Autowired
-    private StatisticsRepository statisticsRepository;
 
     @Autowired
     private MemberRepository memberRepository;
