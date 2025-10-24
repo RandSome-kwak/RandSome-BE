@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.kwakmunsu.randsome.PerformanceTestSupport;
 import org.kwakmunsu.randsome.admin.PageRequest;
 import org.kwakmunsu.randsome.admin.PageResponse;
+import org.kwakmunsu.randsome.admin.inquiry.repository.InquiryAdminRepository;
 import org.kwakmunsu.randsome.admin.inquiry.repository.dto.InquiryReadAdminResponse;
 import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.inquiry.entity.Inquiry;
