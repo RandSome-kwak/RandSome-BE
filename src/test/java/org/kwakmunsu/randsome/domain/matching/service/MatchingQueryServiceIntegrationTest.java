@@ -11,6 +11,7 @@ import org.kwakmunsu.randsome.admin.matching.repository.matching.MatchingAdminRe
 import org.kwakmunsu.randsome.domain.matching.entity.Matching;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
 import org.kwakmunsu.randsome.domain.matching.enums.MatchingType;
+import org.kwakmunsu.randsome.domain.matching.repository.MatchingApplicationRepository;
 import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingReadResponse;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
