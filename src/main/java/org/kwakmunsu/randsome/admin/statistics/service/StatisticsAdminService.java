@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.admin.candidate.repository.CandidateAdminRepository;
 import org.kwakmunsu.randsome.admin.matching.repository.matchingapplication.MatchingApplicationAdminRepository;
 import org.kwakmunsu.randsome.admin.member.repository.MemberAdminRepository;
+import org.kwakmunsu.randsome.admin.statistics.repository.StatisticsRepository;
 import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsAdminResponse;
 import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.candidate.enums.CandidateStatus;
