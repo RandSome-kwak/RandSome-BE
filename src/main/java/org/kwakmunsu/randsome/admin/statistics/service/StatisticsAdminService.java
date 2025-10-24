@@ -2,7 +2,7 @@ package org.kwakmunsu.randsome.admin.statistics.service;
 
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.admin.candidate.repository.CandidateAdminRepository;
-import org.kwakmunsu.randsome.admin.matching.service.MatchingApplicationAdminRepository;
+import org.kwakmunsu.randsome.admin.matching.repository.matchingapplication.MatchingApplicationAdminRepository;
 import org.kwakmunsu.randsome.admin.member.service.MemberAdminRepository;
 import org.kwakmunsu.randsome.admin.statistics.service.dto.MatchingStatisticsAdminResponse;
 import org.kwakmunsu.randsome.domain.EntityStatus;

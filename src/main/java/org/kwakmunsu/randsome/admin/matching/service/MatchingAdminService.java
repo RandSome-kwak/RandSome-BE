@@ -8,6 +8,7 @@ import org.kwakmunsu.randsome.admin.PageRequest;
 import org.kwakmunsu.randsome.admin.PageResponse;
 import org.kwakmunsu.randsome.admin.matching.repository.dto.MatchingApplicationAdminPreviewResponse;
 import org.kwakmunsu.randsome.admin.matching.repository.matching.MatchingAdminRepository;
+import org.kwakmunsu.randsome.admin.matching.repository.matchingapplication.MatchingApplicationAdminRepository;
 import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.matching.entity.Matching;
 import org.kwakmunsu.randsome.domain.matching.entity.MatchingApplication;
