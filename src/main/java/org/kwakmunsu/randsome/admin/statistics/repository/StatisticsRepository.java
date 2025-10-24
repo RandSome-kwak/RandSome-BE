@@ -2,16 +2,14 @@ package org.kwakmunsu.randsome.admin.statistics.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.kwakmunsu.randsome.admin.statistics.service.StatisticsRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class StatisticsRepositoryImpl implements StatisticsRepository {
+public class StatisticsRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Override
     public long findPendingApprovals(String pendingStatus) {
         String sql = """
             SELECT
