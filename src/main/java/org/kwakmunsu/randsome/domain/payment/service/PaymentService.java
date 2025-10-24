@@ -3,6 +3,7 @@ package org.kwakmunsu.randsome.domain.payment.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;
+import org.kwakmunsu.randsome.domain.payment.repository.PaymentRepository;
 import org.kwakmunsu.randsome.domain.payment.service.dto.PaymentEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
