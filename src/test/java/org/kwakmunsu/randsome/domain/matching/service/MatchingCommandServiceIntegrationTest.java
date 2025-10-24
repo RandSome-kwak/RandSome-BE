@@ -13,7 +13,7 @@ import org.kwakmunsu.randsome.domain.matching.service.dto.MatchingApplicationSer
 import org.kwakmunsu.randsome.domain.member.MemberFixture;
 import org.kwakmunsu.randsome.domain.member.repository.MemberRepository;
 import org.kwakmunsu.randsome.domain.payment.entity.Payment;
-import org.kwakmunsu.randsome.domain.payment.service.PaymentRepository;
+import org.kwakmunsu.randsome.domain.payment.repository.PaymentRepository;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
