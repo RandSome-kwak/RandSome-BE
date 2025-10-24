@@ -7,7 +7,7 @@ import static org.mockito.BDDMockito.given;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.kwakmunsu.randsome.admin.member.service.MemberAdminRepository;
+import org.kwakmunsu.randsome.admin.member.repository.MemberAdminRepository;
 import org.kwakmunsu.randsome.admin.member.service.MemberAdminService;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
 import org.kwakmunsu.randsome.domain.member.MemberFixture;

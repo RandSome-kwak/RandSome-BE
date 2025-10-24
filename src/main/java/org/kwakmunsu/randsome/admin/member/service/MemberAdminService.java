@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.randsome.admin.PageRequest;
 import org.kwakmunsu.randsome.admin.PageResponse;
+import org.kwakmunsu.randsome.admin.member.repository.MemberAdminRepository;
 import org.kwakmunsu.randsome.admin.member.service.dto.MemberDetailResponse;
 import org.kwakmunsu.randsome.domain.EntityStatus;
 import org.kwakmunsu.randsome.domain.member.entity.Member;
