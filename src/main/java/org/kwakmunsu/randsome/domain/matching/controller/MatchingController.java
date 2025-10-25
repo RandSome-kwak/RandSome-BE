@@ -37,13 +37,14 @@ public class MatchingController extends MatchingDocsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(matchingApplicationId);
     }
 
-    @Override
     @GetMapping("/applications")
     public ResponseEntity<MatchingApplicationListResponse> getApplications(
             @AuthMember Long requesterId,
+            @RequestParam int pageSize,
+            @RequestParam Long lastApplicationId,
             @RequestParam MatchingStatus status
     ) {
-        MatchingApplicationListResponse response = matchingQueryService.getMatchingApplication(requesterId, status);
+        MatchingApplicationListResponse response = matchingQueryService.getMatchingApplication(requesterId, pageSize, lastApplicationId, status);
 
         return ResponseEntity.ok(response);
     }

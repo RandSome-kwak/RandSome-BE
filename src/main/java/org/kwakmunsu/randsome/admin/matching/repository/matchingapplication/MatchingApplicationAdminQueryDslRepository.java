@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class MatchingApplicationQueryDslRepository {
+public class MatchingApplicationAdminQueryDslRepository {
 
     private final JPAQueryFactory queryFactory;
 

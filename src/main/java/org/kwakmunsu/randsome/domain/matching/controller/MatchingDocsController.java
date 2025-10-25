@@ -110,6 +110,8 @@ public abstract class MatchingDocsController {
     })
     public abstract ResponseEntity<MatchingApplicationListResponse> getApplications(
             Long requesterId,
+            int pageSize,
+            Long lastApplicationId,
             MatchingStatus status
     );
 
