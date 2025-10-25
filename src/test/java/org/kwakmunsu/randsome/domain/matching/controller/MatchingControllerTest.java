@@ -68,14 +68,18 @@ class MatchingControllerTest extends ControllerTestSupport {
                                 MatchingType.IDEAL_MATCHING.getDescription(),
                                 LocalDateTime.now().minusDays(1)
                         )
-                )
+                ),
+                false,
+                null
         );
-        given(matchingQueryService.getMatchingApplication(any(Long.class), any(MatchingStatus.class)))
+        given(matchingQueryService.getMatchingApplication(any(Long.class), any(Integer.class), any(Long.class), any(MatchingStatus.class)))
                 .willReturn(response);
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/matching/applications")
                 .param("status", status.name())
+                .param("pageSize", "10")
+                .param("lastApplicationId", "1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .apply(print())
                 .hasStatus(HttpStatus.OK)
@@ -87,7 +91,9 @@ class MatchingControllerTest extends ControllerTestSupport {
                 .hasPathSatisfying("$.responses[1].applicationId", v -> v.assertThat().asNumber().isEqualTo(2))
                 .hasPathSatisfying("$.responses[1].matchingType", v -> v.assertThat().isEqualTo("이상형"))
                 .hasPathSatisfying("$.responses[1].requestedCount", v -> v.assertThat().isEqualTo(5))
-                .hasPathSatisfying("$.responses[1].matchingStatus", v -> v.assertThat().isEqualTo("실패"));
+                .hasPathSatisfying("$.responses[1].matchingStatus", v -> v.assertThat().isEqualTo("실패"))
+                .hasPathSatisfying("$.hasNext", v -> v.assertThat().isEqualTo(false))
+                .hasPathSatisfying("$.lastApplicationId", v -> v.assertThat().isNull());
     }
 
     @TestMember
@@ -112,14 +118,18 @@ class MatchingControllerTest extends ControllerTestSupport {
                                 MatchingType.IDEAL_MATCHING.getDescription(),
                                 LocalDateTime.now().minusDays(1)
                         )
-                )
+                ),
+                false,
+                null
         );
-        given(matchingQueryService.getMatchingApplication(any(Long.class), any(MatchingStatus.class)))
+        given(matchingQueryService.getMatchingApplication(any(Long.class), any(Integer.class), any(Long.class), any(MatchingStatus.class)))
                 .willReturn(response);
 
         // when & then
         assertThat(mvcTester.get().uri("/api/v1/matching/applications")
                 .param("status", status.name())
+                .param("pageSize", "10")
+                .param("lastApplicationId", "1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .apply(print())
                 .hasStatus(HttpStatus.OK)
@@ -131,7 +141,9 @@ class MatchingControllerTest extends ControllerTestSupport {
                 .hasPathSatisfying("$.responses[1].applicationId", v -> v.assertThat().asNumber().isEqualTo(2))
                 .hasPathSatisfying("$.responses[1].matchingType", v -> v.assertThat().isEqualTo("이상형"))
                 .hasPathSatisfying("$.responses[1].requestedCount", v -> v.assertThat().isEqualTo(5))
-                .hasPathSatisfying("$.responses[1].matchingStatus", v -> v.assertThat().isEqualTo("완료"));
+                .hasPathSatisfying("$.responses[1].matchingStatus", v -> v.assertThat().isEqualTo("완료"))
+                .hasPathSatisfying("$.hasNext", v -> v.assertThat().isEqualTo(false))
+                .hasPathSatisfying("$.lastApplicationId", v -> v.assertThat().isNull());
     }
 
     @TestMember

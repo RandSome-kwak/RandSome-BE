@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public class MatchingApplicationAdminRepository {
 
     private final MatchingApplicationAdminJpaRepository matchingApplicationAdminJpaRepository;
-    private final MatchingApplicationQueryDslRepository matchingApplicationQueryDslRepository;
+    private final MatchingApplicationAdminQueryDslRepository matchingApplicationAdminQueryDslRepository;
 
     public MatchingApplication findById(Long id) {
         return matchingApplicationAdminJpaRepository.findById(id)
@@ -23,7 +23,7 @@ public class MatchingApplicationAdminRepository {
     }
 
     public List<MatchingApplicationAdminPreviewResponse> findAllByMatchingStatusAndStatus(MatchingStatus matchingStatus, int offset, int limit, EntityStatus status) {
-        return matchingApplicationQueryDslRepository.findAllByMatchingStatusAndStatus(matchingStatus, offset, limit, status);
+        return matchingApplicationAdminQueryDslRepository.findAllByMatchingStatusAndStatus(matchingStatus, offset, limit, status);
     }
 
     public long countByMatchingStatusAndStatus(MatchingStatus matchingStatus, EntityStatus status) {

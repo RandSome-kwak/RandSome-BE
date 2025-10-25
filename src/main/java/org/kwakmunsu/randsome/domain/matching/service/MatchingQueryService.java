@@ -45,20 +45,30 @@ public class MatchingQueryService {
     }
 
     /**
-     * 자신의 매칭 신청 목록 조회
+     * 자신의 매칭 신청 목록 조회 (무한 스크롤)
      **/
-    public MatchingApplicationListResponse getMatchingApplication(Long requesterId, MatchingStatus status) {
-        List<MatchingApplication> applications = status.isCompleted() ? findCompletedApplications(requesterId) : findPendingOrFailedApplications(requesterId);
+    public MatchingApplicationListResponse getMatchingApplication(
+            Long requesterId,
+            int limit,
+            Long lastApplicationId,
+            MatchingStatus status
+    ) {
+        // NOTE: 상태에 따라 조회 파라미터가 달라진다.
+        List<MatchingApplication> fetched = fetchApplications(requesterId, status, limit, lastApplicationId);
 
-        List<MatchingApplicationPreviewResponse> previewResponses = applications.stream()
+        boolean hasNext = fetched.size() > limit;
+        List<MatchingApplication> content = hasNext ? fetched.subList(0, limit) : fetched;
+        Long nextCursorId = hasNext && !content.isEmpty() ? content.getLast().getId() : null;
+
+        List<MatchingApplicationPreviewResponse> previews = content.stream()
                 .map(MatchingApplicationPreviewResponse::of)
                 .toList();
 
-        return new MatchingApplicationListResponse(previewResponses);
+        return new MatchingApplicationListResponse(previews, hasNext, nextCursorId);
     }
 
     /**
-     * 5개의 최근 매칭 소식을 가져온다. (매칭 후보자 등록, 매칭 신청)
+     * 최근 매칭 뉴스 조회 (후보 등록, 매칭 신청)
      **/
     public List<MatchingEventResponse> getRecentMatchingNews(int limit) {
         List<Candidate> candidates = candidateRepository.findRecentApplicationByOrderByCreatedAtDesc(limit);
@@ -73,13 +83,24 @@ public class MatchingQueryService {
                 .toList();
     }
 
-    private List<MatchingApplication> findCompletedApplications(Long requesterId) {
-        return matchingApplicationRepository.findAllByRequesterIdAndMatchingStatus(requesterId, MatchingStatus.COMPLETED);
+    /**
+     * 상태에 따라 맞는 파라미터
+     */
+    private List<MatchingApplication> fetchApplications(Long requesterId, MatchingStatus status, int limit, Long lastApplicationId) {
+        if (status.isCompleted()) {
+            return findCompletedApplications(requesterId, limit, lastApplicationId);
+        }
+        return findPendingOrFailedApplications(requesterId, limit, lastApplicationId);
     }
 
-    private List<MatchingApplication> findPendingOrFailedApplications(Long requesterId) {
-        return matchingApplicationRepository.findAllByRequesterIdAndMatchingStatusIn(requesterId,
-                List.of(MatchingStatus.PENDING, MatchingStatus.FAILED));
+    private List<MatchingApplication> findCompletedApplications(Long requesterId, int limit, Long lastApplicationId) {
+        return matchingApplicationRepository.findAllByRequesterIdAndMatchingStatusIn(
+                requesterId, limit, lastApplicationId, List.of(MatchingStatus.COMPLETED));
+    }
+
+    private List<MatchingApplication> findPendingOrFailedApplications(Long requesterId, int limit, Long lastApplicationId) {
+        return matchingApplicationRepository.findAllByRequesterIdAndMatchingStatusIn(
+                requesterId, limit, lastApplicationId, List.of(MatchingStatus.PENDING, MatchingStatus.FAILED));
     }
 
     private void validateOwnership(MatchingApplication application, Long requesterId) {

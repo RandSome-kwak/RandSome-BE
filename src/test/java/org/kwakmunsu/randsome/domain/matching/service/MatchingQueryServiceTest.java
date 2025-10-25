@@ -50,17 +50,19 @@ class MatchingQueryServiceTest {
     @Test
     void findMatchingApplicationsCompleted() {
         // given
+
         var requester = MemberFixture.createMember(1L);
         var matchingApplications = createMatchingApplication(requester);
         var completedApplications = matchingApplications.stream()
                 .filter(app -> app.getMatchingStatus() == MatchingStatus.COMPLETED)
                 .toList();
-
-        given(matchingApplicationRepository.findAllByRequesterIdAndMatchingStatus(requester.getId(), MatchingStatus.COMPLETED))
+        var limit = 10;
+        var lastApplicationId = 11L;
+        given(matchingApplicationRepository.findAllByRequesterIdAndMatchingStatusIn(requester.getId(), limit, lastApplicationId, List.of(MatchingStatus.COMPLETED)))
                 .willReturn(completedApplications);
 
         // when
-        var matchingApplicationListResponse = matchingQueryService.getMatchingApplication(requester.getId(), MatchingStatus.COMPLETED);
+        var matchingApplicationListResponse = matchingQueryService.getMatchingApplication(requester.getId(), limit, lastApplicationId, MatchingStatus.COMPLETED);
 
         // then
         var applicationPreviewResponses = matchingApplicationListResponse.responses();
@@ -79,12 +81,13 @@ class MatchingQueryServiceTest {
         var pendingAndFailApplications = matchingApplications.stream()
                 .filter(app -> app.getMatchingStatus() != MatchingStatus.COMPLETED)
                 .toList();
-
-        given(matchingApplicationRepository.findAllByRequesterIdAndMatchingStatusIn(requester.getId(), List.of(MatchingStatus.PENDING, MatchingStatus.FAILED)))
+        var limit = 10;
+        var lastApplicationId = 2L;
+        given(matchingApplicationRepository.findAllByRequesterIdAndMatchingStatusIn(requester.getId(), limit, lastApplicationId, List.of(MatchingStatus.PENDING, MatchingStatus.FAILED)))
                 .willReturn(pendingAndFailApplications);
 
         // when
-        var matchingApplicationListResponse = matchingQueryService.getMatchingApplication(requester.getId(), MatchingStatus.PENDING);
+        var matchingApplicationListResponse = matchingQueryService.getMatchingApplication(requester.getId(), limit, lastApplicationId, MatchingStatus.PENDING);
 
         // then
         var applicationPreviewResponses = matchingApplicationListResponse.responses();
@@ -101,11 +104,13 @@ class MatchingQueryServiceTest {
     @Test
     void returnEmpty() {
         // given
-        given(matchingApplicationRepository.findAllByRequesterIdAndMatchingStatus(1L, MatchingStatus.COMPLETED))
+        int limit = 10;
+        Long lastApplicationId = 10L;
+        given(matchingApplicationRepository.findAllByRequesterIdAndMatchingStatusIn(1L, limit, lastApplicationId, List.of(MatchingStatus.COMPLETED)))
                 .willReturn(List.of());
 
         // when
-        var matchingApplicationListResponse = matchingQueryService.getMatchingApplication(1L, MatchingStatus.COMPLETED);
+        var matchingApplicationListResponse = matchingQueryService.getMatchingApplication(1L, limit, lastApplicationId, MatchingStatus.COMPLETED);
 
         // then
         var applicationPreviewResponses = matchingApplicationListResponse.responses();

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 public class MatchingApplicationRepository {
 
     private final MatchingApplicationJpaRepository matchingApplicationJpaRepository;
+    private final MatchingApplicationQueryDslRepository matchingApplicationQueryDslRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -35,12 +36,8 @@ public class MatchingApplicationRepository {
                 .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_MATCHING_APPLICATION));
     }
 
-    public List<MatchingApplication> findAllByRequesterIdAndMatchingStatus(Long requesterId, MatchingStatus status) {
-        return matchingApplicationJpaRepository.findAllByRequesterIdAndMatchingStatus(requesterId, status);
-    }
-
-    public List<MatchingApplication> findAllByRequesterIdAndMatchingStatusIn(Long requesterId, List<MatchingStatus> statuses) {
-        return matchingApplicationJpaRepository.findAllByRequesterIdAndMatchingStatusIn(requesterId, statuses);
+    public List<MatchingApplication> findAllByRequesterIdAndMatchingStatusIn(Long requesterId, int limit, Long lastApplicationId,  List<MatchingStatus> statuses) {
+        return matchingApplicationQueryDslRepository.findAllByRequesterIdAndMatchingStatusIn(requesterId, statuses, limit, lastApplicationId);
     }
 
     public List<MatchingApplication> findRecentApplicationByOrderByCreatedAtDesc(int limit) {
